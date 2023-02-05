@@ -2,7 +2,7 @@ import React from "react";
 import { Grid,Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-function Shop() {
+function ProductDetails () {
     const navigate = useNavigate();
     return (
         
@@ -10,11 +10,12 @@ function Shop() {
             <Button onClick={() => navigate("")}>
             Products
         </Button>
-            <Button onClick={() => navigate("/shop/ProductDetails")}>
+            <Button onClick={() => navigate("")}>
             Product Details
         </Button>
         </Grid>
         
     );
-}
-export default Shop;
+};
+
+export default ProductDetails;

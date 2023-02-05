@@ -1,21 +1,24 @@
 import React from "react";
-import { Grid,Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Grid,Button,Typography } from "@mui/material";
+import { Box } from "@mui/system";
 
-function ProductDetails () {
-    const navigate = useNavigate();
-    return (
-        
-        <Grid item xs={8}>
-            <Button onClick={() => navigate("")}>
-            Products
-        </Button>
-            <Button onClick={() => navigate("")}>
-            Product Details
-        </Button>
-        </Grid>
-        
-    );
+// function ProductDetails () {
+    
+//     return (
+//             <Typography variant="body1">
+//               This is some text in my component.
+//             </Typography>
+//     );
+// };
+
+// export default ProductDetails;
+
+const ProductDetails = () => {
+    return  (
+        <Typography variant="body1">
+          This is some text in my component.
+        </Typography>
+);
 };
 
 export default ProductDetails;

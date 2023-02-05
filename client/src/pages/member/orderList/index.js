@@ -2,7 +2,6 @@ import { Box, useTheme, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "@/Styles/styles";
 import Header from "../components/Header";
-import { mockDataInvoices as fake } from "@/data/mockData";
 
 // const fakeOrderData = [
 //     {

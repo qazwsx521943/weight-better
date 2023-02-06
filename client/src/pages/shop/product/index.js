@@ -22,6 +22,10 @@ const itemData = [
   },
   {
     img: 'https://cdn.shopify.com/s/files/1/0564/1283/1950/collections/1W9A3573_1_1_1400x.jpg?v=1621515174',
+    title: 'Breakfast',
+  },
+  {
+    img: 'https://cdn.shopify.com/s/files/1/0564/1283/1950/collections/1W9A3573_1_1_1400x.jpg?v=1621515174',
     title: 'Burger',
   },
   {
@@ -45,10 +49,9 @@ function Shop() {
                     alt="The house from the offer."
                     src="https://cdn.shopify.com/s/files/1/0564/1283/1950/collections/1W9A3573_1_1_1400x.jpg?v=1621515174"
                 />
-            </Mui.Grid>
             <Mui.ImageList
-                sx={{ width: 500, height: 450 ,ml:10}}
-                cols={3}
+                sx={{ width: 500, height: 450 ,mx:'auto'}}
+                cols={4}
                 rowHeight={64}
             >
                 {itemData.map((item) => (
@@ -62,6 +65,8 @@ function Shop() {
                     </Mui.ImageListItem>
                 ))}
             </Mui.ImageList>
+            </Mui.Grid>
+            
             <Mui.Grid item xs={4}>
                 <Item>Detail</Item>
                 <Mui.Typography variant="h1">啞鈴</Mui.Typography>

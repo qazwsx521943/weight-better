@@ -15,6 +15,7 @@ import Article from "./pages/member/article";
 import Coupon from "./pages/member/coupon";
 import Friends from "./pages/member/friends";
 import Favorites from "./pages/member/favorites";
+import Signup from "./pages/member/signup";
 
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
@@ -46,6 +47,10 @@ function App() {
                             {/* <Route path="/" element={<Home />}></Route> */}
                             {/* 會員 */}
                             <Route path="/member">
+                                <Route
+                                    path="signup"
+                                    element={<Signup />}
+                                ></Route>
                                 <Route path="" element={<Profile />}></Route>
                                 <Route
                                     path="orderList"

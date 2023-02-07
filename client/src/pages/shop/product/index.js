@@ -6,6 +6,10 @@ function Shop() {
         <Grid item xs={8}>
             Shop
         </Grid>
+
+        
+
+        
     );
 }
 

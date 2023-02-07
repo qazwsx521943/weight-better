@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
 import { ColorModeContext, tokens } from "@/Styles/styles";
+import { useNavigate } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -9,11 +10,13 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
+
 import logo from "@/assets/WB3.png";
 
 const pages = ["短影音", "部落格", "菜單", "抽卡", "商城"];
 
 const Topbar = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
@@ -43,6 +46,11 @@ const Topbar = () => {
                             color: colors.secondary[400],
                             display: "block",
                         }}
+                        onClick={() => {
+                        if (page === "商城") {
+                            navigate("/shop");
+                        }
+                    }}
                     >
                         {page}
                     </Button>

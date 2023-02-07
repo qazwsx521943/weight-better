@@ -17,7 +17,7 @@ import Friends from "./pages/member/friends";
 import Favorites from "./pages/member/favorites";
 
 //**? 商品 */
-
+import ProductDetails from "./pages/shop/product/ProductDetails";
 //**? 部落格 */
 
 //**? 客製化菜單 */
@@ -27,7 +27,7 @@ import Favorites from "./pages/member/favorites";
 //**? 抽卡 */
 // import Reels from "./pages/reels";
 // import Blogs from "./pages/blogs";
-// import Shop from "./pages/shop";
+import Shop from "./pages/shop/product";
 // import Menu from "./pages/menu";
 // import Card from "./pages/card";
 
@@ -71,7 +71,9 @@ function App() {
                                 ></Route>
                             </Route>
 
-                            {/* <Route path="/shop" element={<Shop />}></Route> */}
+                            <Route path="/shop" element={<Shop />}>
+                            <Route path="ProductDetails" element={<ProductDetails />}></Route>
+                            </Route>
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
                             {/* <Route path="/reels" element={<Reels />}></Route> */}

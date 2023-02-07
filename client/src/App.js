@@ -7,10 +7,6 @@ import ReactSidebar from "./pages/global/Sidebar";
 // route import
 // import Home from "./pages/home";
 //**? 會員 */
-// auth Free
-import Signup from "./pages/member/signup";
-
-// auth Required
 import Profile from "./pages/member/profile";
 import OrderList from "./pages/member/orderList";
 import Cart from "./pages/member/cart";
@@ -36,7 +32,6 @@ import Favorites from "./pages/member/favorites";
 // import Card from "./pages/card";
 
 function App() {
-    // const auth = false
     const [theme, colorMode] = useMode();
     return (
         <ColorModeContext.Provider value={colorMode}>
@@ -48,10 +43,9 @@ function App() {
                         <Topbar />
                         {/* TODO 各自命名 url */}
                         <Routes>
-                            <Route path="/signup" element={<Signup />}></Route>
                             {/* <Route path="/" element={<Home />}></Route> */}
                             {/* 會員 */}
-                            {/* <Route path="/member">
+                            <Route path="/member">
                                 <Route path="" element={<Profile />}></Route>
                                 <Route
                                     path="orderList"
@@ -75,7 +69,13 @@ function App() {
                                     path="friends"
                                     element={<Friends />}
                                 ></Route>
-                            </Route> */}
+                            </Route>
+
+                            {/* <Route path="/shop" element={<Shop />}></Route> */}
+                            {/* <Route path="/blogs" element={<Blogs />}></Route> */}
+                            {/* <Route path="/menu" element={<Menu />}></Route> */}
+                            {/* <Route path="/reels" element={<Reels />}></Route> */}
+                            {/* <Route path="/card" element={<Card />}></Route>  */}
                         </Routes>
                     </main>
                 </div>

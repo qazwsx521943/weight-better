@@ -4,7 +4,6 @@ import { ColorModeContext, tokens } from "@/Styles/styles";
 import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";

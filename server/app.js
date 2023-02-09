@@ -2,15 +2,13 @@ const express = require("express");
 
 const bodyParser = require("body-parser");
 
-// const feedRoutes = require("./controllers/feed");
-
 // --[使用 .env(預設) 的環境變數]
 require("dotenv").config();
 
 // --[連線資料庫]
 // const db = require("./modules/connect-mysql");
-// if 使用sequelize 連 mysql db
 
+// NOTE if 使用sequelize 連 mysql db
 const db = require("./db");
 const { Member } = db.models;
 // https://sequelize.org/docs/v6/getting-started/

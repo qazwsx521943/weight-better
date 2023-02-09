@@ -12,12 +12,14 @@ const sequelize = new Sequelize(
     }
 );
 
+// for exporting methods
 const db = {
     sequelize,
     Sequelize,
     models: {},
 };
 
+// import table "Member"
 db.models.Member = require("./models/member.js")(sequelize);
 
 module.exports = db;

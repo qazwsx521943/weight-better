@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-    // member model
+    // creating a "Member" table
     class Member extends Sequelize.Model {}
     Member.init(
         {

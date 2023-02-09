@@ -4,7 +4,7 @@ const db = require('./../modules/connect-mysql')
 const router = express.Router()
 
 // --[取得所有 Level1 產品資料]
-router.get('/', async (req, res) => {
+router.get('/prodl1', async (req, res) => {
   console.log('/')
   
   const sql = "SELECT * FROM `products_level1` WHERE 1"
@@ -13,9 +13,19 @@ router.get('/', async (req, res) => {
   return res.json(rows)
 
 })
+// --[取得所有 Level1 產品資料]
+router.get('/prodl1/:pid', async (req, res) => {
+  const pid = req.params.pid
+  
+  const sql = "SELECT * FROM `products_level1` WHERE `products_level1_id`=?"
+  const [rows] = await db.query(sql, [pid])
+
+  return res.json(rows)
+
+})
 
 // --[取得單一 Level1 產品資料]
-router.get('/prod/:pid_l1', async (req, res) => {
+router.get('/prodl2/:pid_l1', async (req, res) => {
   console.log('level1')
 
   const pid_l1 = req.params.pid_l1
@@ -27,7 +37,7 @@ router.get('/prod/:pid_l1', async (req, res) => {
 })
 
 // --[取得單一 Level2 產品資料]
-router.get('/prod/:pid_l1/:pid_l2', async (req, res) => {
+router.get('/prodl2/:pid_l1/:pid_l2', async (req, res) => {
   console.log('level2')
 
   const pid_l1 = req.params.pid_l1

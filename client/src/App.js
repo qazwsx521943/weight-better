@@ -71,7 +71,7 @@ function App() {
                                 ></Route>
                             </Route>
 
-                            <Route path="/shop" element={<Shop />}>
+                            <Route path="/shop/:pid" element={<Shop />}>
                             <Route path="ProductDetails" element={<ProductDetails />}></Route>
                             </Route>
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}

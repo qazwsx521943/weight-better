@@ -1,34 +1,19 @@
 const express = require("express");
 
-const { body } = require("express-validator");
-
 const router = express.Router();
 
-const db = require("../db");
-const { Users } = db.models;
+const userController = require("../controllers/userController");
 
-// Handler function to wrap each route.
-function asyncHandler(cb) {
-    return async (req, res, next) => {
-        try {
-            await cb(req, res, next);
-        } catch (err) {
-            res.status(500).send(err);
-        }
-    };
-}
+// POST : 會員註冊
+router.post("/userSignup", userController.userSignup);
 
-// POST :  user signup form
-router.post("/signup_submit", async (req, res) => {
-    const user = await Users.create(req.body);
-});
+// POST : 會員更新
+router.post("/userUpdate", userController.userUpdate);
 
-// POST :  user profile change
-router.post("/profile_submit", async (req, res) => {
-    const user = await Users.create(req.body);
-    console.log(user);
-});
+// GET : 登入後會員資料
+router.get("/userProfile", userController.userProfile);
 
-//
+// Delete : 刪除會員
+router.delete("/userDelete", userController.userDelete);
 
 module.exports = router;

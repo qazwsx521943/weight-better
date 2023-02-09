@@ -7,15 +7,15 @@ import ReactSidebar from "./pages/global/Sidebar";
 // route import
 // import Home from "./pages/home";
 //**? 會員 */
-import Profile from "./pages/member/profile";
-import OrderList from "./pages/member/orderList";
-import Cart from "./pages/member/cart";
-import Reels from "./pages/member/reels";
-import Article from "./pages/member/article";
-import Coupon from "./pages/member/coupon";
-import Friends from "./pages/member/friends";
-import Favorites from "./pages/member/favorites";
-import Signup from "./pages/member/signup";
+import Profile from "./pages/user/profile";
+import OrderList from "./pages/user/orderList";
+import Cart from "./pages/user/cart";
+import Reels from "./pages/user/reels";
+import Article from "./pages/user/article";
+import Coupon from "./pages/user/coupon";
+import Friends from "./pages/user/friends";
+import Favorites from "./pages/user/favorites";
+import Signup from "./pages/user/signup";
 
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
@@ -77,7 +77,10 @@ function App() {
                             </Route>
 
                             <Route path="/shop/:pid" element={<Shop />}>
-                            <Route path="ProductDetails" element={<ProductDetails />}></Route>
+                                <Route
+                                    path="ProductDetails"
+                                    element={<ProductDetails />}
+                                ></Route>
                             </Route>
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}

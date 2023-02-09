@@ -10,17 +10,18 @@ require("dotenv").config();
 // const db = require("./modules/connect-mysql");
 
 //! NOTE if 使用sequelize 連 mysql db
-const db = require("./db");
-const { Users, Orders } = db.models;
-const { Op } = db.Sequelize;
-// https://sequelize.org/docs/v6/getting-started/
+const db = require("./models");
+const { Users } = require("./models/");
 
 // 導入 user 路由
-const user = require("./routes/user");
+const userRouter = require("./routes/user");
 // --[建立 products 路由]
 const products = require("./routes/products");
 
 // middlewares
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // resolution for CORS
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -31,24 +32,25 @@ app.use((req, res, next) => {
     );
     next();
 });
-app.use(bodyParser.json());
 
 // routes middleware
 app.use("/products", products);
-app.use("/user", user);
+app.use("/api/user", userRouter);
+
+db.sequelize.sync().then((req) => {
+    app.listen(8080, () => {
+        console.log(`server run on port ${8080}`);
+    });
+});
 
 // async IIFE
-(async () => {
-    await db.sequelize.sync({ force: true });
-    try {
-        // db connection auth
-        await db.sequelize.authenticate();
-        console.log("Connection to db successful!");
-    } catch (error) {
-        console.error("Error connecting to the db: ", error);
-    }
-})();
-
-app.listen(8080, () => {
-    console.log(`server run on port ${8080}`);
-});
+// (async () => {
+//     await db.sequelize.sync({ force: true });
+//     try {
+//         // db connection auth
+//         await db.sequelize.authenticate();
+//         console.log("Connection to db successful!");
+//     } catch (error) {
+//         console.error("Error connecting to the db: ", error);
+//     }
+// })();

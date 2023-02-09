@@ -135,6 +135,9 @@ export const themeSet = (mode) => {
                       secondary: {
                           main: colors.secondary[500],
                       },
+                      teal: {
+                          main: colors.teal[500],
+                      },
                       neutral: {
                           dark: colors.black[700],
                           main: colors.black[500],
@@ -150,6 +153,9 @@ export const themeSet = (mode) => {
                       },
                       secondary: {
                           main: colors.secondary[500],
+                      },
+                      teal: {
+                          main: colors.teal[500],
                       },
                       neutral: {
                           dark: colors.black[700],

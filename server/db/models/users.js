@@ -6,28 +6,31 @@ module.exports = (sequelize) => {
     // creating a "Users" table
     class Users extends Sequelize.Model {}
     Users.init(
+        //* table schemas
         {
             id: {
                 type: Sequelize.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
             },
-            email: { type: Sequelize.STRING, allowNull: false },
-            fullname: { type: Sequelize.STRING, allowNull: false },
-            password: { type: Sequelize.STRING, allowNull: false },
-            birth_date: { type: Sequelize.DATEONLY, allowNull: false },
-            username: { type: Sequelize.STRING, allowNull: false },
+            email: { type: Sequelize.STRING, allowNull: true },
+            fullname: { type: Sequelize.STRING, allowNull: true },
+            password: { type: Sequelize.STRING, allowNull: true },
+            birth_date: { type: Sequelize.DATEONLY, allowNull: true },
+            username: { type: Sequelize.STRING, allowNull: true },
             profile_image: { type: Sequelize.STRING, allowNull: true },
             introduction: { type: Sequelize.TEXT, allowNull: true },
+            nickname: { type: Sequelize.STRING, allowNull: true },
             gender: { type: Sequelize.ENUM("male", "female"), allowNull: true },
             weight: { type: Sequelize.INTEGER, allowNull: true },
             height: { type: Sequelize.INTEGER, allowNull: true },
+            interest: { type: Sequelize.STRING, allowNull: true },
             state: {
                 type: Sequelize.ENUM("norm", "vip", "banned"),
                 defaultValue: "norm",
             },
         },
-        // Model options object
+        //* Model options object
         { modelName: "users", sequelize }
     );
 

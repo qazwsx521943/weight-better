@@ -23,6 +23,12 @@ router.post("/signup_submit", async (req, res) => {
     const user = await Users.create(req.body);
 });
 
+// POST :  user profile change
+router.post("/profile_submit", async (req, res) => {
+    const user = await Users.create(req.body);
+    console.log(user);
+});
+
 //
 
 module.exports = router;

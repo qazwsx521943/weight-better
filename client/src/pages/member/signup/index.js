@@ -210,7 +210,7 @@ const Signup = () => {
                             {/* <Button onClick={prevStep} disabled={step === 0}>
                                 Back
                             </Button> */}
-                            {step === 5 ? (
+                            {step === 4 ? (
                                 <Button type="submit">Submit</Button>
                             ) : (
                                 <Button onClick={nextStep}>Next</Button>

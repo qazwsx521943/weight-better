@@ -8,18 +8,19 @@ const sequelize = new Sequelize(
     {
         dialect: "mysql",
         host: process.env.DB_HOST,
-        port: 3307,
+        port: 3306,
     }
 );
 
-// for exporting methods
+// for exporting methods to app.js
 const db = {
     sequelize,
     Sequelize,
     models: {},
 };
 
-// import table "Member"
-db.models.Member = require("./models/member.js")(sequelize);
-
+// import model "Users"
+db.models.Users = require("./models/users.js")(sequelize);
+// import model "Orders"
+db.models.Orders = require("./models/orders.js")(sequelize);
 module.exports = db;

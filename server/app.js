@@ -1,4 +1,5 @@
 const express = require("express");
+const app = express();
 
 const bodyParser = require("body-parser");
 
@@ -10,29 +11,28 @@ require("dotenv").config();
 
 // NOTE if 使用sequelize 連 mysql db
 const db = require("./db");
-const { Member } = db.models;
+const { Users, Orders } = db.models;
+const { Op } = db.Sequelize;
 // https://sequelize.org/docs/v6/getting-started/
 
 // async IIFE
 (async () => {
-    await db.sequelize.sync({ force: true });
+    // await db.sequelize.sync({ force: true });
     try {
+        // db connection auth
         await db.sequelize.authenticate();
         console.log("Connection to db successful!");
-        const user = await Member.create({
-            email: "abe@test.com",
-            fullname: "Jason",
-        });
-        console.log(user.toJSON());
     } catch (error) {
         console.error("Error connecting to the db: ", error);
     }
 })();
 
-const app = express();
+// 導入 user 路由
+const user = require("./routes/user");
+// --[建立 products 路由]
+const products = require("./routes/products");
 
-app.use(bodyParser.json()); // NOTE aplication/json
-
+// middlewares
 // resolution for CORS
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -40,13 +40,11 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
     next();
 });
+app.use(bodyParser.json());
 
-// 建立 member 路由
-const member = require("./routes/member");
-// --[建立 products 路由]
-const products = require("./routes/products");
+// routes middleware
 app.use("/products", products);
-app.use("/member", member);
+app.use("/user", user);
 
 app.listen(8080, () => {
     console.log(`server run on port ${8080}`);

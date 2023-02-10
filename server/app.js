@@ -35,22 +35,14 @@ app.use((req, res, next) => {
 
 // routes middleware
 app.use("/products", products);
-app.use("/api/user", userRouter);
+app.use("/user", userRouter);
 
-db.sequelize.sync().then((req) => {
-    app.listen(8080, () => {
-        console.log(`server run on port ${8080}`);
-    });
+// db.sequelize.sync().then((req) => {
+//     app.listen(8080, () => {
+//         console.log(`server run on port ${8080}`);
+//     });
+// });
+
+app.listen(8080, () => {
+    console.log(`server run on port ${8080}`);
 });
-
-// async IIFE
-// (async () => {
-//     await db.sequelize.sync({ force: true });
-//     try {
-//         // db connection auth
-//         await db.sequelize.authenticate();
-//         console.log("Connection to db successful!");
-//     } catch (error) {
-//         console.error("Error connecting to the db: ", error);
-//     }
-// })();

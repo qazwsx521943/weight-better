@@ -14,11 +14,11 @@ function asyncHandler(cb) {
 }
 
 // 會員註冊
-const userSignup = async (req, res) => {
+const userRegister = async (req, res) => {
     let data = req.body;
 
     const user = await User.create(data);
-    res.status(200).send(user);
+    res.send(user);
 };
 
 // 會員資料
@@ -30,9 +30,17 @@ const userProfile = async (req, res) => {
 };
 
 // 會員登入
-// const userLogin = async (req, res) => {
-//     let auth =
-// }
+const userLogin = async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({
+            where: { username, password },
+        });
+        res.send(user);
+    } catch (err) {
+        console.log(err);
+    }
+};
 
 // 更新會員資料
 const userUpdate = async (req, res) => {
@@ -51,8 +59,9 @@ const userDelete = async (req, res) => {
 };
 
 module.exports = {
-    userSignup,
+    userRegister,
     userUpdate,
     userDelete,
     userProfile,
+    userLogin,
 };

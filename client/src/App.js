@@ -5,6 +5,7 @@ import Topbar from "./pages/global/Topbar";
 import ReactSidebar from "./pages/global/Sidebar";
 
 // route import
+import Login from "./pages/login";
 // import Home from "./pages/home";
 //**? 會員 */
 import Profile from "./pages/user/profile";
@@ -15,7 +16,7 @@ import Article from "./pages/user/article";
 import Coupon from "./pages/user/coupon";
 import Friends from "./pages/user/friends";
 import Favorites from "./pages/user/favorites";
-import Signup from "./pages/user/signup";
+import Register from "./pages/register";
 
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
@@ -37,6 +38,7 @@ function App() {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
+                {/* ⬇︎ same as css reset */}
                 <CssBaseline />
                 <div className="app">
                     <ReactSidebar />
@@ -45,12 +47,14 @@ function App() {
                         {/* TODO 各自命名 url */}
                         <Routes>
                             {/* <Route path="/" element={<Home />}></Route> */}
+                            <Route path="/" element={<Login />}></Route>
+                            <Route
+                                path="register"
+                                element={<Register />}
+                            ></Route>
                             {/* 會員 */}
+
                             <Route path="/member">
-                                <Route
-                                    path="signup"
-                                    element={<Signup />}
-                                ></Route>
                                 <Route path="" element={<Profile />}></Route>
                                 <Route
                                     path="orderList"

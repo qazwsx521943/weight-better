@@ -138,6 +138,9 @@ export const themeSet = (mode) => {
                       teal: {
                           main: colors.teal[500],
                       },
+                      pink: {
+                          main: colors.pink[500],
+                      },
                       neutral: {
                           dark: colors.black[700],
                           main: colors.black[500],
@@ -156,6 +159,9 @@ export const themeSet = (mode) => {
                       },
                       teal: {
                           main: colors.teal[500],
+                      },
+                      pink: {
+                          main: colors.pink[500],
                       },
                       neutral: {
                           dark: colors.black[700],

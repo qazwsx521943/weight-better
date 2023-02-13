@@ -9,7 +9,6 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 
-
 import logo from "@/assets/WB3.png";
 
 const pages = ["短影音", "部落格", "菜單", "抽卡", "商城"];
@@ -33,7 +32,7 @@ const Topbar = () => {
                 sx={{ mr: 2 }}
             >
                 <Typography>
-                    <img src={logo} alt="logo" height="34px" />
+                    <img src={logo} alt="logo" className="h-10" />
                 </Typography>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -46,10 +45,10 @@ const Topbar = () => {
                             display: "block",
                         }}
                         onClick={() => {
-                        if (page === "商城") {
-                            navigate("/shop");
-                        }
-                    }}
+                            if (page === "商城") {
+                                navigate("/shop");
+                            }
+                        }}
                     >
                         {page}
                     </Button>

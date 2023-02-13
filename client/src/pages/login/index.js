@@ -9,13 +9,13 @@ import {
     FormControlLabel,
     Checkbox,
 } from "@mui/material";
-import { tokens } from "@/Styles/styles";
-import FlexColBox from "@/components/FlexColBox";
-import FlexBox from "@/components/FlexBox";
-import ArrowButton from "./ArrowButton";
 import { useState } from "react";
 import axios from "axios";
+import { tokens } from "@/Styles/styles";
+// components
 import Form from "../global/Form";
+import Gallery from "./components/Gallery";
+import ArrowButton from "./components/ArrowButton/ArrowButton";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -52,40 +52,43 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <Form>
-                <Typography
-                    color={colors.black[500]}
-                    variant="h2"
-                    fontWeight={500}
-                    marginY="2rem"
-                >
-                    登入
-                </Typography>
-                {/* FIXME TEXT COLOR */}
-                <TextField
-                    label="帳號"
-                    name="username"
-                    value={loginData.username}
-                    onChange={inputChange}
-                    fullWidth
-                    sx={styles.input}
-                />
-                <br />
-                <TextField
-                    type="password"
-                    label="密碼"
-                    name="password"
-                    value={loginData.password}
-                    onChange={inputChange}
-                    fullWidth
-                    sx={styles.input}
-                />
-                {/* FIXME custom color dark mode can not be seen */}
-                <FormControlLabel control={<Checkbox />} label="保持登入" />
-                <ArrowButton onClick={loginAuth}></ArrowButton>
-            </Form>
-        </div>
+        <>
+            <Gallery />
+            <div className="top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96">
+                <Form>
+                    <Typography
+                        color={colors.black[500]}
+                        variant="h2"
+                        fontWeight={500}
+                        marginY="2rem"
+                    >
+                        登入
+                    </Typography>
+                    {/* FIXME TEXT COLOR */}
+                    <TextField
+                        label="帳號"
+                        name="username"
+                        value={loginData.username}
+                        onChange={inputChange}
+                        fullWidth
+                        sx={styles.input}
+                    />
+                    <br />
+                    <TextField
+                        type="password"
+                        label="密碼"
+                        name="password"
+                        value={loginData.password}
+                        onChange={inputChange}
+                        fullWidth
+                        sx={styles.input}
+                    />
+                    {/* FIXME custom color dark mode can not be seen */}
+                    <FormControlLabel control={<Checkbox />} label="保持登入" />
+                    <ArrowButton onClick={loginAuth}></ArrowButton>
+                </Form>
+            </div>
+        </>
     );
 };
 

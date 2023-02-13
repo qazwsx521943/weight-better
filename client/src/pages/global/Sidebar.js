@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { tokens } from "@/Styles/styles";
 
 // TODO member api
-import avatar from "@/assets/cat.JPG";
+import logo from "../.././assets/WB3.png";
 
 // ⬇︎ material ui
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -139,7 +139,7 @@ const ReactSidebar = () => {
                                     alt="member-avatar"
                                     width="100px"
                                     height="100px"
-                                    src={avatar}
+                                    src={logo}
                                     style={{
                                         cursor: "pointer",
                                         borderRadius: "50px",

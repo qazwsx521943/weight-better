@@ -3,7 +3,7 @@ import { useState } from "react";
 import { tokens } from "@/Styles/styles";
 import Form from "../global/Form";
 import Title from "./Title";
-import ArrowButton from "../login/ArrowButton";
+import ArrowButton from "../login/components/ArrowButton/ArrowButton";
 
 const Register = () => {
     const theme = useTheme();
@@ -67,7 +67,7 @@ const Register = () => {
         }
     };
     return (
-        <div>
+        <div className="top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96">
             <Form>
                 {/* STEP 1 */}
                 {step === 1 && (
@@ -151,7 +151,7 @@ const Register = () => {
                 )}
                 <Box display="flex" justifyContent="space-between" mt={5}>
                     {step === 5 ? (
-                        <ArrowButton color="pink" onClick={submitHandler}>
+                        <ArrowButton color="teal" onClick={submitHandler}>
                             Submit
                         </ArrowButton>
                     ) : (

@@ -32,7 +32,7 @@ import ProductDetails from "./pages/shop/product/ProductDetails";
 import Shop from "./pages/shop/product";
 // import Menu from "./pages/menu";
 // import Card from "./pages/card";
-
+const isAuth = true;
 function App() {
     const [theme, colorMode] = useMode();
     return (
@@ -41,57 +41,73 @@ function App() {
                 {/* ⬇︎ same as css reset */}
                 <CssBaseline />
                 <div className="app">
-                    <ReactSidebar />
-                    <main className="content">
-                        <Topbar />
-                        {/* TODO 各自命名 url */}
+                    {!isAuth && (
                         <Routes>
-                            {/* <Route path="/" element={<Home />}></Route> */}
                             <Route path="/" element={<Login />}></Route>
-                            <Route
-                                path="register"
-                                element={<Register />}
-                            ></Route>
-                            {/* 會員 */}
-
-                            <Route path="/member">
-                                <Route path="" element={<Profile />}></Route>
-                                <Route
-                                    path="orderList"
-                                    element={<OrderList />}
-                                ></Route>
-                                <Route path="cart" element={<Cart />}></Route>
-                                <Route path="reels" element={<Reels />}></Route>
-                                <Route
-                                    path="articles"
-                                    element={<Article />}
-                                ></Route>
-                                <Route
-                                    path="coupons"
-                                    element={<Coupon />}
-                                ></Route>
-                                <Route
-                                    path="favorites"
-                                    element={<Favorites />}
-                                ></Route>
-                                <Route
-                                    path="friends"
-                                    element={<Friends />}
-                                ></Route>
-                            </Route>
-
-                            <Route path="/shop/:pid" element={<Shop />}>
-                                <Route
-                                    path="ProductDetails"
-                                    element={<ProductDetails />}
-                                ></Route>
-                            </Route>
-                            {/* <Route path="/blogs" element={<Blogs />}></Route> */}
-                            {/* <Route path="/menu" element={<Menu />}></Route> */}
-                            {/* <Route path="/reels" element={<Reels />}></Route> */}
-                            {/* <Route path="/card" element={<Card />}></Route>  */}
+                            {/* <Route path="/" element={<Gallery />} /> */}
                         </Routes>
-                    </main>
+                    )}
+                    {isAuth && <ReactSidebar />}
+                    {isAuth && (
+                        <main className="content">
+                            <Topbar />
+                            {/* TODO 各自命名 url */}
+                            <Routes>
+                                {/* <Route path="/" element={<Home />}></Route> */}
+                                <Route
+                                    path="register"
+                                    element={<Register />}
+                                ></Route>
+                                {/* 會員 */}
+
+                                <Route path="/member">
+                                    <Route
+                                        path=""
+                                        element={<Profile />}
+                                    ></Route>
+                                    <Route
+                                        path="orderList"
+                                        element={<OrderList />}
+                                    ></Route>
+                                    <Route
+                                        path="cart"
+                                        element={<Cart />}
+                                    ></Route>
+                                    <Route
+                                        path="reels"
+                                        element={<Reels />}
+                                    ></Route>
+                                    <Route
+                                        path="articles"
+                                        element={<Article />}
+                                    ></Route>
+                                    <Route
+                                        path="coupons"
+                                        element={<Coupon />}
+                                    ></Route>
+                                    <Route
+                                        path="favorites"
+                                        element={<Favorites />}
+                                    ></Route>
+                                    <Route
+                                        path="friends"
+                                        element={<Friends />}
+                                    ></Route>
+                                </Route>
+
+                                <Route path="/shop/:pid" element={<Shop />}>
+                                    <Route
+                                        path="ProductDetails"
+                                        element={<ProductDetails />}
+                                    ></Route>
+                                </Route>
+                                {/* <Route path="/blogs" element={<Blogs />}></Route> */}
+                                {/* <Route path="/menu" element={<Menu />}></Route> */}
+                                {/* <Route path="/reels" element={<Reels />}></Route> */}
+                                {/* <Route path="/card" element={<Card />}></Route>  */}
+                            </Routes>
+                        </main>
+                    )}
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>

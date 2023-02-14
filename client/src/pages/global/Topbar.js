@@ -1,10 +1,7 @@
-import { useContext } from "react";
+import React from "react";
 import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
-import { ColorModeContext, tokens } from "@/Styles/styles";
 import { useNavigate } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -15,24 +12,24 @@ const pages = ["短影音", "部落格", "菜單", "抽卡", "商城"];
 
 const Topbar = () => {
     const navigate = useNavigate();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+    // const theme = useTheme();
+    // const colors = tokens(theme.palette.mode);
+    // const colorMode = useContext(ColorModeContext);
     return (
         <Box
             display="flex"
             justifyContent="space-between"
             p={2}
-            backgroundColor={colors.primary[400]}
+            backgroundColor="primary.main"
         >
             <Box
                 display="flex"
-                backgroundColor={colors.primary[400]}
+                backgroundColor={"primary.main"}
                 borderRadius="3px"
                 sx={{ mr: 2 }}
             >
                 <Typography alignSelf={"center"}>
-                    <img src={logo} alt="logo" className="h-8" />
+                    <img src={logo} alt="logo" className="h-6" />
                 </Typography>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -41,7 +38,7 @@ const Topbar = () => {
                         key={page}
                         sx={{
                             mx: 1,
-                            color: colors.secondary[400],
+                            color: "yellow.main",
                             display: "block",
                         }}
                         onClick={() => {
@@ -64,13 +61,7 @@ const Topbar = () => {
                 <IconButton>
                     <NotificationsOutlinedIcon />
                 </IconButton>
-                <IconButton onClick={colorMode.toggleColorMode}>
-                    {theme.palette.mode === "dark" ? (
-                        <DarkModeOutlinedIcon />
-                    ) : (
-                        <LightModeOutlinedIcon />
-                    )}
-                </IconButton>
+
                 {/* <IconButton>
                     <SettingsIcon />
                 </IconButton> */}

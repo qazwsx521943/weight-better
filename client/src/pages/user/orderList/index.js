@@ -1,6 +1,6 @@
-import { Box, useTheme, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { tokens } from "@/Styles/styles";
+
 import Header from "../components/Header";
 
 // const fakeOrderData = [
@@ -34,9 +34,6 @@ const fakeOrderData = (() => {
 })();
 
 const OrderList = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
     const columns = [
         { field: "id", headerName: "訂單編號" },
         {
@@ -60,9 +57,7 @@ const OrderList = () => {
             headerName: "Cost",
             flex: 1,
             renderCell: (params) => (
-                <Typography color={colors.teal[500]}>
-                    ${params.row.cost}
-                </Typography>
+                <Typography color="teal">${params.row.cost}</Typography>
             ),
         },
     ];
@@ -84,21 +79,21 @@ const OrderList = () => {
                         borderBottom: "none",
                     },
                     "& .name-column--cell": {
-                        color: colors.teal[300],
+                        color: "primary.main",
                     },
                     "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.primary[400],
+                        backgroundColor: "primary.main",
                         borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.black[400],
+                        backgroundColor: "primary.main",
                     },
                     "& .MuiDataGrid-footerContainer": {
                         borderTop: "none",
-                        backgroundColor: colors.black[400],
+                        backgroundColor: "primary.main",
                     },
                     "& .MuiCheckbox-root": {
-                        color: `${colors.teal[200]} !important`,
+                        color: `primary.main !important`,
                     },
                 }}
             >

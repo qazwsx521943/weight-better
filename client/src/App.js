@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import { ColorModeContext, useMode } from "./Styles/styles";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+// import { ColorModeContext, useMode } from "./Styles/styles";
+// 導入MUI預設覆蓋 for themeProvider
+import theme from "./Styles/themeMui";
+import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import Topbar from "./pages/global/Topbar";
-import ReactSidebar from "./pages/global/Sidebar";
 
 // route import
 import Login from "./pages/login";
@@ -35,83 +36,77 @@ import SidebarV2 from "./pages/global/SidebarV2";
 // import Card from "./pages/card";
 const isAuth = true;
 function App() {
-    const [theme, colorMode] = useMode();
+    // const [theme, colorMode] = useMode();
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-                {/* ⬇︎ same as css reset */}
-                <CssBaseline />
-                <div className="app">
-                    {!isAuth && (
+        // <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+            {/* ⬇︎ same as css reset */}
+            <CssBaseline />
+            <div className="app">
+                {!isAuth && (
+                    <Routes>
+                        <Route path="/" element={<Login />}></Route>
+                    </Routes>
+                )}
+                {/* {isAuth && <ReactSidebar />} */}
+                <Topbar />
+                {isAuth && (
+                    <main className="content ">
+                        <SidebarV2 />
+                        {/* TODO 各自命名 url */}
                         <Routes>
-                            <Route path="/" element={<Login />}></Route>
-                        </Routes>
-                    )}
-                    {/* {isAuth && <ReactSidebar />} */}
-                    <Topbar />
-                    {isAuth && (
-                        <main className="content">
-                            <SidebarV2 />
-                            {/* TODO 各自命名 url */}
-                            <Routes>
-                                {/* <Route path="/" element={<Home />}></Route> */}
+                            {/* <Route path="/" element={<Home />}></Route> */}
+                            <Route
+                                path="register"
+                                element={<Register />}
+                            ></Route>
+                            {/* 會員 */}
+
+                            <Route path="/user">
                                 <Route
-                                    path="register"
-                                    element={<Register />}
+                                    path="profile"
+                                    element={<Profile />}
                                 ></Route>
-                                {/* 會員 */}
+                                <Route
+                                    path="orderList"
+                                    element={<OrderList />}
+                                ></Route>
+                                <Route path="cart" element={<Cart />}></Route>
+                                <Route path="reels" element={<Reels />}></Route>
+                                <Route
+                                    path="articles"
+                                    element={<Article />}
+                                ></Route>
+                                <Route
+                                    path="coupons"
+                                    element={<Coupon />}
+                                ></Route>
+                                <Route
+                                    path="favorites"
+                                    element={<Favorites />}
+                                ></Route>
+                                <Route
+                                    path="friends"
+                                    element={<Friends />}
+                                ></Route>
+                            </Route>
 
-                                <Route path="/user">
-                                    <Route
-                                        path="profile"
-                                        element={<Profile />}
-                                    ></Route>
-                                    <Route
-                                        path="orderList"
-                                        element={<OrderList />}
-                                    ></Route>
-                                    <Route
-                                        path="cart"
-                                        element={<Cart />}
-                                    ></Route>
-                                    <Route
-                                        path="reels"
-                                        element={<Reels />}
-                                    ></Route>
-                                    <Route
-                                        path="articles"
-                                        element={<Article />}
-                                    ></Route>
-                                    <Route
-                                        path="coupons"
-                                        element={<Coupon />}
-                                    ></Route>
-                                    <Route
-                                        path="favorites"
-                                        element={<Favorites />}
-                                    ></Route>
-                                    <Route
-                                        path="friends"
-                                        element={<Friends />}
-                                    ></Route>
-                                </Route>
-
-                                <Route path="/shop/:pid" element={<Shop />}>
-                                    <Route
-                                        path="ProductDetails"
-                                        element={<ProductDetails />}
-                                    ></Route>
-                                </Route>
-                                {/* <Route path="/blogs" element={<Blogs />}></Route> */}
-                                {/* <Route path="/menu" element={<Menu />}></Route> */}
-                                {/* <Route path="/reels" element={<Reels />}></Route> */}
-                                {/* <Route path="/card" element={<Card />}></Route>  */}
-                            </Routes>
-                        </main>
-                    )}
-                </div>
-            </ThemeProvider>
-        </ColorModeContext.Provider>
+                            <Route path="/shop/:pid" element={<Shop />}>
+                                <Route
+                                    path="ProductDetails"
+                                    element={<ProductDetails />}
+                                ></Route>
+                            </Route>
+                            {/* <Route path="/blogs" element={<Blogs />}></Route> */}
+                            {/* <Route path="/menu" element={<Menu />}></Route> */}
+                            {/* <Route path="/reels" element={<Reels />}></Route> */}
+                            {/* <Route path="/card" element={<Card />}></Route>  */}
+                        </Routes>
+                    </main>
+                )}
+            </div>
+        </ThemeProvider>
+        // </ColorModeContext.Provider>
     );
 }
 

@@ -1,6 +1,4 @@
 import React from "react";
-import { useTheme } from "@mui/material";
-import { tokens } from "@/Styles/styles";
 import { HiOutlineUserCircle, HiMenuAlt3 } from "react-icons/hi";
 import {
     MdOutlineHistory,
@@ -12,8 +10,6 @@ import { useState } from "react";
 import styles from "./Sidebar.module.css";
 
 const SidebarV2 = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(true);
     // 選單內容陣列
     const profileList = [

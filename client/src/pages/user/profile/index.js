@@ -1,7 +1,6 @@
-import { Box, TextField, Button, useTheme } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import React, { useState } from "react";
 import Header from "../components/Header";
-import { tokens } from "@/Styles/styles";
 
 const styles = {
     flexCol: {
@@ -12,8 +11,6 @@ const styles = {
 };
 
 function Profile() {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     // profile data collection
     const [formData, setFormData] = useState({
         nickname: "",

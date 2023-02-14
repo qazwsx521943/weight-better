@@ -1,13 +1,11 @@
-import { Box, Button, TextField, useTheme, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { tokens } from "@/Styles/styles";
+
 import Form from "../global/Form";
 import Title from "./Title";
 import ArrowButton from "../login/components/ArrowButton/ArrowButton";
 
 const Register = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const styles = {
         flexCenter: {
             display: "flex",
@@ -15,7 +13,7 @@ const Register = () => {
             alignItems: "center",
         },
         input: {
-            backgroundColor: colors.primary[100],
+            backgroundColor: "primary.main",
         },
     };
 

@@ -11,8 +11,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-import { tokens } from "@/Styles/styles";
-import styles from "./login.module.css";
 // components
 import Form from "../global/Form";
 import Gallery from "./components/Gallery";
@@ -21,13 +19,10 @@ import ArrowButton from "./components/ArrowButton/ArrowButton";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
     // 輸入框style
     const styles = {
         input: {
-            backgroundColor: colors.primary[100],
+            backgroundColor: "primary.main",
             borderRadius: "4px",
         },
     };
@@ -60,7 +55,7 @@ const Login = () => {
             >
                 <Form>
                     <Typography
-                        color={colors.black[500]}
+                        color="black.main"
                         variant="h2"
                         fontWeight={500}
                         marginY="2rem"

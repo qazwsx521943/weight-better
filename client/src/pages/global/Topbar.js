@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton, Typography, useTheme, Button } from "@mui/material";
+import { Box, IconButton, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -12,9 +12,7 @@ const pages = ["短影音", "部落格", "菜單", "抽卡", "商城"];
 
 const Topbar = () => {
     const navigate = useNavigate();
-    // const theme = useTheme();
-    // const colors = tokens(theme.palette.mode);
-    // const colorMode = useContext(ColorModeContext);
+
     return (
         <Box
             display="flex"

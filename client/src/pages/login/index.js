@@ -2,23 +2,28 @@ import React from "react";
 import {
     Box,
     Typography,
-    useTheme,
     useMediaQuery,
     TextField,
     Button,
     FormControlLabel,
     Checkbox,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../global/states/AuthContext";
 import axios from "axios";
 // components
 import Form from "../global/Form";
 import Gallery from "./components/Gallery";
 import ArrowButton from "./components/ArrowButton/ArrowButton";
+import Home from "../home/Home";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { setLogin } = useContext(AuthContext);
+
     // 輸入框style
     const styles = {
         input: {
@@ -40,10 +45,21 @@ const Login = () => {
 
     // FIXME 登入驗證api
     const loginAuth = () => {
+        // 登入POST
+        console.log(loginData);
         axios
-            .post("http://localhost:8080/user/login", loginData)
+            .post(`${process.env.REACT_APP_API_KEY}/user/login`, loginData)
             .then((res) => {
-                console.log(res.data);
+                if (res.data.error) {
+                    alert(res.data.error);
+                } else {
+                    // 將token存入session
+                    localStorage.setItem("userToken", res.data);
+                    // set login
+                    setLogin(true);
+                    // 跳轉首頁
+                    navigate("/user/profile");
+                }
             });
     };
 

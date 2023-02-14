@@ -37,12 +37,12 @@ app.use((req, res, next) => {
 app.use("/products", products);
 app.use("/user", userRouter);
 
-// db.sequelize.sync().then((req) => {
-//     app.listen(8080, () => {
-//         console.log(`server run on port ${8080}`);
-//     });
-// });
-
-app.listen(8080, () => {
-    console.log(`server run on port ${8080}`);
+db.sequelize.sync().then((req) => {
+    app.listen(8080, () => {
+        console.log(`server run on port ${8080}`);
+    });
 });
+
+// app.listen(8080, () => {
+//     console.log(`server run on port ${8080}`);
+// });

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, IconButton, Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -59,13 +59,16 @@ const Topbar = () => {
                 <IconButton>
                     <NotificationsOutlinedIcon />
                 </IconButton>
+                <Link to="/?mode=login">
+                    <p className="bg-pink">登入</p>
+                </Link>
 
                 {/* <IconButton>
                     <SettingsIcon />
                 </IconButton> */}
-                <IconButton>
+                {/* <IconButton>
                     <PersonOutlineOutlinedIcon />
-                </IconButton>
+                </IconButton> */}
             </Box>
         </Box>
     );

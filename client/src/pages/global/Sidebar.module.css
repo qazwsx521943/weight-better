@@ -14,3 +14,6 @@
     left: 1.5rem;
     transform: translate(-50%, -50%);
 }
+.trans {
+    transform: translateX(-100%);
+}

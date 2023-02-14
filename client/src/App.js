@@ -5,10 +5,13 @@ import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import Topbar from "./pages/global/Topbar";
 
+
+
 // route import
 import Login from "./pages/login";
 // import Home from "./pages/home";
 //**? 會員 */
+<<<<<<< HEAD
 import Profile from "./pages/user/profile";
 import OrderList from "./pages/user/orderList";
 import Cart from "./pages/user/cart";
@@ -21,6 +24,22 @@ import Register from "./pages/register";
 
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
+=======
+import Profile from "./pages/member/profile";
+import OrderList from "./pages/member/orderList";
+// import Cart from "./pages/member/cart";
+import Reels from "./pages/member/reels";
+import Article from "./pages/member/article";
+import Coupon from "./pages/member/coupon";
+import Friends from "./pages/member/friends";
+import Favorites from "./pages/member/favorites";
+
+//**? 商品 */
+import MainContent from "./pages/shop/product/mainConent";
+
+
+
+>>>>>>> productContent
 //**? 部落格 */
 
 //**? 客製化菜單 */
@@ -71,7 +90,7 @@ function App() {
                                     path="orderList"
                                     element={<OrderList />}
                                 ></Route>
-                                <Route path="cart" element={<Cart />}></Route>
+                                <Route path="cart" element={<MainContent />}></Route>
                                 <Route path="reels" element={<Reels />}></Route>
                                 <Route
                                     path="articles"
@@ -97,6 +116,10 @@ function App() {
                                     element={<ProductDetails />}
                                 ></Route>
                             </Route>
+                            {/* <Route path="/shop" element={<Shop />}></Route> */}
+                            <Route 
+                            path="/shop" element={<MainContent />}></Route>
+                           
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
                             {/* <Route path="/reels" element={<Reels />}></Route> */}

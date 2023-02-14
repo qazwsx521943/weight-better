@@ -13,9 +13,13 @@ body,
     width: 100%;
     font-family: "Noto Sans TC", sans-serif;
 }
-
-.app {
+.content {
     display: flex;
+    flex-direction: row-reverse;
+}
+.app {
+    /* display: flex; */
+    /* flex-direction: row-reverse; */
     position: relative;
 }
 

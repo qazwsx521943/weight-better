@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { tokens } from "@/Styles/styles";
+import styles from "./login.module.css";
 // components
 import Form from "../global/Form";
 import Gallery from "./components/Gallery";
@@ -54,7 +55,9 @@ const Login = () => {
     return (
         <>
             <Gallery />
-            <div className="top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96">
+            <div
+                className={`top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96 ${styles.container}`}
+            >
                 <Form>
                     <Typography
                         color={colors.black[500]}

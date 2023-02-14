@@ -31,8 +31,8 @@ const Topbar = () => {
                 borderRadius="3px"
                 sx={{ mr: 2 }}
             >
-                <Typography>
-                    <img src={logo} alt="logo" className="h-10" />
+                <Typography alignSelf={"center"}>
+                    <img src={logo} alt="logo" className="h-8" />
                 </Typography>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

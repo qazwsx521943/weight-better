@@ -30,6 +30,7 @@ import ProductDetails from "./pages/shop/product/ProductDetails";
 // import Reels from "./pages/reels";
 // import Blogs from "./pages/blogs";
 import Shop from "./pages/shop/product";
+import SidebarV2 from "./pages/global/SidebarV2";
 // import Menu from "./pages/menu";
 // import Card from "./pages/card";
 const isAuth = true;
@@ -44,13 +45,13 @@ function App() {
                     {!isAuth && (
                         <Routes>
                             <Route path="/" element={<Login />}></Route>
-                            {/* <Route path="/" element={<Gallery />} /> */}
                         </Routes>
                     )}
-                    {isAuth && <ReactSidebar />}
+                    {/* {isAuth && <ReactSidebar />} */}
+                    <Topbar />
                     {isAuth && (
                         <main className="content">
-                            <Topbar />
+                            <SidebarV2 />
                             {/* TODO 各自命名 url */}
                             <Routes>
                                 {/* <Route path="/" element={<Home />}></Route> */}
@@ -60,9 +61,9 @@ function App() {
                                 ></Route>
                                 {/* 會員 */}
 
-                                <Route path="/member">
+                                <Route path="/user">
                                     <Route
-                                        path=""
+                                        path="profile"
                                         element={<Profile />}
                                     ></Route>
                                     <Route

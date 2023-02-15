@@ -7,7 +7,9 @@ module.exports = {
             yellow: "#FFE4A3",
             pink: "#FFA5AE",
             teal: "#1BB6B2",
+            "teal-light": "#1BB6B280",
             black: "#2F2D3F",
+            white: "#FFFFFF",
         },
         boxShadow: {
             sm: "0px 2px 4px 0px rgba(11,10,55,0.15)",

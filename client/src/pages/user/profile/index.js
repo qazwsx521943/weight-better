@@ -16,6 +16,8 @@ function Profile() {
 
     let { username } = useParams();
     const [profileData, setProfileData] = useState("")
+
+    // render data from /user/profile/:username
     useEffect(()=>{
         axios.get(`${process.env.REACT_APP_API_KEY}/user/profile/${username}`).then(res=>{
             setProfileData(res.data.username);

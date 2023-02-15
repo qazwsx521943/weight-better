@@ -9,18 +9,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // route import
 import Login from "./pages/login";
+import Register from "./pages/register";
 // import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 
 //**? 會員 */
+import User from "./pages/user";
 import Profile from "./pages/user/profile";
-import OrderList from "./pages/user/orderList";
-import Cart from "./pages/user/cart";
-import Reels from "./pages/user/reels";
-import Article from "./pages/user/article";
-import Coupon from "./pages/user/coupon";
-import Favorites from "./pages/user/favorites";
-import Register from "./pages/register";
 import TestButton from "./pages/test_button/TestButton";
 
 //**? 商品 */
@@ -33,8 +28,6 @@ import MainContent from "./pages/shop/product/mainConent";
 
 //**? 客製化菜單 */
 import Input from "./pages/menu/component/input/index";
-
-
 
 //**? 短影音 */
 
@@ -60,12 +53,12 @@ function App() {
             })
             .then((res) => {
                 if (res.data.error) {
-                    setLogin({...login, status:false});
+                    setLogin({ ...login, status: false });
                 } else {
                     setLogin({
-                        username:res.data.username,
-                        id:res.data.id,
-                        status:true,
+                        username: res.data.username,
+                        id: res.data.id,
+                        status: true,
                     });
                 }
             });
@@ -77,10 +70,7 @@ function App() {
                 {/* ⬇︎ same as css reset */}
                 <CssBaseline />
                 <div className="app">
-                        <h1>{login.username}</h1>
                     <Routes>
-                        {/* <Route path="/" element={<Home />}></Route> */}
-
                         <Route path="/" element={<Login />}></Route>
                     </Routes>
                     <Topbar />
@@ -88,7 +78,6 @@ function App() {
                     <main className="content ">
                         {login.status && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
-
 
                         <Routes>
                             {/* <Route path="/" element={<Home />}></Route> */}
@@ -99,30 +88,10 @@ function App() {
 
                             {/*SECTION 會員 */}
                             <Route path="/user">
+                                <Route path="" element={<User />}></Route>
                                 <Route
                                     path="profile/:username"
                                     element={<Profile />}
-                                ></Route>
-                                <Route
-                                    path="orderList"
-                                    element={<OrderList />}
-                                ></Route>
-                                <Route
-                                    path="cart"
-                                    element={<MainContent />}
-                                ></Route>
-                                <Route path="reels" element={<Reels />}></Route>
-                                <Route
-                                    path="articles"
-                                    element={<Article />}
-                                ></Route>
-                                <Route
-                                    path="coupons"
-                                    element={<Coupon />}
-                                ></Route>
-                                <Route
-                                    path="favorites"
-                                    element={<Favorites />}
                                 ></Route>
                             </Route>
 
@@ -135,32 +104,26 @@ function App() {
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route
-                                path="/shop" element={<MainContent />}></Route>
+                                path="/shop"
+                                element={<MainContent />}
+                            ></Route>
 
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
                             <Route path="/menu">
-                                
-                                <Route
-                                    path="input"
-                                    element={<Input />}
-                                ></Route>
-
-                                
+                                <Route path="input" element={<Input />}></Route>
                             </Route>
-
-
-
-
 
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
                             <Route path="/reels">
-                                <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                                <Route
+                                    path="test-button"
+                                    element={<TestButton></TestButton>}
+                                ></Route>
                             </Route>
 
                             <Route path="*" element={<ErrorPage />}></Route>
                         </Routes>
-                        
                     </main>
                 </div>
             </AuthContext.Provider>

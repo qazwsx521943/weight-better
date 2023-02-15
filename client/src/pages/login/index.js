@@ -22,7 +22,7 @@ const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login,setLogin } = useContext(AuthContext);
+    const { login, setLogin } = useContext(AuthContext);
 
     // 輸入框style
     const styles = {
@@ -56,11 +56,13 @@ const Login = () => {
                     // 將token存入session
                     localStorage.setItem("userToken", res.data.token);
                     // set login
-                    setLogin({username:res.data.username,
-                    id:res.data.id,
-                status:true});
+                    setLogin({
+                        username: res.data.username,
+                        id: res.data.id,
+                        status: true,
+                    });
                     // 跳轉首頁
-                    navigate("/");
+                    navigate("/user");
                 }
             });
     };
@@ -102,6 +104,8 @@ const Login = () => {
                     {/* FIXME custom color dark mode can not be seen */}
                     <FormControlLabel control={<Checkbox />} label="保持登入" />
                     <ArrowButton onClick={loginAuth}></ArrowButton>
+                    <br />
+                    <Link to="/register">註冊</Link>
                 </Form>
             </div>
         </>

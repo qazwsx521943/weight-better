@@ -6,7 +6,7 @@ const Form = (props) => {
         <form>
             <FlexColBox
                 maxWidth={400}
-                // bgcolor="Background"
+                bgcolor="Background"
                 borderRadius={2}
                 sx={{ padding: "2rem 3rem" }}
                 boxShadow={`5px 5px 10px primary.main`}

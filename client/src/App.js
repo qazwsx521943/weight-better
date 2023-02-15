@@ -70,17 +70,13 @@ function App() {
                 {/* ⬇︎ same as css reset */}
                 <CssBaseline />
                 <div className="app">
-                    <Routes>
-                        <Route path="/" element={<Login />}></Route>
-                    </Routes>
                     <Topbar />
-
                     <main className="content ">
                         {login.status && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
-
                         <Routes>
                             {/* <Route path="/" element={<Home />}></Route> */}
+                            <Route path="login" element={<Login />}></Route>
                             <Route
                                 path="register"
                                 element={<Register />}

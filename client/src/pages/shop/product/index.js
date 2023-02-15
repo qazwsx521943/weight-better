@@ -76,10 +76,7 @@ function Shop() {
     return (
         <Mui.Grid container spacing={2}>
             <Mui.Grid item xs={8}>
-            <MyTextField color="blue" />
-    <MyTextField color="pink" />
-    <MyTextField />
-                <MyTextField className="red"/>
+                <MyTextField  className='primary'/>
                 <Mui.Box
                     component="img"
                     sx={{

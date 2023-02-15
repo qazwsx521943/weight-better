@@ -1,31 +1,59 @@
-import React from "react";
-import { TextField } from "@mui/material";
-// import { withStyles } from "@mui/styles";
-import { styled } from "@mui/material";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
-const styles = {
-  general: {
-    backgroundColor: "#f2f2f2",
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiInputBase-root': {
+      color: 'black',
+      background: 'white',
+      borderRadius: '5px',
+      border: '1px solid #e2e2e1',
+      fontSize: '16px',
+      padding: '10px',
+      width: '100%',
+      boxSizing: 'border-box',
+    },
+    '& .Mui-focused .MuiInputBase-root': {
+      border: '1px solid #c8c8c8',
+    },
   },
-  success: {
-    backgroundColor: "#d1e7dd",
+  primary: {
+    '& .MuiInputBase-root': {
+      color: 'white',
+      background: 'blue',
+      borderRadius: '5px',
+      border: '1px solid #e2e2e1',
+      fontSize: '16px',
+      padding: '10px',
+      width: '100%',
+      boxSizing: 'border-box',
+    },
+    '& .Mui-focused .MuiInputBase-root': {
+      border: '1px solid #c8c8c8',
+    },
   },
-  warning: {
-    backgroundColor: "#fff3cd",
-  },
-  error: {
-    backgroundColor: "#f8d7da",
-  },
-  info: {
-    backgroundColor: "#d1ecf1",
-  },
-};
-const MyTextField = styled(TextField)(({ theme, variant }) => ({
-  // 根據variant屬性選擇不同的樣式
-  ...styles[variant],
-  "& .MuiInputBase-input": {
-    borderRadius: "4px", // 根據需求自己設定樣式
-    padding: "10px",
+  secondary: {
+    '& .MuiInputBase-root': {
+      color: 'white',
+      background: 'green',
+      borderRadius: '5px',
+      border: '1px solid #e2e2e1',
+      fontSize: '16px',
+      padding: '10px',
+      width: '100%',
+      boxSizing: 'border-box',
+    },
+    '& .Mui-focused .MuiInputBase-root': {
+      border: '1px solid #c8c8c8',
+    },
   },
 }));
+
+const MyTextField = React.memo(({ className, ...props }) => {
+  return <TextField className={useStyles()[className] } {...props} />;
+});
+
+
+
 export default MyTextField;

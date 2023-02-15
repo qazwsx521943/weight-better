@@ -2,9 +2,11 @@ import React from 'react'
 import product_card from './product_data'
 import  './contentStyle.css'
 import Header from './header'
+import Input from '../../../components/Input/select'
 import Tools from './tools'
 // import Footer from './footer'
 import {Box} from '@mui/material'
+
 
 
     
@@ -40,6 +42,8 @@ const MainContent =()=>{
       <box m="20px">
         <rearchTools/>
         <Header/>
+        <Input/>
+  
         
 
                 <div className="Main_content">

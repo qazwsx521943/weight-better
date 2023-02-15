@@ -42,8 +42,13 @@ const Topbar = () => {
                         onClick={() => {
                             if (page === "商城") {
                                 navigate("/shop");
+                            }else if(page === "菜單"){
+                                navigate("/menu");
                             }
+                            
                         }}
+
+
                     >
                         {page}
                     </Button>

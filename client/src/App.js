@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // route import
 import Login from "./pages/login";
-import Home from "./pages/home/Home";
+// import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 
 //**? 會員 */
@@ -60,9 +60,13 @@ function App() {
             })
             .then((res) => {
                 if (res.data.error) {
-                    setLogin(false);
+                    setLogin({...login, status:false});
                 } else {
-                    setLogin(true);
+                    setLogin({
+                        username:res.data.username,
+                        id:res.data.id,
+                        status:true,
+                    });
                 }
             });
     }, []);
@@ -73,6 +77,7 @@ function App() {
                 {/* ⬇︎ same as css reset */}
                 <CssBaseline />
                 <div className="app">
+                        <h1>{login.username}</h1>
                     <Routes>
                         {/* <Route path="/" element={<Home />}></Route> */}
 
@@ -81,10 +86,12 @@ function App() {
                     <Topbar />
 
                     <main className="content ">
-                        {login && <SidebarV2 />}
+                        {login.status && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
+
+
                         <Routes>
-                            <Route path="/" element={<Home />}></Route>
+                            {/* <Route path="/" element={<Home />}></Route> */}
                             <Route
                                 path="register"
                                 element={<Register />}
@@ -150,9 +157,10 @@ function App() {
                             <Route path="/reels">
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
                             </Route>
-                            {/* <Route path="/card" element={<Card />}></Route>  */}
+
                             <Route path="*" element={<ErrorPage />}></Route>
                         </Routes>
+                        
                     </main>
                 </div>
             </AuthContext.Provider>

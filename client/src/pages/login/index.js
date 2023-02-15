@@ -15,14 +15,14 @@ import axios from "axios";
 import Form from "../global/Form";
 import Gallery from "./components/Gallery";
 import ArrowButton from "./components/ArrowButton/ArrowButton";
-import Home from "../home/Home";
+
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
     const navigate = useNavigate();
-    const { setLogin } = useContext(AuthContext);
+    const { login,setLogin } = useContext(AuthContext);
 
     // 輸入框style
     const styles = {
@@ -54,11 +54,13 @@ const Login = () => {
                     alert(res.data.error);
                 } else {
                     // 將token存入session
-                    localStorage.setItem("userToken", res.data);
+                    localStorage.setItem("userToken", res.data.token);
                     // set login
-                    setLogin(true);
+                    setLogin({username:res.data.username,
+                    id:res.data.id,
+                status:true});
                     // 跳轉首頁
-                    navigate("/user/profile");
+                    navigate("/");
                 }
             });
     };

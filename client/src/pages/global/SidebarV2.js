@@ -13,7 +13,7 @@ import styles from "./Sidebar.module.css";
 import { AuthContext } from "./store/AuthContext";
 
 const SidebarV2 = () => {
-    const { setLogin } = useContext(AuthContext);
+    const { setLogin,login } = useContext(AuthContext);
     let navigate = useNavigate();
     const [open, setOpen] = useState(true);
     // 選單內容陣列
@@ -42,7 +42,7 @@ const SidebarV2 = () => {
     // remove localstorage
     const logoutHandler = () => {
         localStorage.removeItem("userToken");
-        setLogin(false);
+        setLogin({...login, status:false});
 
         // 轉向首頁
         navigate("/");

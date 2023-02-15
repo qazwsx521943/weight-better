@@ -32,10 +32,13 @@ const userRegister = async (req, res) => {
 
 // 會員資料
 const userProfile = async (req, res) => {
-    let { username, password } = req.body;
+    const username = req.params.username;
+
     const user = await User.findOne({
-        where: { username: username, password: password },
+        where: { username: username },
     });
+
+    res.json(user);
 };
 
 // 會員登入
@@ -55,7 +58,7 @@ const userLogin = async (req, res) => {
             { username: user.username, id: user.id },
             "tokeneed"
         );
-        res.json(userToken);
+        res.json({ token: userToken, username: user.username, id: user.id });
     });
 };
 

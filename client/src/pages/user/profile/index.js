@@ -1,7 +1,8 @@
 import { Box, TextField, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const styles = {
     flexCol: {
@@ -12,7 +13,14 @@ const styles = {
 };
 
 function Profile() {
+
     let { username } = useParams();
+    const [profileData, setProfileData] = useState("")
+    useEffect(()=>{
+        axios.get(`${process.env.REACT_APP_API_KEY}/user/profile/${username}`).then(res=>{
+            setProfileData(res.data.username);
+        })
+    })
     // profile data collection
     const [formData, setFormData] = useState({
         nickname: "",
@@ -56,7 +64,7 @@ function Profile() {
 
     return (
         <Box m="20px">
-            <Header title="基本資料" subtitle={`${username}`} />
+            <Header title="基本資料" subtitle={`${profileData}`} />
             <Box display="flex" justifyContent="center" alignItems="center">
                 <form onSubmit={submitProfile}>
                     <Box sx={styles.flexCol} gap="20px">

@@ -1,41 +1,31 @@
-import React from 'react';
-import * as Mui from "@mui/material";
+import React from "react";
+import { TextField } from "@mui/material";
+// import { withStyles } from "@mui/styles";
+import { styled } from "@mui/material";
 
-const colorStyles = {
-  red: {
-    color: 'red',
-    backgroundColor : 'pink',
-    sx:{ m: 1, width: '25ch' }
+const styles = {
+  general: {
+    backgroundColor: "#f2f2f2",
   },
-  blue: {
-    color: 'blue',
-    backgroundColor : 'lightblue'
+  success: {
+    backgroundColor: "#d1e7dd",
   },
-  green: {
-    color: 'green',
-    backgroundColor : 'lightgreen'
-
+  warning: {
+    backgroundColor: "#fff3cd",
+  },
+  error: {
+    backgroundColor: "#f8d7da",
+  },
+  info: {
+    backgroundColor: "#d1ecf1",
   },
 };
-
-function MyComponent({ className }) {
-  const style = colorStyles[className] || {};
-
-  return (
-    <Mui.TextField
-      style= {style}
-      // 其他 TextField 屬性...
-      
-    />
-  );
-}
-
-function MyTextField(props) {
-  return (
-    <div>
-      <MyComponent className={props.className} />
-    </div>
-  );
-}
-
+const MyTextField = styled(TextField)(({ theme, variant }) => ({
+  // 根據variant屬性選擇不同的樣式
+  ...styles[variant],
+  "& .MuiInputBase-input": {
+    borderRadius: "4px", // 根據需求自己設定樣式
+    padding: "10px",
+  },
+}));
 export default MyTextField;

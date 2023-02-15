@@ -1,17 +1,41 @@
 import React from 'react';
 import * as Mui from "@mui/material";
 
-function MyTextField(props) {
-  const { label, value, onChange, error } = props;
-  const inputClass = error ? 'my-error-class' : 'my-normal-class';
+const colorStyles = {
+  red: {
+    color: 'red',
+    backgroundColor : 'pink',
+    sx:{ m: 1, width: '25ch' }
+  },
+  blue: {
+    color: 'blue',
+    backgroundColor : 'lightblue'
+  },
+  green: {
+    color: 'green',
+    backgroundColor : 'lightgreen'
+
+  },
+};
+
+function MyComponent({ className }) {
+  const style = colorStyles[className] || {};
+
   return (
     <Mui.TextField
-      id={props.id}
-      label={props.label}
-      value={props.value}
-      onChange={props.onChange}
+      style= {style}
+      // 其他 TextField 屬性...
+      
     />
   );
 }
 
-export default MyTextField
+function MyTextField(props) {
+  return (
+    <div>
+      <MyComponent className={props.className} />
+    </div>
+  );
+}
+
+export default MyTextField;

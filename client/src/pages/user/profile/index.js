@@ -1,6 +1,7 @@
 import { Box, TextField, Button } from "@mui/material";
 import React, { useState } from "react";
 import Header from "../components/Header";
+import { useParams } from "react-router-dom";
 
 const styles = {
     flexCol: {
@@ -11,6 +12,7 @@ const styles = {
 };
 
 function Profile() {
+    let { username } = useParams();
     // profile data collection
     const [formData, setFormData] = useState({
         nickname: "",
@@ -54,7 +56,7 @@ function Profile() {
 
     return (
         <Box m="20px">
-            <Header title="基本資料" subtitle="" />
+            <Header title="基本資料" subtitle={`${username}`} />
             <Box display="flex" justifyContent="center" alignItems="center">
                 <form onSubmit={submitProfile}>
                     <Box sx={styles.flexCol} gap="20px">

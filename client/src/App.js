@@ -1,15 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-// import { ColorModeContext, useMode } from "./Styles/styles";
 // 導入MUI預設覆蓋 for themeProvider
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import Topbar from "./pages/global/Topbar";
 
-
-
+import { AuthContext } from "./pages/global/store/AuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
 // route import
 import Login from "./pages/login";
-// import Home from "./pages/home";
+import Home from "./pages/home/Home";
+import ErrorPage from "./pages/ErrorPage";
+
 //**? 會員 */
 import Profile from "./pages/user/profile";
 import OrderList from "./pages/user/orderList";
@@ -17,7 +19,6 @@ import Cart from "./pages/user/cart";
 import Reels from "./pages/user/reels";
 import Article from "./pages/user/article";
 import Coupon from "./pages/user/coupon";
-import Friends from "./pages/user/friends";
 import Favorites from "./pages/user/favorites";
 import Register from "./pages/register";
 import TestButton from "./pages/test_button/TestButton";
@@ -25,11 +26,8 @@ import TestButton from "./pages/test_button/TestButton";
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
 
-
 //**? 商品 */
 import MainContent from "./pages/shop/product/mainConent";
-
-
 
 //**? 部落格 */
 
@@ -47,44 +45,65 @@ import Shop from "./pages/shop/product";
 import SidebarV2 from "./pages/global/SidebarV2";
 // import Menu from "./pages/menu";
 // import Card from "./pages/card";
-const isAuth = true;
+
 function App() {
-    // const [theme, colorMode] = useMode();
+    // 紀錄登入狀態for rerendering
+    const [login, setLogin] = useState({
+        username: "",
+        id: 0,
+        status: false,
+    });
+    useEffect(() => {
+        axios
+            .get(`${process.env.REACT_APP_API_KEY}/user/auth`, {
+                headers: { userToken: localStorage.getItem("userToken") },
+            })
+            .then((res) => {
+                if (res.data.error) {
+                    setLogin(false);
+                } else {
+                    setLogin(true);
+                }
+            });
+    }, []);
+
     return (
-        // <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
-            {/* ⬇︎ same as css reset */}
-            <CssBaseline />
-            <div className="app">
-                {!isAuth && (
+            <AuthContext.Provider value={{ login, setLogin }}>
+                {/* ⬇︎ same as css reset */}
+                <CssBaseline />
+                <div className="app">
                     <Routes>
+                        {/* <Route path="/" element={<Home />}></Route> */}
+
                         <Route path="/" element={<Login />}></Route>
                     </Routes>
-                )}
-                {/* {isAuth && <ReactSidebar />} */}
-                <Topbar />
-                {isAuth && (
+                    <Topbar />
+
                     <main className="content ">
-                        <SidebarV2 />
+                        {login && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
                         <Routes>
-                            {/* <Route path="/" element={<Home />}></Route> */}
+                            <Route path="/" element={<Home />}></Route>
                             <Route
                                 path="register"
                                 element={<Register />}
                             ></Route>
-                            {/* 會員 */}
 
+                            {/*SECTION 會員 */}
                             <Route path="/user">
                                 <Route
-                                    path="profile"
+                                    path="profile/:username"
                                     element={<Profile />}
                                 ></Route>
                                 <Route
                                     path="orderList"
                                     element={<OrderList />}
                                 ></Route>
-                                <Route path="cart" element={<MainContent />}></Route>
+                                <Route
+                                    path="cart"
+                                    element={<MainContent />}
+                                ></Route>
                                 <Route path="reels" element={<Reels />}></Route>
                                 <Route
                                     path="articles"
@@ -98,12 +117,9 @@ function App() {
                                     path="favorites"
                                     element={<Favorites />}
                                 ></Route>
-                                <Route
-                                    path="friends"
-                                    element={<Friends />}
-                                ></Route>
                             </Route>
 
+                            {/*SECTION 商城 */}
                             <Route path="/shop/:pid" element={<Shop />}>
                                 <Route
                                     path="ProductDetails"
@@ -135,12 +151,12 @@ function App() {
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
                             </Route>
                             {/* <Route path="/card" element={<Card />}></Route>  */}
+                            <Route path="*" element={<ErrorPage />}></Route>
                         </Routes>
                     </main>
-                )}
-            </div>
+                </div>
+            </AuthContext.Provider>
         </ThemeProvider>
-        // </ColorModeContext.Provider>
     );
 }
 

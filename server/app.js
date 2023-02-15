@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 // --[使用 .env(預設) 的環境變數]
 require("dotenv").config();
@@ -23,26 +24,27 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // resolution for CORS
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    next();
-});
+app.use(cors());
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+//     res.setHeader(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization"
+//     );
+//     next();
+// });
 
 // routes middleware
 app.use("/products", products);
 app.use("/user", userRouter);
 
-// db.sequelize.sync().then((req) => {
-//     app.listen(8080, () => {
-//         console.log(`server run on port ${8080}`);
-//     });
-// });
-
-app.listen(8080, () => {
-    console.log(`server run on port ${8080}`);
+db.sequelize.sync().then((req) => {
+    app.listen(8080, () => {
+        console.log(`server run on port ${8080}`);
+    });
 });
+
+// app.listen(8080, () => {
+//     console.log(`server run on port ${8080}`);
+// });

@@ -4,18 +4,23 @@ import {
     MdOutlineHistory,
     MdOutlineShoppingCart,
     MdOutlineFavorite,
+    MdOutlineLogout,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
+import { AuthContext } from "./store/AuthContext";
 
 const SidebarV2 = () => {
+    const { setLogin } = useContext(AuthContext);
+    let navigate = useNavigate();
     const [open, setOpen] = useState(true);
     // 選單內容陣列
     const profileList = [
         {
             name: "基本資料",
-            link: "/user",
+            link: "/user/profile/",
             icon: HiOutlineUserCircle,
         },
         {
@@ -34,6 +39,14 @@ const SidebarV2 = () => {
             icon: MdOutlineHistory,
         },
     ];
+    // remove localstorage
+    const logoutHandler = () => {
+        localStorage.removeItem("userToken");
+        setLogin(false);
+
+        // 轉向首頁
+        navigate("/");
+    };
 
     return (
         <section className="flex gap-6">
@@ -44,7 +57,11 @@ const SidebarV2 = () => {
                         : `${styles.sidebarClose} w-0`
                 }  min-h-screen relative overflow-visible`}
             >
-                <div className={`${styles.sidebarBtn} absolute`}>
+                <div
+                    className={`${styles.sidebarBtn} absolute ${
+                        open ? "" : `${styles.trans}`
+                    }`}
+                >
                     <HiMenuAlt3
                         size={26}
                         className="cursor-pointer"
@@ -66,6 +83,18 @@ const SidebarV2 = () => {
                             <h2>{item.name}</h2>
                         </Link>
                     ))}
+                    <Link
+                        to="/"
+                        className="flex items-center gap-3.5 text-sm p-2 hover:bg-gray-800 rounded-md"
+                    >
+                        <div>
+                            <MdOutlineLogout
+                                size={20}
+                                onClick={logoutHandler}
+                            />
+                        </div>
+                        <h2>登出</h2>
+                    </Link>
                 </div>
             </div>
         </section>

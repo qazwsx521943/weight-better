@@ -20,6 +20,7 @@ import Coupon from "./pages/user/coupon";
 import Friends from "./pages/user/friends";
 import Favorites from "./pages/user/favorites";
 import Register from "./pages/register";
+import TestButton from "./pages/test_button/TestButton";
 
 //**? 商品 */
 import ProductDetails from "./pages/shop/product/ProductDetails";
@@ -130,6 +131,9 @@ function App() {
 
 
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
+                            <Route path="/reels">
+                                <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                            </Route>
                             {/* <Route path="/card" element={<Card />}></Route>  */}
                         </Routes>
                     </main>

@@ -4,7 +4,7 @@ import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import Topbar from "./pages/global/Topbar";
 
-import { AuthContext } from "./pages/global/states/AuthContext";
+import { AuthContext } from "./pages/global/store/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 // route import
@@ -44,10 +44,14 @@ import SidebarV2 from "./pages/global/SidebarV2";
 
 function App() {
     // 紀錄登入狀態for rerendering
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState({
+        username: "",
+        id: 0,
+        status: false,
+    });
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_URL}/user/auth`, {
+            .get(`${process.env.REACT_APP_API_KEY}/user/auth`, {
                 headers: { userToken: localStorage.getItem("userToken") },
             })
             .then((res) => {
@@ -57,7 +61,8 @@ function App() {
                     setLogin(true);
                 }
             });
-    }, [login]);
+    }, []);
+
     return (
         <ThemeProvider theme={theme}>
             <AuthContext.Provider value={{ login, setLogin }}>

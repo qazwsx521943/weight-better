@@ -7,11 +7,13 @@ import {
     MdOutlineLogout,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
+import { AuthContext } from "./store/AuthContext";
 
 const SidebarV2 = () => {
+    const { setLogin } = useContext(AuthContext);
     let navigate = useNavigate();
     const [open, setOpen] = useState(true);
     // 選單內容陣列
@@ -39,7 +41,9 @@ const SidebarV2 = () => {
     ];
     // remove localstorage
     const logoutHandler = () => {
-        localStorage.clear();
+        localStorage.removeItem("userToken");
+        setLogin(false);
+
         // 轉向首頁
         navigate("/");
     };

@@ -9,7 +9,7 @@ import {
     Checkbox,
 } from "@mui/material";
 import { useState, useContext } from "react";
-import { AuthContext } from "../global/states/AuthContext";
+import { AuthContext } from "../global/store/AuthContext";
 import axios from "axios";
 // components
 import Form from "../global/Form";

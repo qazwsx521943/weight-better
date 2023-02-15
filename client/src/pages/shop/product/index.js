@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as Mui from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import MyTextField from "@/components/TextField/TextField";
 
 const Item = Mui.styled(Mui.Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -76,6 +77,7 @@ function Shop() {
         <Mui.Grid container spacing={2}>
             <Mui.Grid item xs={8}>
                 <Item>Item</Item>
+                <MyTextField></MyTextField>
                 <Mui.Box
                     component="img"
                     sx={{

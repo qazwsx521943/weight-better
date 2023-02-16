@@ -20,7 +20,7 @@ router.get("/auth", validateToken, (req, res) => {
 router.post("/update", userController.userUpdate);
 
 // GET : 登入後會員資料
-router.get("/profile/:username", userController.userProfile);
+router.get("/:username", validateToken, userController.userProfile);
 
 // Delete : 刪除會員
 router.delete("/delete", userController.userDelete);

@@ -27,7 +27,7 @@ const Login = () => {
     // 輸入框style
     const styles = {
         input: {
-            backgroundColor: "primary.main",
+            backgroundColor: "primary.white",
             borderRadius: "4px",
         },
     };
@@ -68,7 +68,7 @@ const Login = () => {
     };
 
     return (
-        <>
+        <Box overflow="hidden">
             <Gallery />
             <div
                 className={`top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96 ${styles.container}`}
@@ -108,7 +108,7 @@ const Login = () => {
                     <Link to="/register">註冊</Link>
                 </Form>
             </div>
-        </>
+        </Box>
     );
 };
 

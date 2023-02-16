@@ -8,6 +8,8 @@ const Form = (props) => {
                 maxWidth={400}
                 bgcolor="Background"
                 borderRadius={2}
+                borderColor="black"
+                border="solid"
                 sx={{ padding: "2rem 3rem" }}
                 boxShadow={`5px 5px 10px primary.main`}
             >

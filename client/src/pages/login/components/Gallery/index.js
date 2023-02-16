@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./gallery.module.css";
+import { useEffect, useState } from "react";
 
 // generate randomNum
 const randomNum = (limit) => Math.floor(Math.random() * limit) + 1;
 
 // generate random classname for gallery
-const digits = Array.from({ length: 40 }, () => [
+const digits = Array.from({ length: 20 }, () => [
     "h" + randomNum(2),
     "v" + randomNum(2),
 ]);

@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 // 導入MUI預設覆蓋 for themeProvider
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider, Box } from "@mui/material";
-import Topbar from "./pages/global/Topbar";
 
 import { AuthContext } from "./pages/global/store/AuthContext";
 import { useState, useEffect } from "react";
@@ -36,6 +35,7 @@ import Input from "./pages/menu/component/input/index";
 // import Blogs from "./pages/blogs";
 import Shop from "./pages/shop/product";
 import SidebarV2 from "./pages/global/SidebarV2";
+import Layout from "./pages/global/Layout";
 // import Menu from "./pages/menu";
 // import Card from "./pages/card";
 
@@ -65,38 +65,31 @@ function App() {
     }, []);
 
     return (
-        <ThemeProvider theme={theme}>
-            <AuthContext.Provider value={{ login, setLogin }}>
-                {/* ⬇︎ same as css reset */}
-                <CssBaseline />
-                <div className="app">
-                    <Topbar />
-                    <main className="content ">
-                        {login.status && <SidebarV2 />}
-                        {/* TODO 各自命名 url */}
-                        <Routes>
+        <div className="app">
+            <ThemeProvider theme={theme}>
+                <AuthContext.Provider value={{ login, setLogin }}>
+                    {/* ⬇︎ same as css reset */}
+                    <CssBaseline />
+                    {/* TODO 各自命名 url */}
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
                             {/* <Route path="/" element={<Home />}></Route> */}
-                            <Route path="login" element={<Login />}></Route>
-                            <Route
-                                path="register"
-                                element={<Register />}
-                            ></Route>
-
+                            <Route path="login" element={<Login />} />
+                            <Route path="register" element={<Register />} />
                             {/*SECTION 會員 */}
                             <Route path="/user">
-                                <Route path="" element={<User />}></Route>
+                                <Route path="" element={<User />} />
                                 <Route
                                     path="profile/:username"
                                     element={<Profile />}
-                                ></Route>
+                                />
                             </Route>
-
                             {/*SECTION 商城 */}
                             <Route path="/shop/:pid" element={<Shop />}>
                                 <Route
                                     path="ProductDetails"
                                     element={<ProductDetails />}
-                                ></Route>
+                                />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route
@@ -118,12 +111,12 @@ function App() {
                                 ></Route>
                             </Route>
 
-                            <Route path="*" element={<ErrorPage />}></Route>
-                        </Routes>
-                    </main>
-                </div>
-            </AuthContext.Provider>
-        </ThemeProvider>
+                            <Route path="*" element={<ErrorPage />} />
+                        </Route>
+                    </Routes>
+                </AuthContext.Provider>
+            </ThemeProvider>
+        </div>
     );
 }
 

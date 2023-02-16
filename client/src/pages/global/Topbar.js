@@ -8,7 +8,6 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 
 import logo from "@/assets/WB3.png";
 import { AuthContext } from "./store/AuthContext";
-import ConfirmButton from "@/components/Buttons/ConfirmButton";
 
 const pages = ["短影音", "部落格", "菜單", "商城"];
 
@@ -74,13 +73,6 @@ const Topbar = () => {
                         <span className="inline-block bg-pink ">登入</span>
                     </Link>
                 )}
-
-                {/* <IconButton>
-                    <SettingsIcon />
-                </IconButton> */}
-                {/* <IconButton>
-                    <PersonOutlineOutlinedIcon />
-                </IconButton> */}
             </Box>
         </Box>
     );

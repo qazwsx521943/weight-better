@@ -1,25 +1,14 @@
-const db = require("../models");
 const bcrypt = require("bcrypt");
 const { sign } = require("jsonwebtoken");
-
-const { User } = require("../models");
-
-// Handler function to wrap each route.
-// function asyncHandler(cb) {
-//     return async (req, res, next) => {
-//         try {
-//             await cb(req, res, next);
-//         } catch (err) {
-//             res.status(500).send(err);
-//         }
-//     };
-// }
+const db = require("./../modules/connect-mysql");
 
 // 會員註冊
 const userRegister = async (req, res) => {
     let { password, username, birth_date, fullname, email } = req.body;
+
+    const sql = "INSERT INTO users SET ?";
     bcrypt.hash(password, 10).then((hash) => {
-        User.create({
+        db.query(sql, {
             username,
             password: hash,
             birth_date,
@@ -34,9 +23,8 @@ const userRegister = async (req, res) => {
 const userProfile = async (req, res) => {
     const username = req.params.username;
 
-    const user = await User.findOne({
-        where: { username: username },
-    });
+    const sql = "SELECT * FROM `users` WHERE `username`= ?";
+    const user = await db.query(sql, username);
 
     res.json(user);
 };
@@ -44,10 +32,10 @@ const userProfile = async (req, res) => {
 // 會員登入
 const userLogin = async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({
-        where: { username },
-    });
-
+    const sql = "SELECT * FROM `users` WHERE `username`=?";
+    const [data] = await db.query(sql, username);
+    const user = data[0];
+    console.log(user);
     // 找不到此會員
     if (!user) res.json({ error: "請先建立帳號再登入！" });
 

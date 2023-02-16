@@ -8,11 +8,11 @@ const cors = require("cors");
 require("dotenv").config();
 
 // --[連線資料庫]
-// const db = require("./modules/connect-mysql");
+const db = require("./modules/connect-mysql");
 
 //! NOTE if 使用sequelize 連 mysql db
-const db = require("./models");
-const { Users } = require("./models/");
+const db1 = require("./models");
+// const { Users } = require("./models/");
 
 // 導入 user 路由
 const userRouter = require("./routes/user");
@@ -38,13 +38,15 @@ app.use(cors());
 // routes middleware
 app.use("/products", products);
 app.use("/user", userRouter);
+app.use('/story', require('./routes/story'))
+app.use("/menu", require('./routes/menu'));
 
-db.sequelize.sync().then((req) => {
-    app.listen(8080, () => {
-        console.log(`server run on port ${8080}`);
-    });
-});
-
-// app.listen(8080, () => {
-//     console.log(`server run on port ${8080}`);
+// db1.sequelize.sync().then((req) => {
+//     app.listen(8080, () => {
+//         console.log(`server run on port ${8080}`);
+//     });
 // });
+
+app.listen(8080, () => {
+    console.log(`server run on port ${8080}`);
+});

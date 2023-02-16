@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // route import
 import Login from "./pages/login";
-import Home from "./pages/home/Home";
+// import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 
 //**? 會員 */
@@ -37,6 +37,9 @@ import Input from "./pages/menu/component/input/index";
 
 
 //**? 短影音 */
+import HomeStory from "./pages/story/Home";
+import Player from "./pages/story/Player";
+import Test from "./pages/story/Test";
 
 //**? 抽卡 */
 // import Reels from "./pages/reels";
@@ -84,7 +87,7 @@ function App() {
                         {login && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
                         <Routes>
-                            <Route path="/" element={<Home />}></Route>
+                            {/* <Route path="/" element={<Home />}></Route> */}
                             <Route
                                 path="register"
                                 element={<Register />}
@@ -142,13 +145,11 @@ function App() {
                                 
                             </Route>
 
-
-
-
-
-                            {/* <Route path="/reels" element={<Reels />}></Route> */}
-                            <Route path="/reels">
+                            <Route path="reels">
+                                <Route path="home" element={<HomeStory></HomeStory>}></Route>
+                                <Route path="player/:id" element={<Player></Player>}></Route>
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                                <Route path="test-menu" element={<Test></Test>}></Route>
                             </Route>
                             {/* <Route path="/card" element={<Card />}></Route>  */}
                             <Route path="*" element={<ErrorPage />}></Route>

@@ -68,3 +68,58 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### circle button 用法
+// --[使用前先 import]
+import CircleButton from '@/components/Buttons/CircleButton'
+
+// --[圓形 實心 文字]
+<CircleButton 
+  type="contained"
+  text= "按鈕上的字"
+  bgColor= "按鈕背景顏色" 
+  fontColor= "字的顏色"
+  fontSize= "字的大小"
+  size= "按鈕上的大小(直徑)"
+  >
+</CircleButton>
+
+// --[圓形 空心 文字]
+<CircleButton 
+  type="outlined"
+  text= "按鈕上的字"
+  borderColor= "按鈕邊界顏色" 
+  fontColor= "字的顏色"
+  fontSize= "字的大小"
+  size= "按鈕上的大小(直徑)"
+  >
+</CircleButton>
+
+// --[圓形 實心 Icon]
+import DeleteIcon from '@mui/icons-material/Delete';
+
+<CircleButton 
+  type="contained"
+  text= <DeleteIcon></DeleteIcon>
+  bgColor= "按鈕背景顏色" 
+  fontColor= "字的顏色"
+  fontSize= "字的大小"
+  size= "按鈕上的大小(直徑)"
+  >
+</CircleButton>
+
+// --[圓形 空心 Icon]
+import CheckIcon from '@mui/icons-material/Check';
+
+<CircleButton 
+  type="outlined"
+  text= <CheckIcon />
+  borderColor= "按鈕邊界顏色" 
+  fontColor= "字的顏色"
+  fontSize= "字的大小"
+  size= "按鈕上的大小(直徑)"
+  >
+</CircleButton>
+
+// --[Material Icon]
+https://mui.com/material-ui/material-icons/

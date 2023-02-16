@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 // 導入MUI預設覆蓋 for themeProvider
 import theme from "./Styles/themeMui";
-import { CssBaseline, ThemeProvider, Box } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import { AuthContext } from "./pages/global/store/AuthContext";
 import { useState, useEffect } from "react";

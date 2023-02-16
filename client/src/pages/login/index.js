@@ -15,7 +15,6 @@ import axios from "axios";
 import Form from "../global/Form";
 import Gallery from "./components/Gallery";
 import ArrowButton from "./components/ArrowButton/ArrowButton";
-
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };

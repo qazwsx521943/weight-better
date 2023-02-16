@@ -26,7 +26,7 @@ import MainContent from "./pages/shop/product/mainConent";
 //**? 部落格 */
 
 //**? 客製化菜單 */
-import Input from "./pages/menu/component/input/index";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 
@@ -99,9 +99,8 @@ function App() {
 
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
-                            <Route path="/menu">
-                                <Route path="input" element={<Input />}></Route>
-                            </Route>
+
+                            <Route path="/menu" element={<Menu />}></Route>
 
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
                             <Route path="/reels">

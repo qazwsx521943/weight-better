@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 // route import
 import Login from "./pages/login";
-import Home from "./pages/home/Home";
+// import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 
 //**? 會員 */
@@ -32,7 +32,7 @@ import MainContent from "./pages/shop/product/mainConent";
 //**? 部落格 */
 
 //**? 客製化菜單 */
-import Input from "./pages/menu/component/input/index";
+import Menu from "./pages/Menu";
 
 
 
@@ -84,7 +84,7 @@ function App() {
                         {login && <SidebarV2 />}
                         {/* TODO 各自命名 url */}
                         <Routes>
-                            <Route path="/" element={<Home />}></Route>
+                            {/* <Route path="/" element={<Home />}></Route> */}
                             <Route
                                 path="register"
                                 element={<Register />}
@@ -132,15 +132,7 @@ function App() {
 
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
-                            <Route path="/menu">
-                                
-                                <Route
-                                    path="input"
-                                    element={<Input />}
-                                ></Route>
-
-                                
-                            </Route>
+                            <Route path="/menu" element={<Menu />}></Route>
 
 
 

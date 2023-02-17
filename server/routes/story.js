@@ -6,44 +6,44 @@ const Ffmpeg = require('fluent-ffmpeg')
 
 const router = express.Router()
 
-const videos = [
-  {
-      id: 0,
-      poster: '/video/0/poster',
-      duration: '3 mins',
-      name: 'Sample 1'
-  },
-  {
-      id: 1,
-      poster: '/video/1/poster',
-      duration: '4 mins',
-      name: 'Sample 2'
-  },
-  {
-      id: 2,
-      poster: '/video/2/poster',
-      duration: '2 mins',
-      name: 'Sample 3'
-  },
-];
+// --[取得影片清單資料]
+router.get('/videos', async (req, res) => {
+  const sql = "SELECT * FROM `story_all` WHERE 1";
+  const [rows] = await db.query(sql);
 
-router.get('/', (req, res) => {
-  res.sendFile( __dirname + '../assets/001.mp4', { root: __dirname });
+  res.json(rows)
 
-})
-
-router.get('/videos', (req, res) => res.json(videos));
-
-router.get('/video/:id/data', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  res.json(videos[id]);
 });
 
-router.get('/video/:id', (req, res) => {
-  const path = __dirname + `/../assets/${req.params.id}.mp4`;
+// --[取得單一影片資料]
+router.get('/video/:sid/data', async (req, res) => {
+  const sid = parseInt(req.params.sid, 10);
+
+  // --[SQL from `story_all`]
+  const sql1 = "SELECT * FROM `story_all` WHERE `story_id`=?";
+  const [rowsStory] = await db.query(sql1, sid);
+
+  // --[SQL from `story_tag_link JOIN `story_tag_list`]
+  const sql2 = "SELECT a.*, b.tag_name FROM `story_tag_link` AS a JOIN `story_tag_list` AS b ON a.tag_id=b.tag_id WHERE `story_id`=?;"
+  const [rowsTags] = await db.query(sql2, sid);
+
+  res.json({rowsStory, rowsTags});
+});
+
+// --[取得單一影片]
+router.get('/video/:sid', async (req, res) => {
+  const sid = req.params.sid;
+
+  const sql = "SELECT * FROM `story_all` WHERE `story_id`=?";
+  const [rows] = await db.query(sql, sid);
+
+  const spath = rows[0].story_path
+
+  const path = __dirname + `/../assets/${spath}.mp4`;
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
+
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
     const start = parseInt(parts[0], 10);
@@ -70,11 +70,14 @@ router.get('/video/:id', (req, res) => {
   }
 })
 
-router.get('/video/:id/poster', (req, res) => {
+// --[取得單一影片的縮圖]
+router.get('/video/:spath/poster', (req, res) => {
   const path = `C:/ffmpeg/ffmpeg-master-latest-win64-gpl/bin`
   Ffmpeg.setFfmpegPath(`${path}/ffmpeg`);
   Ffmpeg.setFfprobePath(`${path}/ffprobe`);
-  thumbsupply.generateThumbnail(__dirname + `/../assets/${req.params.id}.mp4`)
+
+  const story_path = req.params.spath
+  thumbsupply.generateThumbnail(__dirname + `/../assets/${story_path}.mp4`)
   .then(thumb => res.sendFile(thumb));
 });
 

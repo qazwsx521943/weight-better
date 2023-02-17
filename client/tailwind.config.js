@@ -16,6 +16,15 @@ module.exports = {
             lg: "0px 8px 20px 0px rgba(18,16,99,0.06)",
         },
         extend: {},
+        fontSize: {
+            h1: '40px',
+            h2: '32px',
+            h3: '24px',
+            h4: '20px',
+            h5: '16px',
+            h6: '14px',
+            h7: '12px',
+        },
     },
 
     plugins: [],

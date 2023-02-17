@@ -61,6 +61,10 @@ const theme = createTheme({
             fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
             fontSize: 14,
         },
+        h7: {
+            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontSize: 12,
+        },
     },
 });
 

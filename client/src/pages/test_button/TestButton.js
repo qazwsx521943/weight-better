@@ -1,6 +1,5 @@
 import React from 'react'
 import CircleButton from '@/components/Buttons/CircleButton'
-import RectButton from '@/components/Buttons/RectButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -8,19 +7,58 @@ function TestButton() {
   return (
     <div>
       {/* 1. 圓形 實心 文字 */}
+      <CircleButton 
+        type="contained"
+        text= "確認"
+        bgColor= "pink.main" 
+        fontColor= "black.main"
+        fontSize= "14"
+        size= "50"
+        >
+      </CircleButton>
 
       {/* 2. 圓形 空心 文字 */}
+      <CircleButton 
+        type="outlined"
+        text= "取消"
+        borderColor= "teal.main" 
+        fontColor= "black.main"
+        fontSize= "14"
+        size= "60"
+        >
+      </CircleButton>
 
       {/* 3. 圓形 實心 Icon */}
+      <CircleButton 
+        type="contained"
+        text= <DeleteIcon></DeleteIcon>
+        bgColor= "yellow.light" 
+        fontColor= "black.main"
+        fontSize= "14"
+        size= "50"
+        >
+      </CircleButton>
 
       {/* 4. 圓形 空心 Icon */}
+      <CircleButton 
+        type="outlined"
+        text= <CheckIcon />
+        borderColor= "teal.main" 
+        fontColor= "black.main"
+        fontSize= "14"
+        size= "50"
+        >
+      </CircleButton>
 
     </div>
   )
 }
 
 /*
-// --[實心 文字]
+// --[使用前先 import]
+import CircleButton from '@/components/Buttons/CircleButton'
+
+// --[圓形 實心 文字]
 <CircleButton 
   type="contained"
   text= "按鈕上的字"
@@ -31,7 +69,7 @@ function TestButton() {
   >
 </CircleButton>
 
-// --[空心 文字]
+// --[圓形 空心 文字]
 <CircleButton 
   type="outlined"
   text= "按鈕上的字"
@@ -42,7 +80,7 @@ function TestButton() {
   >
 </CircleButton>
 
-// --[實心 Icon]
+// --[圓形 實心 Icon]
 import DeleteIcon from '@mui/icons-material/Delete';
 
 <CircleButton 
@@ -55,7 +93,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
   >
 </CircleButton>
 
-// --[空心 Icon]
+// --[圓形 空心 Icon]
 import CheckIcon from '@mui/icons-material/Check';
 
 <CircleButton 

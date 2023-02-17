@@ -29,6 +29,9 @@ import MainContent from "./pages/shop/product/mainConent";
 import Menu from "./pages/Menu";
 
 //**? 短影音 */
+import HomeStory from "./pages/story/Home";
+import Player from "./pages/story/Player";
+import Test from "./pages/story/Test";
 
 //**? 抽卡 */
 // import Reels from "./pages/reels";
@@ -104,10 +107,10 @@ function App() {
 
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
                             <Route path="/reels">
-                                <Route
-                                    path="test-button"
-                                    element={<TestButton></TestButton>}
-                                ></Route>
+                                <Route path="home" element={<HomeStory></HomeStory>}></Route>
+                                <Route path="player/:id" element={<Player></Player>}></Route>
+                                <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                                <Route path="test-menu" element={<Test></Test>}></Route>
                             </Route>
 
                             <Route path="*" element={<ErrorPage />} />

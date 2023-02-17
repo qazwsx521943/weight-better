@@ -25,6 +25,8 @@ app.use(cors());
 // routes middleware
 app.use("/products", products);
 app.use("/user", userRouter);
+app.use('/story', require('./routes/story'))
+app.use("/menu", require('./routes/menu'));
 
 app.listen(8080, () => {
     console.log(`server run on port ${8080}`);

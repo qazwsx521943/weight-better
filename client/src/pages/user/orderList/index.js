@@ -2,17 +2,6 @@ import { Box, Typography } from "@mui/material";
 import { DataGrid, GridToolbar, zhTW } from "@mui/x-data-grid";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
-// const fakeOrderData = [
-//     {
-//         id: 1,
-//         product: "dumbell",
-//         orderdate: "02/11/2022",
-//         cost: "60",
-//         address: "Taipei",
-//     },
-// ];
 
 function randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -33,12 +22,13 @@ const fakeOrderData = (() => {
 })();
 
 const OrderList = ({ currentUser, setCurrentUser }) => {
-    const [orders, setOrders] = useState({});
+    const [orders, setOrders] = useState([]);
 
     // fetch order data
     useEffect(() => {
-        console.log(currentUser.username);
+        // console.log(currentUser.username);
         axios.get(`${process.env.REACT_APP_API_KEY}/user/${currentUser.username}/orders`).then((res) => {
+            // console.log(res.data);
             setOrders(res.data);
         });
     }, []);
@@ -75,6 +65,9 @@ const OrderList = ({ currentUser, setCurrentUser }) => {
                 m="10px 0 0 0"
                 height="75vh"
                 sx={{
+                    "& .MuiDataGrid-main": {
+                        borderRadius: "8px",
+                    },
                     "& .MuiDataGrid-root": {
                         border: "none",
                     },
@@ -89,7 +82,7 @@ const OrderList = ({ currentUser, setCurrentUser }) => {
                         borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: "teal.light",
+                        backgroundColor: "neutral.main",
                     },
                     "& .MuiDataGrid-footerContainer": {
                         borderTop: "none",

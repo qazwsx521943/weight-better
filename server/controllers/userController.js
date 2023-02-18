@@ -29,9 +29,9 @@ const userProfile = async (req, res) => {
     const username = req.params.username;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
-    const [row] = await db.execute(sql, [username]);
+    const [user] = await db.execute(sql, [username]);
 
-    res.json(row);
+    res.json(user);
 };
 
 // 更新已登入會員資料

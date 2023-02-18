@@ -1,9 +1,10 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Button, Container, Typography, useMediaQuery, Stack } from "@mui/material";
-import ProfileContent from "./components/ProfileContent";
+
 import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
+import ProfileContent from "./components/ProfileContent";
 const User = ({ currentUser, setCurrentUser }) => {
     return (
         <Container maxWidth="lg">

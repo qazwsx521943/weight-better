@@ -1,137 +1,173 @@
-import { Box, TextField, Button } from "@mui/material";
-import React, { useState,useEffect } from "react";
-import Header from "../components/Header";
+import { Box, TextField, Button, Input, InputLabel, InputAdornment, FormControl } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import FlexBox from "@/components/FlexBox/FlexBox";
+import EmailIcon from "@mui/icons-material/Email";
+import UserService from "@/pages/services/user.service";
+import { TealButton } from "../components/TealButton";
+import SaveIcon from "@mui/icons-material/Save";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import BoyIcon from "@mui/icons-material/Boy";
+import InterestsIcon from "@mui/icons-material/Interests";
+import PaletteIcon from "@mui/icons-material/Palette";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 
-const styles = {
-    flexCol: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-    },
-};
+const data = [
+    { name: "email", label: "Email", icon: <EmailIcon /> },
+    { name: "fullname", label: "姓名", icon: <BoyIcon /> },
+    { name: "interest", label: "興趣", icon: <InterestsIcon /> },
+    { name: "introduction", label: "自我介紹", icon: <PaletteIcon />, type: "textarea" },
+    { name: "state", label: "會員等級", icon: <MilitaryTechIcon />, disabled: true },
+];
 
-function Profile() {
-
-    let { username } = useParams();
-    const [profileData, setProfileData] = useState("")
-
-    // render data from /user/profile/:username
-    useEffect(()=>{
-        axios.get(`${process.env.REACT_APP_API_KEY}/user/profile/${username}`).then(res=>{
-            setProfileData(res.data.username);
-        })
-    })
+function Profile({ currentUser, setCurrentUser }) {
+    const [profileData, setProfileData] = useState({});
+    const [editStatus, seteditStatus] = useState(false);
     // profile data collection
-    const [formData, setFormData] = useState({
-        nickname: "",
-        gender: "",
-        weight: "",
-        height: "",
-        interest: "",
-        education: "",
-        occupation: "",
-        introduction: "",
-    });
+    useEffect(() => {
+        UserService.userProfile(currentUser.username).then((res) => {
+            setProfileData(res.data[0]);
+        });
+    }, []);
 
-    // change formData
+    // const [formData, setFormData] = useState({
+    //     nickname: "",
+    //     gender: "",
+    //     weight: "",
+    //     height: "",
+    //     interest: "",
+    //     education: "",
+    //     occupation: "",
+    //     introduction: "",
+    // });
+
+    // change ProfileData
     const inputChange = (e) => {
-        setFormData({
-            ...formData,
+        console.log(e.target.value);
+        setProfileData({
+            ...profileData,
             [e.target.name]: e.target.value,
         });
     };
+    console.log(profileData);
 
     // save profile changes
     // FIXME
-    const submitProfile = async (e) => {
-        e.preventDefault();
-        console.log(formData);
-        try {
-            const response = await fetch(
-                "http://localhost:8080/user/profile_submit",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData),
-                }
-            );
-            const data = await response.json();
-            console.log("Success: ", data);
-        } catch (error) {
-            console.error("Error: ", error);
-        }
-    };
+    // const submitProfile = async (e) => {
+    //     e.preventDefault();
+    //     console.log(formData);
+    //     try {
+    //         const response = await fetch("http://localhost:8080/user/profile_submit", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify(formData),
+    //         });
+    //         const data = await response.json();
+    //         console.log("Success: ", data);
+    //     } catch (error) {
+    //         console.error("Error: ", error);
+    //     }
+    // };
 
     return (
-        <Box m="20px">
-            <Header title="基本資料" subtitle={`${profileData}`} />
-            <Box display="flex" justifyContent="center" alignItems="center">
-                <form onSubmit={submitProfile}>
-                    <Box sx={styles.flexCol} gap="20px">
-                        <TextField
-                            type="text"
-                            name="nickname"
-                            label="暱稱"
-                            value={formData.nickname}
+        <Box display={"flex"} flexDirection="column" justifyContent="center">
+            <Box
+                sx={{ "& > :not(style)": { m: 1 }, alignItems: { sm: "start" } }}
+                display="flex"
+                flexDirection={"column"}
+                alignItems={"center"}
+                marginX={3}>
+                {data.map((field, i) => (
+                    <FormControl variant="standard" key={i}>
+                        <InputLabel htmlFor={field.name}>{field.label}</InputLabel>
+                        <Input
+                            type={field.type || "text"}
+                            disabled={field.disabled || !editStatus}
+                            id={field.name}
+                            name={field.name}
                             onChange={inputChange}
-                        />
-                        <TextField
-                            type="text"
-                            name="gender"
-                            label="性別"
-                            value={formData.gender}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="number"
-                            name="weight"
-                            label="體重"
-                            value={formData.weight}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="number"
-                            name="height"
-                            label="身高"
-                            value={formData.height}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="text"
-                            name="interest"
-                            label="興趣"
-                            value={formData.interest}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="text"
-                            name="education"
-                            label="畢業學校"
-                            value={formData.education}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="text"
-                            name="occupation"
-                            label="職業"
-                            value={formData.occupation}
-                            onChange={inputChange}
-                        />
-                        <TextField
-                            type="text"
-                            name="introduction"
-                            label="自我發揮"
-                            value={formData.introduction}
-                            onChange={inputChange}
-                        />
-                        <Button type="submit" variant="contained" color="teal">
-                            儲存
-                        </Button>
-                    </Box>
-                </form>
+                            value={profileData[field.name] || ""}
+                            startAdornment={<InputAdornment position="start">{field.icon}</InputAdornment>}></Input>
+                    </FormControl>
+                ))}
+                {/* <FormControl variant="standard">
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input
+                        disabled={!editStatus}
+                        id="email"
+                        name="email"
+                        onChange={inputChange}
+                        value={profileData.email || ""}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        }></Input>
+                </FormControl>
+                <FormControl variant="standard">
+                    <InputLabel htmlFor="fullname">姓名</InputLabel>
+                    <Input
+                        disabled={!editStatus}
+                        id="fullname"
+                        name="fullname"
+                        onChange={inputChange}
+                        value={profileData.fullname || ""}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        }></Input>
+                </FormControl>
+                <FormControl variant="standard">
+                    <InputLabel htmlFor="username">帳號</InputLabel>
+                    <Input
+                        disabled={!editStatus}
+                        id="username"
+                        name="username"
+                        onChange={inputChange}
+                        value={profileData.username || ""}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        }></Input>
+                </FormControl>
+                <FormControl variant="standard">
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input
+                        disabled={!editStatus}
+                        id="email"
+                        name="email"
+                        onChange={inputChange}
+                        value={profileData.email || ""}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        }></Input>
+                </FormControl>
+                <FormControl variant="standard">
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input
+                        disabled={!editStatus}
+                        id="email"
+                        name="email"
+                        onChange={inputChange}
+                        value={profileData.email || ""}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <EmailIcon />
+                            </InputAdornment>
+                        }></Input>
+                </FormControl> */}
             </Box>
+            <TealButton
+                sx={{ marginX: { xs: 2, sm: "auto" } }}
+                onClick={() => seteditStatus(!editStatus)}
+                endIcon={editStatus ? <SaveIcon /> : <ModeEditIcon />}>
+                {editStatus ? "儲存" : "編輯"}
+            </TealButton>
         </Box>
     );
 }

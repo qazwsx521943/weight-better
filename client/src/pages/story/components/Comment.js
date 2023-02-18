@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Comment() {
+function Comment({className}) {
   return (
-    <div style={{'backgroundColor': '#ff0'}}>Comment</div>
+    <div className={className} style={{'backgroundColor': '#ff0'}}>Comment</div>
   )
 }
 

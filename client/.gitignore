@@ -24,3 +24,7 @@ yarn-error.log*
 
 # story
 public/ImagesStory
+.eslintignore
+.eslintrc
+.prettierignore
+.prettierrc

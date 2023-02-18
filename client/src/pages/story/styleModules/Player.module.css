@@ -1,3 +1,10 @@
 .hide{
     display: none;
 }
+
+
+.imgBox{
+    border-radius: 500px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+}

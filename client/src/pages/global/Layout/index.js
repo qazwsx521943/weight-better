@@ -1,14 +1,12 @@
 import Topbar from "../Topbar";
-import SidebarV2 from "../SidebarV2";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 
-const Layout = () => {
+const Layout = ({ currentUser, setCurrentUser }) => {
     return (
         <Box width="100%" height="100%">
-            {/* <SidebarV2 /> */}
-            <Box flexGrow={1}>
-                <Topbar />
+            <Box flexGrow={1} height="100%">
+                <Topbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
                 <Outlet />
             </Box>
         </Box>

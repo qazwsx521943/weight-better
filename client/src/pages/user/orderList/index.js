@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-
-import Header from "../components/Header";
+import { DataGrid, GridToolbar, zhTW } from "@mui/x-data-grid";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 // const fakeOrderData = [
 //     {
@@ -14,9 +15,7 @@ import Header from "../components/Header";
 // ];
 
 function randomDate(start, end) {
-    return new Date(
-        start.getTime() + Math.random() * (end.getTime() - start.getTime())
-    );
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
 const fakeOrderData = (() => {
@@ -33,19 +32,24 @@ const fakeOrderData = (() => {
     return data;
 })();
 
-const OrderList = () => {
+const OrderList = ({ currentUser, setCurrentUser }) => {
+    const [orders, setOrders] = useState({});
+
+    // fetch order data
+    useEffect(() => {
+        console.log(currentUser.username);
+        axios.get(`${process.env.REACT_APP_API_KEY}/user/${currentUser.username}/orders`).then((res) => {
+            setOrders(res.data);
+        });
+    }, []);
+
     const columns = [
         { field: "id", headerName: "訂單編號" },
         {
-            field: "orderdate",
+            field: "order_date",
             headerName: "訂購日期",
             flex: 1,
             cellClassName: "name-column--cell",
-        },
-        {
-            field: "product",
-            headerName: "產品名稱",
-            flex: 1,
         },
         {
             field: "address",
@@ -53,53 +57,52 @@ const OrderList = () => {
             flex: 1,
         },
         {
-            field: "cost",
-            headerName: "Cost",
+            field: "total_amount",
+            headerName: "總金額",
             flex: 1,
-            renderCell: (params) => (
-                <Typography color="teal">${params.row.cost}</Typography>
-            ),
         },
+        // {
+        //     field: "cost",
+        //     headerName: "Cost",
+        //     flex: 1,
+        //     renderCell: (params) => <Typography color="teal">${params.row.cost}</Typography>,
+        // },
     ];
 
     return (
         <Box m="20px">
-            <Header
-                title="過往訂單"
-                subtitle="透過訂單記錄監控自己的體態計畫！"
-            />
             <Box
-                m="40px 0 0 0"
+                m="10px 0 0 0"
                 height="75vh"
                 sx={{
                     "& .MuiDataGrid-root": {
                         border: "none",
                     },
                     "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
+                        borderBottom: "1px solid black.light",
                     },
                     "& .name-column--cell": {
-                        color: "primary.main",
+                        color: "",
                     },
                     "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: "primary.main",
+                        backgroundColor: "teal.main",
                         borderBottom: "none",
                     },
                     "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: "primary.main",
+                        backgroundColor: "teal.light",
                     },
                     "& .MuiDataGrid-footerContainer": {
                         borderTop: "none",
-                        backgroundColor: "primary.main",
+                        backgroundColor: "teal.main",
                     },
                     "& .MuiCheckbox-root": {
                         color: `primary.main !important`,
                     },
-                }}
-            >
+                }}>
                 <DataGrid
-                    rows={fakeOrderData}
+                    rows={orders}
                     columns={columns}
+                    localeText={zhTW.components.MuiDataGrid.defaultProps.localeText}
                     components={{ Toolbar: GridToolbar }}
                 />
             </Box>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './styleHome.module.css'
+import styles from './styleModules/Home.module.css'
 import { Typography } from '@mui/material';
 // import Test from './Test';
 
@@ -49,8 +49,8 @@ function HomeStory() {
           {videos.map(video =>
             <div className="col" key={video.story_id}>
                 <Link to={`/reels/player/${video.story_id}`}>
-                    <div className="card border-0 overflow-hidden shadow-lg" style={{'backgroundColor': '#eee', borderRadius: '10px'}}>
-                      <div className="imgBox" >
+                    <div className="card border-0 overflow-hidden shadow-lg" style={{'backgroundColor': '#eee', borderRadius: '10px', aspectRatio: '16/10'}}>
+                      <div className="imgBox h-100" >
                           <img src={`http://localhost:8080/story/video/${video.story_path}/poster`} style={{'width': '100%', 'height': '100%', 'display': 'block', 'objectFit': 'cover'}} alt={video.story_name} />
                       </div>
                       <div className={`${styles.storyInfo} card-body d-flex flex-wrap justify-evenly p-1`}>

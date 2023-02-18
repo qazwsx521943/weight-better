@@ -19,8 +19,8 @@ router.get('/videos', async (req, res) => {
 router.get('/video/:sid/data', async (req, res) => {
   const sid = parseInt(req.params.sid, 10);
 
-  // --[SQL from `story_all`]
-  const sql1 = "SELECT * FROM `story_all` WHERE `story_id`=?";
+  // --[SQL from `story_all JOIN `user`]
+  const sql1 = "SELECT a.*, b.name, b.image_path FROM `story_all` AS a JOIN `user` as b ON a.user_id=b.user_id WHERE `story_id`=?";
   const [rowsStory] = await db.query(sql1, sid);
 
   // --[SQL from `story_tag_link JOIN `story_tag_list`]

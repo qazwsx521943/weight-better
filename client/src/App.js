@@ -24,9 +24,10 @@ import ProductDetails from "./pages/shop/product/ProductDetails";
 import MainContent from "./pages/shop/product/mainConent";
 
 //**? 部落格 */
+import Blog from "./pages/blog/Blog";
 
 //**? 客製化菜單 */
-import Menu from "./pages/Menu";
+import Menu from "./pages/menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -100,7 +101,7 @@ function App() {
                                 element={<MainContent />}
                             ></Route>
 
-                            {/* <Route path="/blogs" element={<Blogs />}></Route> */}
+                            <Route path="/blog" element={<Blog />}></Route>
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 
                             <Route path="/menu" element={<Menu />}></Route>

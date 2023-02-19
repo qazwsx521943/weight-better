@@ -9,7 +9,12 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import logo from "@/assets/WB3.png";
 import { AuthContext } from "./store/AuthContext";
 
-const pages = ["短影音", "部落格", "菜單", "商城"];
+const pages = {
+    短影音: "/video",
+    部落格: "/blog",
+    菜單: "/menu",
+    商城: "/shop",
+};
 
 const Topbar = () => {
     const navigate = useNavigate();
@@ -33,7 +38,7 @@ const Topbar = () => {
                 </Typography>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {pages.map((page) => (
+                {Object.keys(pages).map((page) => (
                     <Button
                         key={page}
                         sx={{
@@ -41,13 +46,7 @@ const Topbar = () => {
                             color: "yellow.main",
                             display: "block",
                         }}
-                        onClick={() => {
-                            if (page === "商城") {
-                                navigate("/shop");
-                            } else if (page === "菜單") {
-                                navigate("/menu");
-                            }
-                        }}
+                        onClick={() => navigate(pages[page])}
                     >
                         {page}
                     </Button>

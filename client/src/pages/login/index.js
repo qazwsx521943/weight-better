@@ -1,27 +1,20 @@
 import React from "react";
-import {
-    Box,
-    Typography,
-    useMediaQuery,
-    TextField,
-    Button,
-    FormControlLabel,
-    Checkbox,
-} from "@mui/material";
+import { Box, Typography, useMediaQuery, TextField, Button, FormControlLabel, Checkbox } from "@mui/material";
 import { useState, useContext } from "react";
-import { AuthContext } from "../global/store/AuthContext";
 import axios from "axios";
 // components
-import Form from "../global/Form";
-import Gallery from "./components/Gallery";
-import ArrowButton from "./components/ArrowButton/ArrowButton";
+import Form from "./components/Form";
+import Board from "./components/Board/Board";
+
+import ArrowButton from "../authentication/ArrowButton/ArrowButton";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-const Login = () => {
+const Login = ({ currentUser, setCurrentUser }) => {
     const navigate = useNavigate();
-    const { login, setLogin } = useContext(AuthContext);
+    const [message, setMessage] = useState();
 
     // 輸入框style
     const styles = {
@@ -43,53 +36,27 @@ const Login = () => {
     };
 
     // FIXME 登入驗證api
-    const loginAuth = () => {
+    const loginAuth = async () => {
         // 登入POST
-        console.log(loginData);
-        axios
-            .post(`${process.env.REACT_APP_API_KEY}/user/login`, loginData)
-            .then((res) => {
-                if (res.data.error) {
-                    alert(res.data.error);
-                } else {
-                    // 將token存入session
-                    localStorage.setItem("userToken", res.data.token);
-                    // set login
-                    setLogin({
-                        username: res.data.username,
-                        id: res.data.id,
-                        status: true,
-                    });
-                    // 跳轉首頁
-                    navigate("/user");
-                }
-            });
+        try {
+            let response = await AuthService.localLogin(loginData);
+            localStorage.setItem("user", JSON.stringify(response.data));
+            window.alert("登入成功 重新導向首頁");
+            setCurrentUser(AuthService.getCurrentUser());
+            navigate(`/user/${response.data.username}`);
+        } catch (e) {
+            setMessage(e.response.data);
+        }
     };
 
     return (
         <Box overflow="hidden">
-            <Gallery />
-            <div
-                className={`top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 absolute w-96 ${styles.container}`}
-            >
+            <Board>
                 <Form>
-                    <Typography
-                        color="black.main"
-                        variant="h2"
-                        fontWeight={500}
-                        marginY="2rem"
-                    >
+                    {/* <Typography color="black.main" variant="h2" fontWeight={500} marginY="2rem">
                         登入
-                    </Typography>
-                    {/* FIXME TEXT COLOR */}
-                    <TextField
-                        label="帳號"
-                        name="username"
-                        value={loginData.username}
-                        onChange={inputChange}
-                        fullWidth
-                        sx={styles.input}
-                    />
+                    </Typography> */}
+                    <TextField label="帳號" name="username" value={loginData.username} onChange={inputChange} fullWidth sx={styles.input} />
                     <br />
                     <TextField
                         type="password"
@@ -100,13 +67,24 @@ const Login = () => {
                         fullWidth
                         sx={styles.input}
                     />
-                    {/* FIXME custom color dark mode can not be seen */}
                     <FormControlLabel control={<Checkbox />} label="保持登入" />
+
+                    <a href={`${AuthService.googleLogin()}`}>
+                        <img src={require("../../assets/google-sign.png")} width="250px" />
+                    </a>
+                    {message && <div className="text-teal">{message}</div>}
                     <ArrowButton onClick={loginAuth}></ArrowButton>
                     <br />
-                    <Link to="/register">註冊</Link>
+                    <div className="flex flex-row">
+                        <Link to="/register" className="text-gray">
+                            建立帳號？
+                        </Link>
+                        <Link to="/forgot" className="text-gray">
+                            找回密碼？
+                        </Link>
+                    </div>
                 </Form>
-            </div>
+            </Board>
         </Box>
     );
 };

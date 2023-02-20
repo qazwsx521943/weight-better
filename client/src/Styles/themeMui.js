@@ -33,32 +33,35 @@ const theme = createTheme({
         background: {
             dark: "#FFFFFF",
         },
+        white: {
+            main: "#FFFFFF",
+        },
     },
     typography: {
-        fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+        fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 16,
         h1: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
-            fontSize: 40,
+            fontFamily: ["Inter", "sans-serif"].join(","),
+            fontSize: 50,
         },
         h2: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontFamily: ["Inter", "sans-serif"].join(","),
             fontSize: 32,
         },
         h3: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontFamily: ["Inter", "sans-serif"].join(","),
             fontSize: 24,
         },
         h4: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontFamily: ["Inter", "sans-serif"].join(","),
             fontSize: 20,
         },
         h5: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontFamily: ["Inter", "sans-serif"].join(","),
             fontSize: 16,
         },
         h6: {
-            fontFamily: ["Noto Sans TC", "sans-serif"].join(","),
+            fontFamily: ["Inter", "sans-serif"].join(","),
             fontSize: 14,
         },
         h7: {

@@ -10,6 +10,7 @@ module.exports = {
             "teal-light": "#1BB6B280",
             black: "#2F2D3F",
             white: "#FFFFFF",
+            gray: "#A9A9A9",
         },
         boxShadow: {
             sm: "0px 2px 4px 0px rgba(11,10,55,0.15)",

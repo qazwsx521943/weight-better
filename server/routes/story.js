@@ -3,6 +3,12 @@ const db = require('./../modules/connect-mysql')
 const fs = require('fs');
 const thumbsupply = require('thumbsupply');
 const Ffmpeg = require('fluent-ffmpeg')
+const moment = require('moment-timezone');
+const dayjs = require('dayjs')
+const relativeTime = require('dayjs/plugin/relativeTime')
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(relativeTime)
+dayjs.extend(customParseFormat)
 
 const router = express.Router()
 
@@ -80,6 +86,51 @@ router.get('/video/:spath/poster', (req, res) => {
   thumbsupply.generateThumbnail(__dirname + `/../assets/${story_path}.mp4`)
   .then(thumb => res.sendFile(thumb));
 });
+
+// --[取的單一影片的留言]
+router.get('/comment/:sid', async (req, res) => {
+  
+  const sid = req.params.sid
+
+  const sql = "SELECT a.*, b.image_path, b.name FROM `story_comment` AS a JOIN `user` as b ON a.user_id=b.user_id WHERE `story_id`=?"
+  let [rows] = await db.query(sql, sid)
+
+  rows = rows.map(el => {
+    const commentTime = dayjs(el.time)
+    const currentTime = dayjs()
+    // .format('YYYY-MM-DD HH:mm:ss')
+
+    const diffMonth = currentTime.diff(commentTime, 'month')
+    if (diffMonth > 1){
+      el.time = `${diffMonth} 個月前`
+      return el
+    } 
+
+    const diffDay = currentTime.diff(commentTime, 'day')
+    if (diffDay > 1){
+      el.time = `${diffDay} 天前`
+      return el
+    } 
+
+    const diffHour = currentTime.diff(commentTime, 'hour')
+    if (diffHour > 1){
+      el.time = `${diffHour} 小時前`
+      return el
+    } 
+
+    const diffMinute = currentTime.diff(commentTime, 'minute')
+    if (diffMinute > 1){
+      el.time = `${diffMinute} 分鐘前`
+      return el
+    } 
+
+    const diffSecond = currentTime.diff(commentTime, 'second')
+    el.time = `${diffSecond} 秒前`
+    return el
+  })
+
+  return res.json(rows)
+})
 
 
 

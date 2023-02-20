@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './test.css'
 import { Button, Box, Typography, Modal } from '@mui/material'
+import UserInfo from './components/UserInfo'
 
 function Test() {
   const [showModal, setShowModal] = useState(false)
@@ -11,7 +12,7 @@ function Test() {
 
   return (
     <div>
-      <button
+      {/* <button
         style={{ backgroundColor: 'salmon' }}
         onClick={() => {
           handleClick()
@@ -49,7 +50,7 @@ function Test() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <Button onClick={handleClick}>Open modal</Button>
       <Modal
         className="modalBox"
@@ -66,6 +67,8 @@ function Test() {
           </Typography>
         </Box>
       </Modal> */}
+
+      <UserInfo imgPath={'kris.jpg'} username={'kris1997'}></UserInfo>
     </div>
   )
 }

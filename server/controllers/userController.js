@@ -31,13 +31,16 @@ const userProfile = async (req, res) => {
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
     console.log(user);
-    const sql2 = "SELECT COUNT(*) AS total FROM `follower` WHERE `main_user` = ?";
+    const sql2 =
+        "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
     const [following] = await db.execute(sql2, [user[0].id]);
-    const sql3 = "SELECT COUNT(*) AS total FROM `follower` WHERE `following_user` = ?";
+
+    const sql3 =
+        "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
     const [followedBy] = await db.execute(sql3, [user[0].id]);
 
-    const followingUser = following[0]["total"];
-    const followedByUser = followedBy[0]["total"];
+    const followingUser = following;
+    const followedByUser = followedBy;
 
     user.push(followingUser, followedByUser);
 
@@ -75,10 +78,40 @@ const userOrder = async (req, res) => {
     // const sql = "SELECT * FROM `orders` WHERE ``"
 };
 
+const userFollow = async (req, res) => {
+    const follow = req.params.username;
+    const follower_id = req.body.follower_id;
+
+    const sql = "SELECT * FROM `users` WHERE `username`= ?";
+    const [followUser] = await db.execute(sql, [follow]);
+    const sqlCheck = "SELECT `follower_id`, `following_id` FROM `followers` WHERE follower_id = ? AND following_id = ?";
+    const check = await db.execute(sqlCheck, [follower_id, followUser[0].id]);
+    if (check) {
+        res.end();
+    }
+    const sql2 = "INSERT INTO `followers`(`follower_id`, `following_id`) VALUES (?,?)";
+    await db.execute(sql2, [follower_id, followUser[0].id]);
+    // console.log(main_user, follow);
+    // res.send(req.body);
+};
+
+const userUnfollow = async (req, res) => {
+    const unfollowUser = req.params.username;
+    const follower_id = req.body.follower_id;
+
+    const sql = "SELECT * FROM `users` WHERE `username`= ?";
+    const [unfollow] = await db.execute(sql, [unfollowUser]);
+
+    const sql2 = "DELETE FROM `followers` WHERE follower_id = ? AND following_id = ?";
+    await db.query(sql2, [follower_id, unfollow[0].id]);
+};
+
 module.exports = {
     userRegister,
     userUpdate,
     userDelete,
     userProfile,
     userOrder,
+    userFollow,
+    userUnfollow,
 };

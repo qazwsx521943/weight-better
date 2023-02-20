@@ -4,6 +4,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 const ArrowButton = (props) => {
     return (
         <Button
+            type={props.type}
             variant="contained"
             color={props.color || "primary"}
             sx={{

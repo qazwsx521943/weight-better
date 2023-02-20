@@ -19,4 +19,8 @@ router.get("/:username/orders", userController.userOrder);
 // Delete : 刪除會員
 router.delete("/delete", userController.userDelete);
 
+router.post("/:username/follow", userController.userFollow);
+
+router.post("/:username/unfollow", userController.userUnfollow);
+
 module.exports = router;

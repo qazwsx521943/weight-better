@@ -13,6 +13,14 @@ class UserService {
     userOrders(username) {
         return axios.get(`${process.env.REACT_APP_API_KEY}/user/${username}/orders`);
     }
+    // TODO:
+    userFollow(username, follower_id) {
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}/follow`, { follower_id: follower_id });
+    }
+
+    userUnfollow(username, follower_id) {
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}/unfollow`, { follower_id: follower_id });
+    }
 }
 
 export default new UserService();

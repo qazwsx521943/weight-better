@@ -6,6 +6,7 @@ import { TealButton } from "./TealButton";
 import EditIcon from "@mui/icons-material/Edit";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
 import PopupModal from "./PopupModal";
 import { useState, useEffect } from "react";
@@ -13,6 +14,7 @@ import { useAuth } from "@/hooks/AuthContext";
 import AvatarBar from "./avatar/AvatarBar";
 import UserService from "@/pages/services/user.service";
 import { useParams } from "react-router-dom";
+import UserInfo from "@/pages/story/components/UserInfo";
 
 const fakeData = [
     { username: "jon", profile_image: "https://source.unsplash.com/random" },
@@ -32,8 +34,9 @@ const LeftBar = () => {
     const followClose = () => setfollowOpenState(false);
     // leftbar information states
     const [user, setUser] = useState({});
-    const [following, setFollowing] = useState();
-    const [followers, setFollowers] = useState();
+    const [following, setFollowing] = useState([]);
+    const [followers, setFollowers] = useState([]);
+    const [followStatus, setFollowStatus] = useState();
 
     // fetch page user info
     const usernameParams = params.username;
@@ -42,9 +45,21 @@ const LeftBar = () => {
             setUser(res.data[0]);
             setFollowing(res.data[1]);
             setFollowers(res.data[2]);
+            setFollowStatus(res.data[2].filter((fan) => fan.follower_id === currentUser.id).length === 1 ? true : false);
         });
-    }, [usernameParams]);
+    }, [usernameParams, followStatus]);
 
+    const followUser = (e) => {
+        UserService.userFollow(usernameParams, currentUser.id);
+        setFollowStatus(true);
+    };
+
+    const unfollowUser = (e) => {
+        UserService.userUnfollow(usernameParams, currentUser.id);
+        setFollowStatus(false);
+    };
+    // const checkFollowStatus = followers.filter((fan) => fan.follower_id === currentUser.id).length;
+    // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
             <Stack direction="column" spacing={2} alignItems="center" pt={5}>
@@ -59,42 +74,26 @@ const LeftBar = () => {
                     <Box>
                         <Typography onClick={fanOpen} sx={{ display: "flex", alignItems: "center", "&:hover": { cursor: "pointer" } }}>
                             <PeopleIcon sx={{ mr: 1 }} fontSize="inherit" />
-                            {followers} 位粉絲
+                            {followers.length} 位粉絲
                         </Typography>
                         <PopupModal handleClose={fanClose} open={fanOpenState} title="粉絲">
-                            忠實的粉絲們
+                            {followers.map((follow, i) => (
+                                <UserInfo key={i} username={follow.username} imgPath={""}></UserInfo>
+                            ))}
                         </PopupModal>
                     </Box>
                     <Box>
                         <Typography onClick={followOpen} sx={{ display: "flex", alignItems: "center", "&:hover": { cursor: "pointer" } }}>
-                            {following} 追蹤中
+                            {following.length} 追蹤中
                             {/* <WhatshotIcon sx={{ ml: 0.5 }} fontSize="inherit" /> */}
                         </Typography>
                         <PopupModal handleClose={followClose} open={followOpenState} title="追蹤中">
-                            <div className="container d-flex align-items-center">
-                                <div
-                                    className="imgBox col-1"
-                                    style={{
-                                        overflow: "hidden",
-                                        borderRadius: "500px",
-                                        aspectRatio: "1/1",
-                                    }}>
-                                    <img
-                                        src={`/ImagesStory/users/${user.imgPath || "user.png"}`}
-                                        alt=""
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "cover",
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="username font-medium lg:text-h5 md:text-h6 text-h7 px-3">{user.username}</div>
-                            </div>
-                            {/* {fakeData.map((fan, i) => (
-                                <AvatarBar key={i} username={fan.username} profile_image={fan.profile_image}></AvatarBar>
+                            {/* {following.map((follow, i) => (
+                                <UserInfo key={i} username={follow.username} imgPath={""}></UserInfo>
                             ))} */}
+                            {following.map((fan, i) => (
+                                <AvatarBar key={i} username={fan.username} profile_image={fan.profile_image}></AvatarBar>
+                            ))}
                         </PopupModal>
                     </Box>
                 </Breadcrumbs>
@@ -103,9 +102,14 @@ const LeftBar = () => {
                         編輯自介
                     </TealButton>
                 )}
-                {currentUser.username !== usernameParams && (
-                    <TealButton endIcon={<PersonAddIcon />} fullWidth>
+                {currentUser.username !== usernameParams && !followStatus && (
+                    <TealButton onClick={followUser} endIcon={<PersonAddIcon />} fullWidth>
                         Follow
+                    </TealButton>
+                )}
+                {currentUser.username !== usernameParams && followStatus && (
+                    <TealButton onClick={unfollowUser} endIcon={<PersonRemoveIcon />} fullWidth>
+                        unFollow
                     </TealButton>
                 )}
             </Stack>

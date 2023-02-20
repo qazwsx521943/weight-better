@@ -9,6 +9,8 @@ import OrderList from "../orderList";
 import { Box } from "@mui/material";
 import Profile from "../profile";
 import Reels from "../reels";
+import Favorites from "../favorites/Favorites";
+import { Outlet } from "react-router-dom";
 
 const Tab = styled(TabUnstyled)(
     ({ theme }) => `
@@ -46,7 +48,7 @@ const Tab = styled(TabUnstyled)(
 `
 );
 
-const TabPanel = styled(TabPanelUnstyled)(
+export const TabPanel = styled(TabPanelUnstyled)(
     ({ theme }) => `
   width: 100%;
   font-family: IBM Plex Sans, sans-serif;
@@ -84,17 +86,20 @@ export default function ProfileContent({ currentUser, setCurrentUser }) {
                     <Tab>我的菜單</Tab>
                     <Tab>歷史訂單</Tab>
                 </TabsList>
-                <TabPanel value={0}>
-                    <Profile currentUser={currentUser} setCurrentUser={setCurrentUser} />
-                </TabPanel>
-                <TabPanel value={1}>
+                <Outlet />
+                {/* <TabPanel value={0}> */}
+                {/* <Profile currentUser={currentUser} setCurrentUser={setCurrentUser} /> */}
+                {/* </TabPanel> */}
+                {/* <TabPanel value={1}>
                     <Reels />
-                </TabPanel>
-                <TabPanel value={2}>Language page</TabPanel>
-                <TabPanel value={3}>Language page</TabPanel>
-                <TabPanel value={4}>
+                </TabPanel> */}
+                {/* <TabPanel value={2}>
+                    <Favorites />
+                </TabPanel> */}
+                {/* <TabPanel value={3}>Language page</TabPanel> */}
+                {/* <TabPanel value={4}>
                     <OrderList currentUser={currentUser} setCurrentUser={setCurrentUser} />
-                </TabPanel>
+                </TabPanel> */}
             </TabsUnstyled>
         </Box>
     );

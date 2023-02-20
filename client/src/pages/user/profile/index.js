@@ -12,6 +12,7 @@ import BoyIcon from "@mui/icons-material/Boy";
 import InterestsIcon from "@mui/icons-material/Interests";
 import PaletteIcon from "@mui/icons-material/Palette";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import { useAuth } from "@/hooks/AuthContext";
 
 const data = [
     { name: "email", label: "Email", icon: <EmailIcon /> },
@@ -21,15 +22,24 @@ const data = [
     { name: "state", label: "會員等級", icon: <MilitaryTechIcon />, disabled: true },
 ];
 
-function Profile({ currentUser, setCurrentUser }) {
+function Profile() {
+    const { currentUser } = useAuth();
+    const params = useParams();
     const [profileData, setProfileData] = useState({});
     const [editStatus, seteditStatus] = useState(false);
-    // profile data collection
+
+    const usernameParams = params.username;
     useEffect(() => {
-        UserService.userProfile(currentUser.username).then((res) => {
+        UserService.userProfile(usernameParams).then((res) => {
             setProfileData(res.data[0]);
         });
-    }, []);
+    }, [usernameParams]);
+    // profile data collection
+    // useEffect(() => {
+    //     UserService.userProfile(currentUser.username).then((res) => {
+    //         setProfileData(res.data[0]);
+    //     });
+    // }, []);
 
     // const [formData, setFormData] = useState({
     //     nickname: "",
@@ -50,7 +60,6 @@ function Profile({ currentUser, setCurrentUser }) {
             [e.target.name]: e.target.value,
         });
     };
-    console.log(profileData);
 
     // save profile changes
     // FIXME
@@ -71,7 +80,7 @@ function Profile({ currentUser, setCurrentUser }) {
     // };
 
     return (
-        <Box display={"flex"} flexDirection="column" justifyContent="center">
+        <Box display={"flex"} flexDirection="column" justifyContent="center" m={"20px"}>
             <Box
                 sx={{ "& > :not(style)": { m: 1 }, alignItems: { sm: "start" } }}
                 display="flex"
@@ -91,83 +100,15 @@ function Profile({ currentUser, setCurrentUser }) {
                             startAdornment={<InputAdornment position="start">{field.icon}</InputAdornment>}></Input>
                     </FormControl>
                 ))}
-                {/* <FormControl variant="standard">
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input
-                        disabled={!editStatus}
-                        id="email"
-                        name="email"
-                        onChange={inputChange}
-                        value={profileData.email || ""}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <EmailIcon />
-                            </InputAdornment>
-                        }></Input>
-                </FormControl>
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="fullname">姓名</InputLabel>
-                    <Input
-                        disabled={!editStatus}
-                        id="fullname"
-                        name="fullname"
-                        onChange={inputChange}
-                        value={profileData.fullname || ""}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <EmailIcon />
-                            </InputAdornment>
-                        }></Input>
-                </FormControl>
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="username">帳號</InputLabel>
-                    <Input
-                        disabled={!editStatus}
-                        id="username"
-                        name="username"
-                        onChange={inputChange}
-                        value={profileData.username || ""}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <EmailIcon />
-                            </InputAdornment>
-                        }></Input>
-                </FormControl>
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input
-                        disabled={!editStatus}
-                        id="email"
-                        name="email"
-                        onChange={inputChange}
-                        value={profileData.email || ""}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <EmailIcon />
-                            </InputAdornment>
-                        }></Input>
-                </FormControl>
-                <FormControl variant="standard">
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input
-                        disabled={!editStatus}
-                        id="email"
-                        name="email"
-                        onChange={inputChange}
-                        value={profileData.email || ""}
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <EmailIcon />
-                            </InputAdornment>
-                        }></Input>
-                </FormControl> */}
             </Box>
-            <TealButton
-                sx={{ marginX: { xs: 2, sm: "auto" } }}
-                onClick={() => seteditStatus(!editStatus)}
-                endIcon={editStatus ? <SaveIcon /> : <ModeEditIcon />}>
-                {editStatus ? "儲存" : "編輯"}
-            </TealButton>
+            {currentUser.username === usernameParams && (
+                <TealButton
+                    sx={{ marginX: { xs: 2, sm: "auto" } }}
+                    onClick={() => seteditStatus(!editStatus)}
+                    endIcon={editStatus ? <SaveIcon /> : <ModeEditIcon />}>
+                    {editStatus ? "儲存" : "編輯"}
+                </TealButton>
+            )}
         </Box>
     );
 }

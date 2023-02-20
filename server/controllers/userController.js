@@ -30,6 +30,16 @@ const userProfile = async (req, res) => {
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
+    console.log(user);
+    const sql2 = "SELECT COUNT(*) AS total FROM `follower` WHERE `main_user` = ?";
+    const [following] = await db.execute(sql2, [user[0].id]);
+    const sql3 = "SELECT COUNT(*) AS total FROM `follower` WHERE `following_user` = ?";
+    const [followedBy] = await db.execute(sql3, [user[0].id]);
+
+    const followingUser = following[0]["total"];
+    const followedByUser = followedBy[0]["total"];
+
+    user.push(followingUser, followedByUser);
 
     res.json(user);
 };
@@ -57,9 +67,11 @@ const userDelete = async (req, res) => {
 const userOrder = async (req, res) => {
     let username = req.params.username;
     const [user] = await db.execute("SELECT * FROM `users` WHERE `username` = ?", [username]);
-    const [orders] = await db.execute("SELECT * FROM `orders` WHERE `user_id` = ?", [user[0].id]);
+
+    const [orders] = await db.execute("SELECT * FROM `orders` WHERE `user_id` = ?", [+user[0].id]);
 
     res.json(orders);
+    // res.json(user);
     // const sql = "SELECT * FROM `orders` WHERE ``"
 };
 

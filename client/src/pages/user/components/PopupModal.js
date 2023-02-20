@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import FlexColBox from "@/components/FlexBox/FlexColBox";
+import styled from "@emotion/styled";
 const style = {
     position: "absolute",
     top: "50%",
@@ -16,6 +17,14 @@ const style = {
     p: 4,
 };
 
+const AvatarContainer = styled(Box)(() => ({
+    alignItems: "flex-start",
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3px",
+}));
+
 export default function PopupModal({ open, handleClose, title, children }) {
     return (
         <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
@@ -24,7 +33,7 @@ export default function PopupModal({ open, handleClose, title, children }) {
                     {title}
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    {children}
+                    <AvatarContainer>{children}</AvatarContainer>
                 </Typography>
             </Box>
         </Modal>

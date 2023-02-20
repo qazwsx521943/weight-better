@@ -13,12 +13,12 @@ import {
     CardActions,
     IconButton,
 } from "@mui/material";
+
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const Reels = () => {
     const [video, setVideo] = useState("own");
-
     const handleChange = (e, newValue) => {
         setVideo(newValue);
     };
@@ -56,9 +56,7 @@ const Reels = () => {
                                     <Typography gutterBottom variant="h5" component="h2">
                                         Heading
                                     </Typography>
-                                    <Typography variant="body3">
-                                        This is a media card. You can use this section to describe the content.
-                                    </Typography>
+                                    <Typography variant="body3">This is a media card.</Typography>
                                 </CardContent>
                                 <CardActions>
                                     <Button size="small">View</Button>

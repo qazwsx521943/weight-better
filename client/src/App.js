@@ -1,20 +1,24 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 // 導入MUI預設覆蓋 for themeProvider
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import AuthService from "./pages/services/auth.service";
+import { AuthProvider } from "./hooks/AuthContext";
+import { useAuth } from "./hooks/AuthContext";
 // route import
 // import Login from "./pages/login";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/register";
 import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
+import AuthRequired from "./pages/authentication/RequireAuth";
 
 //**? 會員 */
+import ProfileLayout from "./pages/user/Layouts/ProfileLayout";
+// import User from "./pages/user";
+import Reels from "./pages/user/reels";
 
-import User from "./pages/user";
 import TestButton from "./pages/test_button/TestButton";
 
 //**? 商品 */
@@ -35,42 +39,59 @@ import Menu from "./pages/menu";
 // import Blogs from "./pages/blogs";
 import Shop from "./pages/shop/product";
 import Layout from "./pages/global/Layout";
+import Favorites from "./pages/user/favorites/Favorites";
+import OrderList from "./pages/user/orderList";
+import Profile from "./pages/user/profile";
+import RegisterForm from "./pages/authentication/forms/RegisterForm";
 // import Menu from "./pages/menu";
 
 function App() {
-    const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
-
+    // const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
     return (
         <ThemeProvider theme={theme}>
-            <div className="app">
-                {/* ⬇︎ same as css reset */}
-                <CssBaseline />
-                <Routes>
-                    <Route path="/" element={<Layout currentUser={currentUser} setCurrentUser={setCurrentUser} />}>
-                        {/* <Route index element={<Home />} /> */}
-                        <Route path="login" element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
-                        <Route path="register" element={<Register />} />
-                        <Route path="user/:username" element={<User currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
-                        <Route path="/shop/:pid" element={<Shop />}>
-                            <Route path="ProductDetails" element={<ProductDetails />} />
+            <AuthProvider>
+                <div className="app">
+                    {/* ⬇︎ same as css reset */}
+                    <CssBaseline />
+                    <Routes>
+                        <Route path="/" element={<Layout />}>
+                            <Route index element={<RegisterForm />}></Route>
+                            {/* <Route index element={<Home />} /> */}
+                            <Route path="login" element={<Login />} />
+                            <Route path="register" element={<Register />} />
+                            <Route
+                                path="/:username"
+                                element={
+                                    <AuthRequired>
+                                        <ProfileLayout />
+                                    </AuthRequired>
+                                }>
+                                <Route index element={<Profile />} />
+                                <Route path="reels" element={<Reels />} />
+                                <Route path="favorites" element={<Favorites />} />
+                                <Route path="orders" element={<OrderList />} />
+                            </Route>
+                            <Route path="/shop/:pid" element={<Shop />}>
+                                <Route path="ProductDetails" element={<ProductDetails />} />
+                            </Route>
+                            {/* <Route path="/shop" element={<Shop />}></Route> */}
+                            <Route path="/shop" element={<MainContent />}></Route>
+
+                            {/* <Route path="/blogs" element={<Blogs />}></Route> */}
+                            {/* <Route path="/menu" element={<Menu />}></Route> */}
+
+                            <Route path="/menu" element={<Menu />}></Route>
+
+                            {/* <Route path="/reels" element={<Reels />}></Route> */}
+                            <Route path="/reels">
+                                <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                            </Route>
+
+                            <Route path="*" element={<ErrorPage />} />
                         </Route>
-                        {/* <Route path="/shop" element={<Shop />}></Route> */}
-                        <Route path="/shop" element={<MainContent />}></Route>
-
-                        {/* <Route path="/blogs" element={<Blogs />}></Route> */}
-                        {/* <Route path="/menu" element={<Menu />}></Route> */}
-
-                        <Route path="/menu" element={<Menu />}></Route>
-
-                        {/* <Route path="/reels" element={<Reels />}></Route> */}
-                        <Route path="/reels">
-                            <Route path="test-button" element={<TestButton></TestButton>}></Route>
-                        </Route>
-
-                        <Route path="*" element={<ErrorPage />} />
-                    </Route>
-                </Routes>
-            </div>
+                    </Routes>
+                </div>
+            </AuthProvider>
         </ThemeProvider>
     );
 }

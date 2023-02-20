@@ -1,13 +1,15 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import React from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import AuthWrapper from "./AuthWrapper";
 import AuthService from "@/pages/services/auth.service";
 import ArrowButton from "./ArrowButton/ArrowButton";
+import { useAuth } from "../../hooks/AuthContext";
 
 const Login = ({ currentUser, setCurrentUser }) => {
     const navigate = useNavigate();
+    const auth = useAuth();
     const [message, setMessage] = useState();
 
     // 登入state存
@@ -28,8 +30,9 @@ const Login = ({ currentUser, setCurrentUser }) => {
             let response = await AuthService.localLogin(loginData);
             localStorage.setItem("user", JSON.stringify(response.data));
             window.alert("登入成功 重新導向首頁");
-            setCurrentUser(AuthService.getCurrentUser());
-            navigate(`/user/${response.data.username}`);
+            auth.userLogin(AuthService.getCurrentUser());
+            // setCurrentUser(AuthService.getCurrentUser());
+            navigate(`/${response.data.username}`);
         } catch (e) {
             setMessage(e.response.data);
         }

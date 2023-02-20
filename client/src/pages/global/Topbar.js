@@ -6,12 +6,13 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AuthService from "../services/auth.service";
-import CircleButton from "@/components/Buttons/CircleButton";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useAuth } from "../../hooks/AuthContext";
 
 import logo from "@/assets/WB3.png";
+import UserService from "../services/user.service";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: "flex",
@@ -56,17 +57,28 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 const pages = ["短影音", "部落格", "菜單", "商城"];
 
-const Topbar = ({ currentUser, setCurrentUser }) => {
+const Topbar = () => {
+    const auth = useAuth();
     const [open, setOpen] = useState(false);
-
+    const [search, setSearch] = useState("");
     const navigate = useNavigate();
-    const location = useLocation();
     const handleLogout = () => {
         // 清空local storage
         AuthService.logout();
         window.alert("登出成功！回到登入頁");
         navigate("/");
-        setCurrentUser(null);
+        auth.userLogout();
+        // setCurrentUser(null);
+    };
+    const inputChange = (e, newValue) => {
+        console.log(search);
+        setSearch(newValue);
+    };
+
+    const searchUser = (e) => {
+        if (e.key === "Enter") {
+            navigate(`/${search}`);
+        }
     };
 
     return (
@@ -76,7 +88,7 @@ const Topbar = ({ currentUser, setCurrentUser }) => {
             <StyledToolbar p={1.5} bgcolor="primary.main">
                 <Logo sx={{ mr: 2 }}>
                     <Typography alignSelf={"center"}>
-                        <img src={logo} alt="logo" className="h-6" />
+                        <img src={logo} alt="logo" className="h-8" />
                     </Typography>
                 </Logo>
                 <Nav sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
@@ -100,27 +112,27 @@ const Topbar = ({ currentUser, setCurrentUser }) => {
                     ))}
                 </Nav>
                 <Search>
-                    <InputBase size="small" placeholder="Search..." />
+                    <InputBase size="small" placeholder="Search..." onChange={inputChange} onKeyDown={searchUser} />
                 </Search>
                 <Icons>
                     <IconButton type="button">
                         <SearchOutlinedIcon />
                     </IconButton>
-                    {currentUser && (
+                    {auth.currentUser && (
                         <IconButton>
                             <Badge badgeContent={4} color="pink">
                                 <NotificationsOutlinedIcon />
                             </Badge>
                         </IconButton>
                     )}
-                    {currentUser && (
+                    {auth.currentUser && (
                         <IconButton>
                             <Badge badgeContent={4} color="pink">
                                 <ShoppingCartIcon />
                             </Badge>
                         </IconButton>
                     )}
-                    {currentUser ? (
+                    {auth.currentUser ? (
                         <IconButton onClick={handleLogout}>
                             <LogoutOutlinedIcon />
                         </IconButton>
@@ -129,7 +141,7 @@ const Topbar = ({ currentUser, setCurrentUser }) => {
                             <PowerSettingsNewOutlinedIcon />
                         </IconButton>
                     )}
-                    {currentUser && (
+                    {auth.currentUser && (
                         <IconButton onClick={() => setOpen(true)}>
                             <Avatar alt="profile_image" sx={{ width: "30px", height: "30px" }} src="/static/images/avatar/3.jpg" />
                         </IconButton>
@@ -146,7 +158,6 @@ const Topbar = ({ currentUser, setCurrentUser }) => {
             <Menu
                 id="demo-positioned-menu"
                 aria-labelledby="demo-positioned-button"
-                // anchorEl={anchorEl}
                 open={open}
                 onClose={(e) => setOpen(false)}
                 anchorOrigin={{
@@ -157,7 +168,13 @@ const Topbar = ({ currentUser, setCurrentUser }) => {
                     vertical: "top",
                     horizontal: "left",
                 }}>
-                <MenuItem onClick={(e) => setOpen(false)}>Profile</MenuItem>
+                <MenuItem
+                    onClick={(e) => {
+                        setOpen(false);
+                        navigate(`/${auth.currentUser.username}`);
+                    }}>
+                    Profile
+                </MenuItem>
                 <MenuItem onClick={(e) => setOpen(false)}>My account</MenuItem>
                 <MenuItem onClick={(e) => setOpen(false)}>Logout</MenuItem>
             </Menu>

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// 關於驗證的api
 class AuthService {
     localLogin(loginData) {
         return axios.post(process.env.REACT_APP_API_KEY + "/auth/login", loginData);

@@ -9,7 +9,7 @@ import { useAuth } from "./hooks/AuthContext";
 // route import
 // import Login from "./pages/login";
 import Login from "./pages/authentication/Login";
-import Register from "./pages/authentication/register";
+import Register from "./pages/authentication/Register";
 import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 import AuthRequired from "./pages/authentication/RequireAuth";
@@ -55,8 +55,7 @@ function App() {
                     <CssBaseline />
                     <Routes>
                         <Route path="/" element={<Layout />}>
-                            <Route index element={<RegisterForm />}></Route>
-                            {/* <Route index element={<Home />} /> */}
+                            <Route index element={<Home />} />
                             <Route path="login" element={<Login />} />
                             <Route path="register" element={<Register />} />
                             <Route

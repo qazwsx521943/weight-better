@@ -6,6 +6,10 @@ class UserService {
         return axios.get(`${process.env.REACT_APP_API_KEY}/user/${username}`);
     }
 
+    updateUser(username, data) {
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}`, data);
+    }
+
     userOrders(username) {
         return axios.get(`${process.env.REACT_APP_API_KEY}/user/${username}/orders`);
     }

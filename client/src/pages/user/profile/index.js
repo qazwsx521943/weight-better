@@ -34,12 +34,6 @@ function Profile() {
             setProfileData(res.data[0]);
         });
     }, [usernameParams]);
-    // profile data collection
-    // useEffect(() => {
-    //     UserService.userProfile(currentUser.username).then((res) => {
-    //         setProfileData(res.data[0]);
-    //     });
-    // }, []);
 
     // const [formData, setFormData] = useState({
     //     nickname: "",
@@ -61,6 +55,14 @@ function Profile() {
         });
     };
 
+    console.log(profileData);
+    const handleSubmit = () => {
+        seteditStatus(!editStatus);
+        if (editStatus === true) {
+            const { email, fullname, interest, introduction } = profileData;
+            UserService.updateUser(currentUser.username, { email, fullname, interest, introduction }).then((res) => console.log(res));
+        }
+    };
     // save profile changes
     // FIXME
     // const submitProfile = async (e) => {
@@ -104,7 +106,7 @@ function Profile() {
             {currentUser.username === usernameParams && (
                 <TealButton
                     sx={{ marginX: { xs: 2, sm: "auto" } }}
-                    onClick={() => seteditStatus(!editStatus)}
+                    onClick={handleSubmit}
                     endIcon={editStatus ? <SaveIcon /> : <ModeEditIcon />}>
                     {editStatus ? "儲存" : "編輯"}
                 </TealButton>

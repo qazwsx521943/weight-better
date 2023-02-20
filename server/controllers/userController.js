@@ -13,7 +13,7 @@ const userRegister = async (req, res) => {
     // email驗證
     const emailExist = await db.execute("SELECT COUNT(*) FROM `users` WHERE `email` = ?", [email]);
     if (emailExist > 0) return res.status(400).send("此信箱已經註冊過囉！");
-
+    console.log("emailOK!");
     // 存入ＤＢ
     const sql = "INSERT INTO `users` SET username = ?, password = ?, birth_date = ?, fullname = ?, email = ?";
 

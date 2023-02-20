@@ -71,9 +71,30 @@ const LeftBar = () => {
                             {/* <WhatshotIcon sx={{ ml: 0.5 }} fontSize="inherit" /> */}
                         </Typography>
                         <PopupModal handleClose={followClose} open={followOpenState} title="追蹤中">
-                            {fakeData.map((fan, i) => (
+                            <div className="container d-flex align-items-center">
+                                <div
+                                    className="imgBox col-1"
+                                    style={{
+                                        overflow: "hidden",
+                                        borderRadius: "500px",
+                                        aspectRatio: "1/1",
+                                    }}>
+                                    <img
+                                        src={`/ImagesStory/users/${user.imgPath || "user.png"}`}
+                                        alt=""
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="username font-medium lg:text-h5 md:text-h6 text-h7 px-3">{user.username}</div>
+                            </div>
+                            {/* {fakeData.map((fan, i) => (
                                 <AvatarBar key={i} username={fan.username} profile_image={fan.profile_image}></AvatarBar>
-                            ))}
+                            ))} */}
                         </PopupModal>
                     </Box>
                 </Breadcrumbs>

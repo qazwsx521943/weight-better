@@ -8,7 +8,7 @@ const userController = require("../controllers/userController");
 router.post("/register", userController.userRegister);
 
 // POST : 會員資料更新
-router.put("/:username", userController.userUpdate);
+router.post("/:username", userController.userUpdate);
 
 // GET : 登入後會員資料
 router.get("/:username", userController.userProfile);

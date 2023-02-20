@@ -7,7 +7,7 @@ const AuthWrapper = ({ children }) => {
     return (
         <Box sx={{ minHeight: "100vh" }}>
             <div>
-                <FlexColBox maxWidth={400} margin={"auto"} marginTop={5} padding={3} borderRadius={4} boxShadow={"5px 5px 10px #ccc"}>
+                <FlexColBox maxWidth={400} margin={"auto"} marginTop={8} padding={3} borderRadius={4} boxShadow={"5px 5px 10px #ccc"}>
                     {children}
                 </FlexColBox>
             </div>

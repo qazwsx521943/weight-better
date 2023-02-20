@@ -47,7 +47,7 @@ const LeftBar = () => {
             setFollowers(res.data[2]);
             setFollowStatus(res.data[2].filter((fan) => fan.follower_id === currentUser.id).length === 1 ? true : false);
         });
-    }, [usernameParams, followStatus]);
+    }, [usernameParams, followStatus, following]);
 
     const followUser = (e) => {
         UserService.userFollow(usernameParams, currentUser.id);
@@ -92,7 +92,12 @@ const LeftBar = () => {
                                 <UserInfo key={i} username={follow.username} imgPath={""}></UserInfo>
                             ))} */}
                             {following.map((fan, i) => (
-                                <AvatarBar key={i} username={fan.username} profile_image={fan.profile_image}></AvatarBar>
+                                <AvatarBar
+                                    key={i}
+                                    username={fan.username}
+                                    profile_image={fan.profile_image}
+                                    setFollowStatus={setFollowStatus}
+                                    followClose={followClose}></AvatarBar>
                             ))}
                         </PopupModal>
                     </Box>

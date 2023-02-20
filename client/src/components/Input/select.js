@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import './select.css'
+
 
 
 // import  * as Mui from '@mui/material'

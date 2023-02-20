@@ -27,3 +27,5 @@ yarn-error.log*
 .eslintrc
 .prettierignore
 .prettierrc
+# menu 
+/public/ImageMenu

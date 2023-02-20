@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import { FormControlLabel, Radio, RadioGroup, Stack } from '@mui/material'
-import { FormControl } from 'react-bootstrap'
+// import React, { useState } from 'react'
+import {  FormControl, Radio, RadioGroup, Stack } from '@mui/material'
+// import { FormControl } from 'react-bootstrap'
+// import { type } from '@testing-library/user-event/dist/type'
+import Box from '@mui/material/Box';
+
+
+
 
 function BmiCard() {
-  // const [DietType,setDietType]= useState()
-
 
   return (
     <Stack
@@ -13,20 +16,10 @@ function BmiCard() {
         "&.MuiTextField-root": { width: '100%', maxWidth: 500, m: 1 }
       }}
     >
-    {/* <FormControl>
-      <RadioGroup
-      name='DietType'
-      value={}
-      row
-      onChange={handleDietTypeChange}
-      >
-      <FormControlLabel value={0} control={<Radio />} label="素食"/>
-      <FormControlLabel value={0} control={<Radio />} label="一般"/>
+   
 
-      </RadioGroup>
-    </FormControl> */}
 
-      
+
 
     </Stack>
   )

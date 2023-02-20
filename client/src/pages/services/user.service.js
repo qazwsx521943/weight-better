@@ -21,6 +21,10 @@ class UserService {
     userUnfollow(username, follower_id) {
         return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}/unfollow`, { follower_id: follower_id });
     }
+
+    userAvatar(username, fileData) {
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}/upload/avatar`, fileData);
+    }
 }
 
 export default new UserService();

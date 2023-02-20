@@ -4,6 +4,11 @@ const router = express.Router();
 
 const userController = require("../controllers/userController");
 
+const multer = require("multer");
+
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
+
 // POST : 會員註冊
 router.post("/register", userController.userRegister);
 
@@ -22,5 +27,7 @@ router.delete("/delete", userController.userDelete);
 router.post("/:username/follow", userController.userFollow);
 
 router.post("/:username/unfollow", userController.userUnfollow);
+
+router.post("/:username/upload/avatar", upload.single("image"), userController.userSetAvatar);
 
 module.exports = router;

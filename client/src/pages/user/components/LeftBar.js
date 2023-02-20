@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Avatar, Typography, Divider, Breadcrumbs, Link } from "@mui/material";
+import { Box, Stack, Avatar, Typography, Divider, Breadcrumbs, Link, IconButton } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { TealButton } from "./TealButton";
@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 import PopupModal from "./PopupModal";
 import { useState, useEffect } from "react";
@@ -37,6 +38,7 @@ const LeftBar = () => {
     const [following, setFollowing] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [followStatus, setFollowStatus] = useState();
+    // const [profile_image, setProfile_image] = useState();
 
     // fetch page user info
     const usernameParams = params.username;
@@ -58,12 +60,37 @@ const LeftBar = () => {
         UserService.userUnfollow(usernameParams, currentUser.id);
         setFollowStatus(false);
     };
+
+    const avatarChange = (e) => {
+        // setProfile_image(e.target.files[0]);
+        const formData = new FormData();
+        formData.append("image", e.target.files[0]);
+        UserService.userAvatar(currentUser.username, formData).then((res) => console.log(res.data));
+    };
+
+    // const uploadAvatar = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append("image", profile_image);
+    //     UserService.userAvatar(currentUser.username, formData).then((res) => console.log(res.data));
+    // };
     // const checkFollowStatus = followers.filter((fan) => fan.follower_id === currentUser.id).length;
     // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
             <Stack direction="column" spacing={2} alignItems="center" pt={5}>
-                <Avatar alt="profile_image" src="/static/images/avatar/1.jpg" sx={{ width: 300, height: 300 }} />
+                <Box position={"relative"}>
+                    <Avatar alt="profile_image" src={user.profile_image} sx={{ width: 300, height: 300 }} />
+                    <IconButton
+                        size="large"
+                        color="primary"
+                        aria-label="upload picture"
+                        component="label"
+                        sx={{ position: "absolute", bottom: "10%", right: "10%", "&:hover": { bgcolor: "teal.main" } }}>
+                        <input hidden accept="image/*" type="file" onChange={avatarChange} />
+                        <CameraAltIcon fontSize="inherit" sx={{ "&:hover": { color: "whitesmoke" } }} />
+                    </IconButton>
+                </Box>
                 <Typography variant="h3" fontWeight={600} color="initial">
                     {user.fullname}
                 </Typography>
@@ -77,8 +104,16 @@ const LeftBar = () => {
                             {followers.length} 位粉絲
                         </Typography>
                         <PopupModal handleClose={fanClose} open={fanOpenState} title="粉絲">
-                            {followers.map((follow, i) => (
+                            {/* {followers.map((follow, i) => (
                                 <UserInfo key={i} username={follow.username} imgPath={""}></UserInfo>
+                            ))} */}
+                            {followers.map((follow, i) => (
+                                <AvatarBar
+                                    key={i}
+                                    username={follow.username}
+                                    profile_image={follow.profile_image}
+                                    // setFollowStatus={setFollowStatus}
+                                    followClose={fanClose}></AvatarBar>
                             ))}
                         </PopupModal>
                     </Box>

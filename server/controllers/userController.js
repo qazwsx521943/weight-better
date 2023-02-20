@@ -30,11 +30,13 @@ const userProfile = async (req, res) => {
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
-    console.log(user);
+
+    // 找到使用者追蹤的人
     const sql2 =
         "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
     const [following] = await db.execute(sql2, [user[0].id]);
 
+    // 找粉絲
     const sql3 =
         "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
     const [followedBy] = await db.execute(sql3, [user[0].id]);
@@ -42,6 +44,7 @@ const userProfile = async (req, res) => {
     const followingUser = following;
     const followedByUser = followedBy;
 
+    // 整理傳回前端的array
     user.push(followingUser, followedByUser);
 
     res.json(user);
@@ -59,7 +62,7 @@ const userUpdate = async (req, res) => {
     res.json(user);
 };
 
-// 刪除帳號
+// TODO: 刪除帳號
 const userDelete = async (req, res) => {
     let id = req.params.id;
     await User.destroy({ where: { id: id } });
@@ -67,6 +70,7 @@ const userDelete = async (req, res) => {
     res.status(200).send("User is deleted");
 };
 
+// FIXME 可以透過localStorage 直接存取user id 不用下兩次query
 const userOrder = async (req, res) => {
     let username = req.params.username;
     const [user] = await db.execute("SELECT * FROM `users` WHERE `username` = ?", [username]);
@@ -74,7 +78,6 @@ const userOrder = async (req, res) => {
     const [orders] = await db.execute("SELECT * FROM `orders` WHERE `user_id` = ?", [+user[0].id]);
 
     res.json(orders);
-    // res.json(user);
     // const sql = "SELECT * FROM `orders` WHERE ``"
 };
 
@@ -106,6 +109,14 @@ const userUnfollow = async (req, res) => {
     await db.query(sql2, [follower_id, unfollow[0].id]);
 };
 
+const userSetAvatar = async (req, res) => {
+    const username = req.params.username;
+    const profile_image = req.file.path;
+    const sql = "UPDATE `users` SET profile_image = ? WHERE username = ?";
+    await db.execute(sql, [profile_image, username]);
+    res.send(req.file.path);
+};
+
 module.exports = {
     userRegister,
     userUpdate,
@@ -114,4 +125,5 @@ module.exports = {
     userOrder,
     userFollow,
     userUnfollow,
+    userSetAvatar,
 };

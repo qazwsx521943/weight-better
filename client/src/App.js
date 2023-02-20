@@ -26,7 +26,7 @@ import MainContent from "./pages/shop/product/mainConent";
 //**? 部落格 */
 
 //**? 客製化菜單 */
-import Menu from "./pages/Menu";
+import Menu from "./pages/menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -108,9 +108,9 @@ function App() {
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
                             <Route path="/reels">
                                 <Route path="home" element={<HomeStory></HomeStory>}></Route>
-                                <Route path="player/:id" element={<Player></Player>}></Route>
+                                <Route path="player/:sid" element={<Player></Player>}></Route>
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
-                                <Route path="test-menu" element={<Test></Test>}></Route>
+                                <Route path="test" element={<Test></Test>}></Route>
                             </Route>
 
                             <Route path="*" element={<ErrorPage />} />

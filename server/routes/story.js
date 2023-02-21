@@ -37,7 +37,7 @@ router.get('/video/:sid/data', async (req, res) => {
 });
 
 // --[取得單一影片]
-router.get('/video/:sid', async (req, res) => {
+router.get('/video/:sid/get', async (req, res) => {
   const sid = req.params.sid;
 
   const sql = "SELECT * FROM `story_all` WHERE `story_id`=?";
@@ -132,6 +132,63 @@ router.get('/comment/:sid', async (req, res) => {
   return res.json(rows)
 })
 
+// --[新增單一影片的一筆留言]
+router.post('/comment/:sid', async (req, res) => {
+  let output = {
+    success: false,
+    data: req.body,
+    error: ''
+  }
+
+  const {sid} = req.params
+  const {userId: uid, commentContent} = req.body
+
+  const sql = "INSERT INTO `story_comment`(`story_id`, `user_id`, `content`, `time`) VALUES (?, ?, ?, NOW())"
+  const [result] = await db.query(sql, [sid, uid, commentContent])
+
+  if (result.affectedRows){
+    output.success = true
+  }
+
+  return res.json(output)
+
+})
+
+// --[取得單一影片的按讚數 / 確認 user 是否有按讚]
+router.post('/video/:sid/like-count', async (req, res) => {
+  const sid = req.params.sid
+  const uid = req.body.userId
+  
+  const sql = "SELECT * FROM `story_like` WHERE `story_id`=?"
+  const [rows] = await db.query(sql, sid)
+
+  const sql2 = "SELECT * FROM `story_like` WHERE `story_id`=? AND `user_id`=?"
+  const [rows2] = await db.query(sql2, [sid, uid])
+
+  return res.json({count: rows.length, liked: !!rows2.length})
+})
+
+// --[對單一影片按讚或取消按讚]
+router.post('/video/:sid/like', async (req, res) => {
+  const sid = req.params.sid
+  const uid = +req.body.userId
+  // console.log(sid, uid)
+  
+  const sql1 = "SELECT * FROM `story_like` WHERE `story_id`=? AND `user_id`=?"
+  const [rows1] = await db.query(sql1, [sid, uid])
+
+  if (rows1.length > 0){
+    // --[如果原本已經按讚 => 取消按讚]
+    const sql2 = "DELETE FROM `story_like` WHERE `story_id`=? AND `user_id`=?"
+    const [result2] = await db.query(sql2, [sid, uid])
+    return res.json({liked: false, result: result2})
+  } else {
+    // --[如果原本沒有按讚 => 按讚]
+    const sql3 = "INSERT INTO `story_like`(`user_id`, `story_id`) VALUES (?, ?)"
+    const [result3] = await db.query(sql3, [uid, sid])
+    return res.json({liked: true, result: result3})
+  }
+})
 
 
 module.exports = router

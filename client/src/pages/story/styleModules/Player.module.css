@@ -8,3 +8,52 @@
     overflow: hidden;
     aspect-ratio: 1/1;
 }
+
+.closeBtn{
+    border-radius: 500px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 2px solid theme('colors.maingrey');
+    color: #aaa;
+    transition: .3s;
+}
+
+.closeBtn:hover{
+    background-color: theme('colors.maingrey');
+    color: #fff;
+}
+
+.nextBtn, .prevBtn{
+    border-radius: 500px;
+    aspect-ratio: 1/1;
+    width: 40px;
+    cursor: pointer;
+    background-color: theme('colors.maingrey');
+    color: #fff;
+    transition: .3s;
+    opacity: .4;
+    transform: translate(0, -50%);
+}
+
+.nextBtn{
+    position: absolute;
+    top: 50%;
+    right: 10px;
+}
+
+.prevBtn{
+    position: absolute;
+    top: 50%;
+    left: 10px;
+}
+
+.nextBtn:hover, .prevBtn:hover{
+    background-color: theme('colors.maingrey');
+    color: #fff;
+    opacity: 1;
+}

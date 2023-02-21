@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import styles from './styleModules/Home.module.css'
 // import { Typography } from '@mui/material'
 // import Test from './Test';
@@ -13,20 +13,23 @@ import SearchIcon from '@mui/icons-material/Search'
 
 function HomeStory() {
   const [videos, setVideos] = useState([])
+  const [videosCount, setVideosCount] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [playingStoryId, setPlayingStoryId] = useState('')
+  const [playingStoryIdx, setPlayingStoryIdx] = useState(0)
 
   useEffect(() => {
-    componentDidMount() // 取得影片清單
+    renderVideos() // 取得影片清單
   }, [])
 
-  const componentDidMount = async () => {
+  const renderVideos = async () => {
     try {
       const url = 'http://localhost:8080/story/videos'
       const response = await fetch(url)
       const data = await response.json()
       console.log(url, data)
       setVideos([...data])
+      setVideosCount(data.length)
     } catch (error) {
       console.log(error)
     }
@@ -38,7 +41,11 @@ function HomeStory() {
 
   const handleShowModal = (e, sid) => {
     setShowModal(!showModal)
+    const newPlayingStoryIdx = videos.findIndex((el) => {
+      return el.story_id === sid
+    })
     setPlayingStoryId(sid)
+    setPlayingStoryIdx(newPlayingStoryIdx)
   }
 
   return (
@@ -112,7 +119,12 @@ function HomeStory() {
         <ModalPlayer
           showModal={showModal}
           setShowModal={setShowModal}
+          videos={videos}
           playingStoryId={playingStoryId}
+          setPlayingStoryId={setPlayingStoryId}
+          playingStoryIdx={playingStoryIdx}
+          setPlayingStoryIdx={setPlayingStoryIdx}
+          videosCount={videosCount}
         ></ModalPlayer>
       )}
     </div>

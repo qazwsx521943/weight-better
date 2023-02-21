@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../styleModules/Comment.module.css'
 
-function Comment({ className, sid }) {
+function Comment({ className, sid, uid }) {
   const [comments, setComments] = useState([])
   const [inputComment, setInputComment] = useState('')
-
-  useEffect(() => {
-    renderComments()
-  }, [])
 
   useEffect(() => {
     renderComments()
@@ -32,7 +28,7 @@ function Comment({ className, sid }) {
 
     const url = `http://localhost:8080/story/comment/${sid}`
     const data = {
-      userId: 3,
+      userId: uid,
       commentContent: inputComment,
     }
 

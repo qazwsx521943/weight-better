@@ -190,5 +190,24 @@ router.post('/video/:sid/like', async (req, res) => {
   }
 })
 
+// --[對單一影片觀看次數 + 1]
+router.get('/video/:sid/watched', async (req, res) => {
+  let output = {
+    success: false
+  }
+
+  const sid = req.params.sid
+
+  const sql1 = "SELECT `times` FROM `story_all` WHERE `story_id`=?"
+  const [rows1] = await db.query(sql1, [sid])
+
+  const sql2 = "UPDATE `story_all` SET `times`=? WHERE `story_id`=?"
+  const [result2] = await db.query(sql2, [rows1[0].times + 1, sid])
+  output.success = !!result2.affectedRows
+
+  return res.json(output)
+
+})
+
 
 module.exports = router

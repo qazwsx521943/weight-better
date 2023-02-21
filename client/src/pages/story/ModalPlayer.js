@@ -17,28 +17,45 @@ function ModalPlayer(props) {
     videos,
   } = props
 
+  const uid = 2
+
   const showOrCloseModal = () => {
+    clearInterval(timer)
     setShowModal(!showModal)
   }
 
   const [videoData, setVideoData] = useState({})
   const [videoTags, setVideoTags] = useState([])
   const [videoLikes, setVideoLikes] = useState('')
+  const [videoWatches, setVideoWatches] = useState('')
   const [collected, setCollected] = useState(true)
   const [liked, setLiked] = useState(false)
   const [userImage, setUserImage] = useState('user.png')
-  const [videoUrl, setVideoUrl] = useState('')
-
-  useEffect(() => {
-    renderLike()
-    renderStory()
-    // setVideoUrl(`http://localhost:8080/story/video/${sid}/get`)
-  }, [])
+  // const [watched, setWatched] = useState(false)
 
   useEffect(() => {
     renderLike()
     renderStory()
   }, [sid])
+
+  let timer
+  const handlePlay = (e) => {
+    const video = e.currentTarget
+    timer = setInterval(() => {
+      console.log('check progress')
+      const currentTime = video.currentTime
+      const duration = video.duration
+
+      if (currentTime / duration > 0.5) {
+        clearInterval(timer)
+        updateWatched()
+      }
+    }, 1000)
+  }
+
+  const handlePause = (e) => {
+    clearInterval(timer)
+  }
 
   const renderStory = async () => {
     try {
@@ -49,14 +66,15 @@ function ModalPlayer(props) {
       setVideoData(data.rowsStory[0])
       setVideoTags(data.rowsTags)
       setUserImage(data.rowsStory[0].image_path)
+      setVideoWatches(data.rowsStory[0].times)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const renderLike = async () => {
+  const renderLike = () => {
     const url = `http://localhost:8080/story/video/${sid}/like-count`
-    const data = { userId: 1 }
+    const data = { userId: uid }
 
     fetch(url, {
       method: 'post',
@@ -82,7 +100,7 @@ function ModalPlayer(props) {
     console.log('like')
 
     const url = `http://localhost:8080/story/video/${sid}/like`
-    const data = { userId: 1 }
+    const data = { userId: uid }
     fetch(url, {
       method: 'post',
       body: JSON.stringify(data),
@@ -98,7 +116,18 @@ function ModalPlayer(props) {
       })
   }
 
+  const updateWatched = () => {
+    const url = `http://localhost:8080/story/video/${sid}/watched`
+    fetch(url)
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setVideoWatches(videoWatches + 1)
+      })
+  }
+
   const goPrevStory = () => {
+    clearInterval(timer)
     if (sidx > 0) {
       console.log(sidx - 1)
       const prevStoryId = videos[sidx - 1].story_id
@@ -107,6 +136,7 @@ function ModalPlayer(props) {
     }
   }
   const goNextStory = () => {
+    clearInterval(timer)
     if (sidx < videosCount - 1) {
       console.log(sidx + 1)
       const nextStoryId = videos[sidx + 1].story_id
@@ -170,6 +200,8 @@ function ModalPlayer(props) {
                       className="bg-black h-100"
                       src={`http://localhost:8080/story/video/${sid}/get`}
                       type="video/mp4"
+                      onPlay={handlePlay}
+                      onPause={handlePause}
                     ></video>
                     <button
                       className={styles.prevBtn}
@@ -241,7 +273,7 @@ function ModalPlayer(props) {
                           <div className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3">
                             <i className="fa-solid fa-play text-teal"></i>
                             &nbsp;&nbsp;
-                            {videoData.times}
+                            {videoWatches}
                           </div>
                           <div
                             className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3"
@@ -258,12 +290,12 @@ function ModalPlayer(props) {
                               } text-main`}
                             ></i>
                             &nbsp;&nbsp;{collected ? '已收藏 !' : '收藏'}
-                            {sidx}
+                            {/* {sidx} */}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <Comment className={'flex-1'} sid={sid}></Comment>
+                    <Comment className={'flex-1'} sid={sid} uid={uid}></Comment>
                   </div>
                 </div>
               </div>

@@ -82,31 +82,60 @@ const userOrder = async (req, res) => {
 };
 
 const userFollow = async (req, res) => {
-    const follow = req.params.username;
-    const follower_id = req.body.follower_id;
+    // const follow = req.params.username;
+    const { follower_id, following_username } = req.body;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
-    const [followUser] = await db.execute(sql, [follow]);
+    const [followUser] = await db.execute(sql, [following_username]);
+
     const sqlCheck = "SELECT `follower_id`, `following_id` FROM `followers` WHERE follower_id = ? AND following_id = ?";
-    const check = await db.execute(sqlCheck, [follower_id, followUser[0].id]);
-    if (check) {
-        res.end();
+    const [check] = await db.execute(sqlCheck, [follower_id, followUser[0].id]);
+    if (check.length) {
+        const sql2 = "DELETE FROM `followers` WHERE follower_id = ? AND following_id = ?";
+        await db.query(sql2, [follower_id, followUser[0].id]);
+        res.send("刪除");
+    } else {
+        const sql2 = "INSERT INTO `followers`(`follower_id`, `following_id`) VALUES (?,?)";
+        await db.execute(sql2, [follower_id, followUser[0].id]);
+        res.send("新增");
     }
-    const sql2 = "INSERT INTO `followers`(`follower_id`, `following_id`) VALUES (?,?)";
-    await db.execute(sql2, [follower_id, followUser[0].id]);
-    // console.log(main_user, follow);
-    // res.send(req.body);
 };
 
-const userUnfollow = async (req, res) => {
-    const unfollowUser = req.params.username;
-    const follower_id = req.body.follower_id;
+const userDelFan = async (req, res) => {
+    const { following_id, follower_username } = req.body;
+
+    const sql = "SELECT * FROM `users` WHERE `username` = ?";
+    const [fanId] = await db.execute(sql, [follower_username]);
+    const sql2 = "DELETE FROM `followers` WHERE follower_id = ? AND following_id = ?";
+    await db.query(sql2, [fanId[0].id, following_id]);
+};
+
+// REVIEW
+const userFollowing = async (req, res) => {
+    const username = req.params.username;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
-    const [unfollow] = await db.execute(sql, [unfollowUser]);
+    const [user] = await db.execute(sql, [username]);
 
-    const sql2 = "DELETE FROM `followers` WHERE follower_id = ? AND following_id = ?";
-    await db.query(sql2, [follower_id, unfollow[0].id]);
+    // 找到使用者追蹤的人
+    const sql2 =
+        "SELECT follower_id,following_id,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
+    const [following] = await db.execute(sql2, [user[0].id]);
+
+    res.send(following);
+};
+const userFollowers = async (req, res) => {
+    const username = req.params.username;
+
+    const sql = "SELECT * FROM `users` WHERE `username`= ?";
+    const [user] = await db.execute(sql, [username]);
+
+    // 找到使用者追蹤的人
+    const sql3 =
+        "SELECT follower_id,following_id,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
+    const [followedBy] = await db.execute(sql3, [user[0].id]);
+
+    res.send(followedBy);
 };
 
 const userSetAvatar = async (req, res) => {
@@ -124,6 +153,8 @@ module.exports = {
     userProfile,
     userOrder,
     userFollow,
-    userUnfollow,
+    userDelFan,
     userSetAvatar,
+    userFollowing,
+    userFollowers,
 };

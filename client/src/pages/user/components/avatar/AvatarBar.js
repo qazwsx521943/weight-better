@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Badge, Avatar, Stack, Typography, Button, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Badge, Avatar, Stack, Typography, Button } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/AuthContext";
 import UserService from "@/pages/services/user.service";
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -42,13 +42,12 @@ const RemoveAvatarBtn = styled(Button)(({ theme }) => ({
     scale: "0.8",
 }));
 
-const AvatarBar = ({ username, profile_image, setFollowStatus, followClose }) => {
+const AvatarBar = ({ username, profile_image, followClose, situation, deleteFan, unfollowUser }) => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
-    const unfollowUser = (username) => {
-        UserService.userUnfollow(username, currentUser.id);
-        setFollowStatus(false);
-    };
+
+    const params = useParams();
+    const usernameParams = params.username;
     return (
         <Stack direction="row" spacing={2} justifyContent="space-between" width={"100%"}>
             <Stack direction={"row"} spacing={2} justifyContent="space-between">
@@ -68,14 +67,26 @@ const AvatarBar = ({ username, profile_image, setFollowStatus, followClose }) =>
                     {username}
                 </Typography>
             </Stack>
-            <RemoveAvatarBtn
-                variant="outlined"
-                align="end"
-                onClick={() => {
-                    unfollowUser(username);
-                }}>
-                移除
-            </RemoveAvatarBtn>
+            {situation === "following" && currentUser.username === usernameParams && (
+                <RemoveAvatarBtn
+                    variant="outlined"
+                    align="end"
+                    onClick={() => {
+                        unfollowUser(username);
+                    }}>
+                    取消追蹤
+                </RemoveAvatarBtn>
+            )}
+            {situation === "fan" && currentUser.username === usernameParams && (
+                <RemoveAvatarBtn
+                    variant="outlined"
+                    align="end"
+                    onClick={() => {
+                        deleteFan(username);
+                    }}>
+                    移除
+                </RemoveAvatarBtn>
+            )}
         </Stack>
     );
 };

@@ -40,7 +40,7 @@ const Favorites = () => {
                                     height: "100%",
                                     display: "flex",
                                     flexDirection: "column",
-                                    borderRadius: "12px",
+                                    borderRadius: "4px",
                                     position: "relative",
                                 }}>
                                 <CardMedia

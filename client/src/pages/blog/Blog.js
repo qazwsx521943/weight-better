@@ -16,6 +16,7 @@ import Footer from "./Footer";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
+import { Divider, Typography } from "@mui/material";
 
 const sections = [
     { title: "最新文章", url: "#" },
@@ -77,7 +78,7 @@ const featuredPosts = [
 ];
 const fourPosts = featuredPosts.slice(0, 4);
 const threePosts = featuredPosts.slice(0, 3);
-const post = featuredPosts.slice(4, 5);
+const largePost = featuredPosts.slice(4, 5);
 
 const posts = [post1, post2, post3];
 
@@ -107,12 +108,12 @@ const sidebar = {
 
 export default function Blog() {
     return (
-        <Grid>
+        <>
             <Header title="Blog" sections={sections} />
             <MainFeaturedPost post={mainFeaturedPost} />
-            <Grid sx={{ mx: 0 }}>
-                <Grid container sx={{ p: 0, my: 3 }}>
-                    {fourPosts.map((post) => (
+            <Grid container spacing={6}>
+                {fourPosts.map((post) => (
+                    <Grid item key={post.title}>
                         <FeaturedPost
                             cardStyle="normalCard"
                             actionAreaStyle="normalActionArea"
@@ -121,34 +122,60 @@ export default function Blog() {
                             key={post.title}
                             post={post}
                         />
-                    ))}
+                    </Grid>
+                ))}
+                <Grid item xs={4} sx={{ p: 0, my: 3 }}>
+                    <Grid container spacing={3}>
+                        {largePost.map((post) => (
+                            <Grid item key={post.title} sx={{ p: 0, mr: 3 }}>
+                                <FeaturedPost
+                                    cardStyle="largeCard"
+                                    actionAreaStyle="largeActionArea"
+                                    mediaStyle="largeMedia"
+                                    contentStyle="largeContent"
+                                    post={post}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Grid>
-                    {post.map((post) => (
-                        <Box key={post.title} sx={{ p: 0, mr: 3 }}>
-                            <FeaturedPost
-                                cardStyle="largeCard"
-                                actionAreaStyle="largeActionArea"
-                                mediaStyle="largeMedia"
-                                contentStyle="largeContent"
-                                post={post}
-                            />
-                        </Box>
-                    ))}
-                <Grid container sx={{ p: 0, my: 3 }}>
-                    {threePosts.map((post) => (
-                        <Grid key={post.title} sx={{ p: 0, mx: 3 }}>
-                            <FeaturedPost
-                                cardStyle="smallCard"
-                                actionAreaStyle="smallActionArea"
-                                mediaStyle="smallMedia"
-                                contentStyle="smallContent"
-                                post={post}
-                            />
-                        </Grid>
-                    ))}
-                    
+                <Grid item xs={8} sx={{ mt: 3 }}>
+                    <Grid container spacing={3}>
+                        {threePosts.map((post) => (
+                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                                <FeaturedPost
+                                    cardStyle="smallCard"
+                                    actionAreaStyle="smallActionArea"
+                                    mediaStyle="smallMedia"
+                                    contentStyle="smallContent"
+                                    post={post}
+                                />
+                            </Grid>
+                        ))}
+                        {threePosts.map((post) => (
+                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                                <FeaturedPost
+                                    cardStyle="smallCard"
+                                    actionAreaStyle="smallActionArea"
+                                    mediaStyle="smallMedia"
+                                    contentStyle="smallContent"
+                                    post={post}
+                                />
+                            </Grid>
+                        ))}
+                        {threePosts.map((post) => (
+                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                                <FeaturedPost
+                                    cardStyle="smallCard"
+                                    actionAreaStyle="smallActionArea"
+                                    mediaStyle="smallMedia"
+                                    contentStyle="smallContent"
+                                    post={post}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </Grid>
-                    
             </Grid>
             {/* <Grid container spacing={5} sx={{ mt: 3 }}>
                 <Main title="From the firehose" posts={posts} />
@@ -159,11 +186,84 @@ export default function Blog() {
                     social={sidebar.social}
                 />
             </Grid> */}
+            <Grid container>
+                <Grid item xs={7}>
+                    <Grid container>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{ display: "flex", alignItems: "center" }}
+                        >
+                            <Grid
+                                sx={{ display: "flex", alignItems: "center" }}
+                            >
+                                <Typography variant="h1" sx={{ my: 3 }}>
+                                    熱門文章
+                                </Typography>
+                                <Divider
+                                    sx={{
+                                        marginLeft: 1,
+                                        height: "100%",
+                                        border: "3px solid 6677C8",
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={3}>
+                            {threePosts.map((post) => (
+                                <Grid
+                                    item
+                                    key={post.title}
+                                    sx={{ p: 0, mx: 1 }}
+                                >
+                                    <FeaturedPost
+                                        cardStyle="smallCard"
+                                        actionAreaStyle="smallActionArea"
+                                        mediaStyle="smallMedia"
+                                        contentStyle="smallContent"
+                                        post={post}
+                                    />
+                                </Grid>
+                            ))}
+                            {threePosts.map((post) => (
+                                <Grid
+                                    item
+                                    key={post.title}
+                                    sx={{ p: 0, mx: 1 }}
+                                >
+                                    <FeaturedPost
+                                        cardStyle="smallCard"
+                                        actionAreaStyle="smallActionArea"
+                                        mediaStyle="smallMedia"
+                                        contentStyle="smallContent"
+                                        post={post}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={5}>
+                    <Grid container spacing={3}>
+                        {largePost.map((post) => (
+                            <Grid item key={post.title} sx={{ p: 0, mr: 3 }}>
+                                <FeaturedPost
+                                    cardStyle="largeCard"
+                                    actionAreaStyle="largeActionArea"
+                                    mediaStyle="largeMedia"
+                                    contentStyle="largeContent"
+                                    post={post}
+                                />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
 
             <Footer
                 title="Footer"
                 description="Something here to give the footer a purpose!"
             />
-        </Grid>
+        </>
     );
 }

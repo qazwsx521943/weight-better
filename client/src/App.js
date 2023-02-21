@@ -27,7 +27,7 @@ import MainContent from "./pages/shop/product/mainConent";
 import Blog from "./pages/blog/Blog";
 
 //**? 客製化菜單 */
-import Menu from "./pages/Menu";
+import Menu from "./pages/menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";

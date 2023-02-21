@@ -9,7 +9,8 @@ import CardMedia from "@mui/material/CardMedia";
 import { Divider } from "@mui/material";
 
 function FeaturedPost(props) {
-    const { post, cardStyle, actionAreaStyle, mediaStyle,contentStyle } = props;
+    const { post, cardStyle, actionAreaStyle, mediaStyle, contentStyle } =
+        props;
     const cardStyles = {
         normalCard: {
             display: "flex",
@@ -21,13 +22,13 @@ function FeaturedPost(props) {
             display: "flex",
             flexDirection: "column",
             width: `450px`,
-            height: `800px`,
+            height: `765px`,
         },
         smallCard: {
             display: "flex",
             flexDirection: "column",
-            width: `200px`,
-            height: `225px`,
+            width: `240px`,
+            height: `240px`,
         },
     };
     const actionAreaStyles = {
@@ -37,25 +38,25 @@ function FeaturedPost(props) {
         },
         largeActionArea: {
             width: `450px`,
-            height: `800px`,
+            height: `765px`,
         },
         smallActionArea: {
-            width: `200px`,
-            height: `225px`,
+            width: `240px`,
+            height: `240px`,
         },
     };
     const mediaStyles = {
         normalMedia: {
             width: `320px`,
-            height: `200px`,
+            height: `190px`,
         },
         largeMedia: {
             width: `450px`,
             height: `450px`,
         },
         smallMedia: {
-            width: `320px`,
-            height: `250px`,
+            width: `240px`,
+            height: `180px`,
         },
     };
     const contentStyles = {
@@ -85,7 +86,7 @@ function FeaturedPost(props) {
                         {/* <Typography variant="subtitle1" color="text.secondary">
                             {post.date}
                         </Typography> */}
-                        <Divider sx={{my:1}}/>
+                        <Divider sx={{ borderColor: "transparent" ,my: 1 }} />
                         <Typography variant="subtitle2" paragraph>
                             {post.description}
                         </Typography>

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 
 
 
-function BasicSelect() {
+function BasicSelect({fontSize}) {
     const [age, setAge] = React.useState('');
 
     const handleChange = (event) => {
@@ -23,7 +23,7 @@ function BasicSelect() {
         <div className='SelectSmall'>
             <Box sx={{ minWidth: 110 }} size="small">
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="demo-select-small" sx={{fontSize: '10px'}}>Age</InputLabel>
+                    <InputLabel id="demo-select-small" sx={{fontSize: '10px'}}>Filter</InputLabel>
                     <Select
                         labelId="demo-select-small"
                         id="demo-select-small"
@@ -33,16 +33,18 @@ function BasicSelect() {
                         sx={{
                             width: '150px',
                             height: '30px',
-                            fontSize: '14px'
+                            fontSize: fontSize
                         }}
                         
                     >
                         <MenuItem value="">
-                            <em>None</em>
+                            <em>請選擇</em>
                         </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value={10}>最新</MenuItem>
+                        <MenuItem value={20}>價錢由高至低</MenuItem>
+                        <MenuItem value={30}>價錢由低至高</MenuItem>
+                        {/* <MenuItem value={40}>Thirty</MenuItem>
+                        <MenuItem value={50}>Thirty</MenuItem> */}
                     </Select>
                 </FormControl>
             </Box>

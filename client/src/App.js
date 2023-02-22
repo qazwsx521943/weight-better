@@ -18,10 +18,13 @@ import Profile from "./pages/user/profile";
 import TestButton from "./pages/test_button/TestButton";
 
 //**? 商品 */
-import ProductDetails from "./pages/shop/product/ProductDetails";
+import Shop from "./pages/shop/product";
+import ProductDetails from "./pages/shop/ProductDetails";
 
 //**? 商品 */
-import MainContent from "./pages/shop/product/mainConent";
+// import MainContent from "./pages/shop/product/mainConent";
+import Products from "./pages/shop/components/Products";
+
 
 //**? 部落格 */
 
@@ -36,7 +39,6 @@ import Test from "./pages/story/Test";
 //**? 抽卡 */
 // import Reels from "./pages/reels";
 // import Blogs from "./pages/blogs";
-import Shop from "./pages/shop/product";
 import SidebarV2 from "./pages/global/SidebarV2";
 import Layout from "./pages/global/Layout";
 // import Menu from "./pages/menu";
@@ -75,7 +77,7 @@ function App() {
                     <CssBaseline />
                     {/* TODO 各自命名 url */}
                     <Routes>
-                        <Route path="/" element={<Layout />}>
+                            <Route path="/" element={<Layout />}>
                             {/* <Route path="/" element={<Home />}></Route> */}
                             <Route path="login" element={<Login />} />
                             <Route path="register" element={<Register />} />
@@ -88,16 +90,20 @@ function App() {
                                 />
                             </Route>
                             {/*SECTION 商城 */}
-                            <Route path="/shop/:pid" element={<Shop />}>
+                            <Route path="/shop">
                                 <Route
-                                    path="ProductDetails"
+                                    path=""
+                                    element={<Shop />}
+                                />
+                                <Route
+                                    path="productdetails"
                                     element={<ProductDetails />}
                                 />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route
-                                path="/shop"
-                                element={<MainContent />}
+                                path="shop"
+                                element={<Products />}
                             ></Route>
 
                             {/* <Route path="/blogs" element={<Blogs />}></Route> */}

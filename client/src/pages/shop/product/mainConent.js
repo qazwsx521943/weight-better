@@ -1,5 +1,5 @@
 import React from 'react'
-import product_card from './product_data'
+import product_card from '../components/product_data'
 import  './contentStyle.css'
 import Header from './header'
 import Input from '../../../components/Input/select'

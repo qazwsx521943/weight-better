@@ -17,10 +17,10 @@
     right: 10px;
     width: 40px;
     cursor: pointer;
-    background-color: #fff;
-    border: 2px solid theme('colors.maingrey');
-    color: #aaa;
+    background-color: theme('colors.maingrey');
+    color: #fff;
     transition: .3s;
+    opacity: .4;
 }
 
 .closeBtn:hover{
@@ -52,7 +52,7 @@
     left: 10px;
 }
 
-.nextBtn:hover, .prevBtn:hover{
+.nextBtn:hover, .prevBtn:hover, .closeBtn:hover{
     background-color: theme('colors.maingrey');
     color: #fff;
     opacity: 1;

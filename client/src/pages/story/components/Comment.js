@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../styleModules/Comment.module.css'
 
-function Comment({ className, sid, uid }) {
+function Comment({ className, sid, uid, openAlert, setOpenAlert }) {
   const [comments, setComments] = useState([])
   const [inputComment, setInputComment] = useState('')
 
@@ -26,6 +26,15 @@ function Comment({ className, sid, uid }) {
       }
     }
 
+    if (!uid) {
+      setOpenAlert({ open: true, text: '先登入才能留言' })
+      setTimeout(() => {
+        setOpenAlert({ open: false, text: '先登入才能留言' })
+      }, 2000)
+
+      return
+    }
+
     const url = `http://localhost:8080/story/comment/${sid}`
     const data = {
       userId: uid,
@@ -46,6 +55,16 @@ function Comment({ className, sid, uid }) {
           renderComments()
           setInputComment('')
         }
+      })
+  }
+
+  const deleteComment = (cid) => {
+    const url = `http://localhost:8080/story/comment/${cid}/delete`
+    fetch(url)
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        renderComments()
       })
   }
 
@@ -75,7 +94,7 @@ function Comment({ className, sid, uid }) {
                   }}
                 >
                   <img
-                    src={`/ImagesStory/users/${el.image_path || 'user.png'}`}
+                    src={`${el.profile_image || '/ImagesStory/users/user.png'}`}
                     alt=""
                     style={{
                       width: '100%',
@@ -86,19 +105,30 @@ function Comment({ className, sid, uid }) {
                 </div>
 
                 <div className="username font-medium lg:text-h5 md:text-h6 text-h7 px-3">
-                  {el.name}
+                  {el.username}
                 </div>
                 <div className="content lg:text-h5 md:text-h6 text-h7 px-3">
                   {el.content}
                 </div>
               </div>
-              <div className="lower">
-                <div
-                  className="time ml-auto col-11 lg:text-h6 md:text-h7 text-h8 px-3"
-                  style={{ color: 'rgba(0, 0, 0, .5)' }}
-                >
-                  {el.time}
-                </div>
+              <div
+                className="lower d-flex lg:text-h6 md:text-h7 text-h8"
+                style={{ color: 'rgba(0, 0, 0, .5)' }}
+              >
+                <div className="spacer col-1"></div>
+                <div className="time px-3">{el.time}</div>
+                {uid === el.user_id ? (
+                  <button
+                    className="deleteBtn text-left"
+                    onClick={() => {
+                      deleteComment(el.comment_id)
+                    }}
+                  >
+                    刪除留言
+                  </button>
+                ) : (
+                  false
+                )}
               </div>
             </div>
           )

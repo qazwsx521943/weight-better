@@ -3,9 +3,15 @@ import React, { useState, useEffect } from 'react'
 // --[style module]
 import styles from './styleModules/Player.module.css'
 
+import { Alert, Fade } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+
 import Comment from './components/Comment'
+// import { useAuth } from '@/hooks/AuthContext'
 
 function ModalPlayer(props) {
+  // const { currentUser } = useAuth()
   const {
     showModal,
     setShowModal,
@@ -15,29 +21,31 @@ function ModalPlayer(props) {
     setPlayingStoryIdx,
     videosCount,
     videos,
+    uid,
   } = props
-
-  const uid = 2
-
-  const showOrCloseModal = () => {
-    clearInterval(timer)
-    setShowModal(!showModal)
-  }
 
   const [videoData, setVideoData] = useState({})
   const [videoTags, setVideoTags] = useState([])
   const [videoLikes, setVideoLikes] = useState('')
   const [videoWatches, setVideoWatches] = useState('')
-  const [collected, setCollected] = useState(true)
+  const [collected, setCollected] = useState(false)
   const [liked, setLiked] = useState(false)
   const [userImage, setUserImage] = useState('user.png')
-  // const [watched, setWatched] = useState(false)
+  const [openAlert, setOpenAlert] = useState({ open: false, text: '' })
 
   useEffect(() => {
     renderLike()
+    renderCollect()
     renderStory()
   }, [sid])
 
+  // --[開啟或關閉 player]
+  const showOrCloseModal = () => {
+    clearInterval(timer)
+    setShowModal(!showModal)
+  }
+
+  // --[播放時開始監控影片進度]
   let timer
   const handlePlay = (e) => {
     const video = e.currentTarget
@@ -53,10 +61,12 @@ function ModalPlayer(props) {
     }, 1000)
   }
 
+  // --[暫停時暫停監控影片進度]
   const handlePause = (e) => {
     clearInterval(timer)
   }
 
+  // --[取得影片資料清單]
   const renderStory = async () => {
     try {
       const url = `http://localhost:8080/story/video/${sid}/data`
@@ -65,13 +75,14 @@ function ModalPlayer(props) {
       console.log(url, data)
       setVideoData(data.rowsStory[0])
       setVideoTags(data.rowsTags)
-      setUserImage(data.rowsStory[0].image_path)
+      setUserImage(data.rowsStory[0].profile_image)
       setVideoWatches(data.rowsStory[0].times)
     } catch (error) {
       console.log(error)
     }
   }
 
+  // --[確認此影片的按讚數 & 使用者有沒有按讚]
   const renderLike = () => {
     const url = `http://localhost:8080/story/video/${sid}/like-count`
     const data = { userId: uid }
@@ -91,13 +102,67 @@ function ModalPlayer(props) {
       })
   }
 
-  const collectStory = () => {
-    console.log('collect')
-    setCollected(!collected)
+  // --[確認使用者有沒有收藏此影片]
+  const renderCollect = () => {
+    if (!uid) {
+      return
+    }
+
+    const url = `http://localhost:8080/story/video/${sid}/check-collect`
+    const data = { userId: uid }
+
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setCollected(rData.collected)
+      })
   }
 
+  // --[使用者收藏 or 取消收藏此影片]
+  const collectStory = () => {
+    if (!uid) {
+      setOpenAlert({ open: true, text: '先登入才能收藏' })
+      setTimeout(() => {
+        setOpenAlert({ open: false, text: '先登入才能收藏' })
+      }, 2000)
+
+      return
+    }
+
+    const url = `http://localhost:8080/story/video/${sid}/collect`
+    const data = { userId: uid, collected: collected ? '1' : '0' }
+
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setCollected(!collected)
+      })
+  }
+
+  // --[使用者按讚 or 取消按讚此影片]
   const likeStory = () => {
-    console.log('like')
+    if (!uid) {
+      setOpenAlert({ open: true, text: '先登入才能按讚' })
+      setTimeout(() => {
+        setOpenAlert({ open: false, text: '先登入才能按讚' })
+      }, 2000)
+
+      return
+    }
 
     const url = `http://localhost:8080/story/video/${sid}/like`
     const data = { userId: uid }
@@ -116,6 +181,7 @@ function ModalPlayer(props) {
       })
   }
 
+  // --[確認此影片的觀看數]
   const updateWatched = () => {
     const url = `http://localhost:8080/story/video/${sid}/watched`
     fetch(url)
@@ -126,6 +192,7 @@ function ModalPlayer(props) {
       })
   }
 
+  // --[上一個影片]
   const goPrevStory = () => {
     clearInterval(timer)
     if (sidx > 0) {
@@ -135,6 +202,8 @@ function ModalPlayer(props) {
       setPlayingStoryId(prevStoryId)
     }
   }
+
+  // --[下一個影片]
   const goNextStory = () => {
     clearInterval(timer)
     if (sidx < videosCount - 1) {
@@ -152,7 +221,7 @@ function ModalPlayer(props) {
         id="exampleModalCenter"
         tabIndex="-1"
         role="dialog"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: '3000' }}
       >
         <div
           className="modal modal-dialog-centered"
@@ -174,6 +243,37 @@ function ModalPlayer(props) {
                   className="row h-100 w-100 m-0"
                   style={{ boxSizing: 'border-box', position: 'relative' }}
                 >
+                  <Fade
+                    in={openAlert.open}
+                    sx={{
+                      position: 'absolute',
+                      top: '0',
+                      left: '50%',
+                      zIndex: '3000',
+                      width: '30%',
+                      transform: 'translate(-50%, 0%)',
+                      transition: '.3s',
+                    }}
+                    timeout={800}
+                  >
+                    <Alert
+                      severity="info"
+                      sx={{ mb: 2 }}
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          size="small"
+                          onClick={() => {
+                            setOpenAlert({ ...openAlert, open: false })
+                          }}
+                        >
+                          <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                      }
+                    >
+                      {openAlert.text}
+                    </Alert>
+                  </Fade>
                   <button
                     className={styles.closeBtn}
                     type="button"
@@ -219,8 +319,8 @@ function ModalPlayer(props) {
                       <div className="userInfo container-fluid d-flex px-0 py-4">
                         <div className={styles.imgBox + ' col-2 mr-4'}>
                           <img
-                            src={`/ImagesStory/users/${
-                              userImage || 'user.png'
+                            src={`${
+                              userImage || '/ImagesStory/users/user.png'
                             }`}
                             style={{
                               width: '100%',
@@ -232,7 +332,7 @@ function ModalPlayer(props) {
                           />
                         </div>
                         <div className="userName flex-1 font-bold lg:text-h2 md:text-h3 text-h4 d-flex align-items-center">
-                          {videoData.name}
+                          {videoData.username}
                         </div>
                       </div>
 
@@ -254,48 +354,54 @@ function ModalPlayer(props) {
                       <div className="flex-1 d-flex align-items-end py-2 mt-4">
                         <div className="likesTimes d-flex">
                           <div
-                            className="likes font-bold lg:text-h4 md:text-h5 text-h6 mr-3"
+                            className="likes d-flex align-items-center font-bold lg:text-h5 md:text-h6 text-h7 mr-3"
                             onClick={likeStory}
                           >
                             <i
-                              className={`fa-solid fa-heart text-pink ${
+                              className={`fa-solid fa-heart lg:text-h4 md:text-h5 text-h6 text-pink ${
                                 !liked && styles.hide
                               }`}
                             ></i>
                             <i
-                              className={`fa-regular fa-heart text-pink ${
+                              className={`fa-regular fa-heart lg:text-h4 md:text-h5 text-h6 text-pink ${
                                 liked && styles.hide
                               }`}
                             ></i>
                             &nbsp;&nbsp;
                             {videoLikes}
                           </div>
-                          <div className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3">
-                            <i className="fa-solid fa-play text-teal"></i>
+                          <div className="times d-flex align-items-center font-bold lg:text-h5 md:text-h6 text-h7 mr-3">
+                            <i className="fa-solid fa-play lg:text-h4 md:text-h5 text-h6 text-teal"></i>
                             &nbsp;&nbsp;
                             {videoWatches}
                           </div>
                           <div
-                            className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3"
+                            className="collect d-flex align-items-center font-bold lg:text-h5 md:text-h6 text-h7 mr-3"
                             onClick={collectStory}
                           >
                             <i
-                              className={`fa-solid fa-bookmark ${
+                              className={`fa-solid fa-bookmark lg:text-h4 md:text-h5 text-h6 ${
                                 !collected && styles.hide
                               } text-main`}
                             ></i>
                             <i
-                              className={`fa-regular fa-bookmark ${
+                              className={`fa-regular fa-bookmark lg:text-h4 md:text-h5 text-h6 ${
                                 collected && styles.hide
                               } text-main`}
                             ></i>
                             &nbsp;&nbsp;{collected ? '已收藏 !' : '收藏'}
-                            {/* {sidx} */}
+                            {/* {openAlert.text} */}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <Comment className={'flex-1'} sid={sid} uid={uid}></Comment>
+                    <Comment
+                      className={'flex-1'}
+                      sid={sid}
+                      uid={uid}
+                      openAlert={openAlert}
+                      setOpenAlert={setOpenAlert}
+                    ></Comment>
                   </div>
                 </div>
               </div>

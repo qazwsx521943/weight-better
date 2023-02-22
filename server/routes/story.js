@@ -26,7 +26,7 @@ router.get('/video/:sid/data', async (req, res) => {
   const sid = parseInt(req.params.sid, 10);
 
   // --[SQL from `story_all JOIN `user`]
-  const sql1 = "SELECT a.*, b.name, b.image_path FROM `story_all` AS a JOIN `user` as b ON a.user_id=b.user_id WHERE `story_id`=?";
+  const sql1 = "SELECT a.*, b.username, b.profile_image FROM `story_all` AS a JOIN `users` as b ON a.user_id=b.id WHERE `story_id`=?";
   const [rowsStory] = await db.query(sql1, sid);
 
   // --[SQL from `story_tag_link JOIN `story_tag_list`]
@@ -92,7 +92,7 @@ router.get('/comment/:sid', async (req, res) => {
   
   const sid = req.params.sid
 
-  const sql = "SELECT a.*, b.image_path, b.name FROM `story_comment` AS a JOIN `user` as b ON a.user_id=b.user_id WHERE `story_id`=?"
+  const sql = "SELECT a.*, b.profile_image, b.username FROM `story_comment` AS a JOIN `users` as b ON a.user_id=b.id WHERE `story_id`=?"
   let [rows] = await db.query(sql, sid)
 
   rows = rows.map(el => {
@@ -154,14 +154,27 @@ router.post('/comment/:sid', async (req, res) => {
 
 })
 
+// --[刪除單一影片的一筆留言]
+router.get('/comment/:cid/delete', async (req, res) => {
+  const cid = req.params.cid
+
+  const sql = "DELETE FROM `story_comment` WHERE `comment_id`=?"
+  const [result] = await db.query(sql, [cid])
+
+  return res.json({success: !!result.affectedRows})
+})
+
 // --[取得單一影片的按讚數 / 確認 user 是否有按讚]
 router.post('/video/:sid/like-count', async (req, res) => {
   const sid = req.params.sid
-  const uid = req.body.userId
+  const uid = +req.body.userId
   
   const sql = "SELECT * FROM `story_like` WHERE `story_id`=?"
   const [rows] = await db.query(sql, sid)
 
+  if (!uid){
+    return res.json({count: rows.length, liked: false})
+  }
   const sql2 = "SELECT * FROM `story_like` WHERE `story_id`=? AND `user_id`=?"
   const [rows2] = await db.query(sql2, [sid, uid])
 
@@ -207,6 +220,42 @@ router.get('/video/:sid/watched', async (req, res) => {
 
   return res.json(output)
 
+})
+
+// --[確認使用者有沒有收藏單一影片]
+router.post('/video/:sid/check-collect', async (req, res) => {
+  const sid = req.params.sid
+  const uid = req.body.userId
+
+  const sql = "SELECT * FROM `story_collect` WHERE `user_id`=? AND `story_id`=?"
+  const [rows] = await db.query(sql, [uid, sid])
+
+  return res.json({collected: !!rows.length})
+})
+
+// --[使用者收藏 or 取消收藏單一影片]
+router.post('/video/:sid/collect', async (req, res) => {
+  const sid = req.params.sid
+  const uid = req.body.userId
+  const colleced = +req.body.collected // 0 for false ; 1 for true
+
+  const output = {
+    success: false
+  }
+
+  if (colleced){
+    const sql1 = "DELETE FROM `story_collect` WHERE `user_id`=? AND `story_id`=?"
+    const [result1] = await db.query(sql1, [uid, sid])
+    output.success = !!result1.affectedRows
+  } else {
+    const sql2 = "INSERT INTO `story_collect`(`user_id`, `story_id`) VALUES (?, ?)"
+    const [result2] = await db.query(sql2, [uid, sid])
+    output.success = !!result2.affectedRows
+  }
+
+  return res.json(output)
+
+  
 })
 
 

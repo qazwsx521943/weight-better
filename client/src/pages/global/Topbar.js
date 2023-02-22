@@ -87,7 +87,6 @@ const Topbar = () => {
     };
 
     return (
-<<<<<<< HEAD
         // 在註冊與登入頁面不顯示 Navbar
         // <div className={`${location.pathname === "/login" || `${location.pathname}` === "/register" ? "hidden" : ""}`}>
         <AppBar position="sticky">
@@ -123,53 +122,6 @@ const Topbar = () => {
                 <Icons>
                     <IconButton type="button">
                         <SearchOutlinedIcon />
-=======
-        <Box
-            display="flex"
-            justifyContent="space-between"
-            p={2}
-            backgroundColor="primary.main"
-        >
-            <Box
-                display="flex"
-                backgroundColor={"primary.main"}
-                borderRadius="3px"
-                sx={{ mr: 2 }}
-            >
-                <Typography alignSelf={"center"}>
-                    <img src={logo} alt="logo" className="h-6" />
-                </Typography>
-            </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                {Object.keys(pages).map((page) => (
-                    <Button
-                        key={page}
-                        sx={{
-                            mx: 1,
-                            color: "yellow.main",
-                            display: "block",
-                        }}
-                        onClick={() => navigate(pages[page])}
-                    >
-                        {page}
-                    </Button>
-                ))}
-            </Box>
-            {/* TODO ICONS */}
-            <Box display="flex">
-                {/* TODO Search bar api */}
-                <InputBase sx={{ mr: 2, flex: 1 }} placeholder="Search" />
-                <IconButton type="button" sx={{ p: 1 }}>
-                    <SearchOutlinedIcon />
-                </IconButton>
-                <IconButton>
-                    <NotificationsOutlinedIcon />
-                </IconButton>
-
-                {login.status ? (
-                    <IconButton onClick={() => navigate("/user")}>
-                        <PersonOutlineOutlinedIcon />
->>>>>>> blog
                     </IconButton>
                     {auth.currentUser && (
                         <IconButton>

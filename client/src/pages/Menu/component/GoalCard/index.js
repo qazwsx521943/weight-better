@@ -6,19 +6,19 @@ import Typography from '@mui/material/Typography';
 
 const images = [
   {
-    url: '/static/images/buttons/breakfast.jpg',
-    title: 'Breakfast',
-    width: '40%',
+    url: '/ImageMenu/goal1.jpg',
+    title: '減脂',
+    width: '33%',
   },
   {
-    url: '/static/images/buttons/burgers.jpg',
-    title: 'Burgers',
-    width: '30%',
+    url: '/ImageMenu/goal2.jpg',
+    title: '維持正常體態',
+    width: '33%',
   },
   {
-    url: '/static/images/buttons/camera.jpg',
-    title: 'Camera',
-    width: '30%',
+    url: '/ImageMenu/goal3.jpg',
+    title: '增肌',
+    width: '33%',
   },
 ];
 
@@ -90,7 +90,7 @@ const ImageMarked = styled('span')(({ theme }) => ({
 function GoalCard() {
   return (
     <div>
-    <Box sx={{display: 'flex'}}>
+    <Box sx={{display: 'flex',}}>
     <Typography id="input-slider" gutterBottom >
         我的目標
       </Typography>

@@ -5,8 +5,9 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsightsSharpIcon from '@mui/icons-material/InsightsSharp';
 import CardStep from '../CardStep';
-import BmrCard from '../BmrCard';
+import MenuPlan from '../MenuPlan';
 import GoalCard from '../GoalCard';
+
 
 // import GoalCard from '../GoalCard';
 // import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -24,8 +25,9 @@ function TopNav() {
         {/* topNav Item */}
         {{
             0:<CardStep/>,
-            1:<BmrCard/>,
+            1:<MenuPlan/>,
             2:<GoalCard/>,
+            
         }[value]}
             <Paper
                 elevation={3}
@@ -40,7 +42,7 @@ function TopNav() {
                     <BottomNavigationAction label='CreatPlan' icon={<ModeEditIcon />}/>
                     <BottomNavigationAction label='MenuPlan' icon={<DescriptionIcon />}/>
                     <BottomNavigationAction label='Analyze' icon={<InsightsSharpIcon />}/>
-
+                   
                     </BottomNavigation>
                 </Paper>
         </Box>

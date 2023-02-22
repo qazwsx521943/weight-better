@@ -6,7 +6,7 @@ import BmiCard from '../BmiCard';
 import BmrCard from '../BmrCard';
 import GoalCard from '../GoalCard';
 import TestResult from '../TestResult';
-import WeightCard from '../WeightCard';
+
 
 function CardStep() {
   const [activeStep, setActiveStep] = useState(0);
@@ -14,7 +14,6 @@ function CardStep() {
     { label: 'BMI', completed: false },
     { label: 'BMR', completed: false },
     { label: 'Goal', completed: false },
-    { label: 'Weight', completed: false },
     { label: 'Result', completed: false },
   ]);
 
@@ -63,8 +62,7 @@ function CardStep() {
           0:<BmiCard/>,
           1:<BmrCard/>,
           2:<GoalCard/>,
-          3:<WeightCard/>,
-          4:<TestResult/>,
+          3:<TestResult/>,
         }[activeStep]}
       </Box>
       {/* Back&And button */}

@@ -15,7 +15,7 @@ class UserService {
     }
 
     updateUser(username, data) {
-        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}`, data);
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/update/${username}`, data);
     }
 
     userOrders(username) {
@@ -44,7 +44,7 @@ class UserService {
     }
 
     userAvatar(username, fileData) {
-        return axios.post(`${process.env.REACT_APP_API_KEY}/user/${username}/upload/avatar`, fileData);
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/upload/avatar/${username}`, fileData);
     }
 }
 

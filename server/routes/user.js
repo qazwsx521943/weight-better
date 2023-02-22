@@ -12,7 +12,7 @@ const upload = multer({ storage });
 // 會員註冊 TODO: 進階驗證留到最後
 router.post("/register", userController.userRegister);
 
-//FIXME 更新會員資料  route
+// 更新會員資料 test OK
 router.post("/update/:username", userController.userUpdate);
 
 // 取得會員資料 test OK
@@ -21,8 +21,8 @@ router.get("/find/:username", userController.userProfile);
 // 取得會員訂單 test OK
 router.get("/find/:username/orders", userController.userOrder);
 
-// Delete : 刪除會員
-router.delete("/delete", userController.userDelete);
+// TODO: Delete : 刪除會員
+// router.delete("/delete", userController.userDelete);
 
 // 追蹤了哪些人 test OK
 router.get("/find/:username/following", userController.userFollowing);
@@ -36,6 +36,7 @@ router.post("/follow", userController.userFollow);
 // 移除粉絲 test OK
 router.post("/deletefan", userController.userDelFan);
 
-router.post("/:username/upload/avatar", upload.single("image"), userController.userSetAvatar);
+// 上傳大頭貼至cloudinary test OK
+router.post("/upload/avatar/:username", upload.single("image"), userController.userSetAvatar);
 
 module.exports = router;

@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/AuthContext";
 import { useParams } from "react-router-dom";
 import UserService from "@/pages/services/user.service";
 // components
-import { Box, Stack, Avatar, Typography, Breadcrumbs, IconButton } from "@mui/material";
+import { Box, Stack, Avatar, Typography, Breadcrumbs, IconButton, Snackbar, Alert } from "@mui/material";
 import PopupModal from "./PopupModal";
 import AvatarBar from "./avatar/AvatarBar";
 import { TealButton } from "./TealButton";
@@ -14,6 +14,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { Close } from "@mui/icons-material";
 
 const LeftBar = () => {
     const params = useParams();
@@ -30,6 +31,7 @@ const LeftBar = () => {
     const [following, setFollowing] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [followStatus, setFollowStatus] = useState();
+    const [openAlert, setOpenAlert] = useState(false);
 
     // fetch page user info
     const usernameParams = params.username;
@@ -45,13 +47,13 @@ const LeftBar = () => {
             setFollowers(res.data);
             setFollowStatus(res.data.filter((fan) => fan.follower_id === currentUser.id).length === 1 ? true : false);
         });
-    }, [followStatus, currentUser.id, usernameParams]);
+    }, [followStatus, currentUser.id, usernameParams, user.profile_image]);
 
     // 點擊follow / unfollow
     const followUser = (e) => {
         UserService.userFollow(usernameParams, currentUser.id).then((res) => {
-            // setFollowers([...followers, { follower_id: currentUser.id, username: currentUser.id }]);
             setFollowStatus(!followStatus);
+            setOpenAlert(true);
         });
     };
 
@@ -66,7 +68,9 @@ const LeftBar = () => {
         // setProfile_image(e.target.files[0]);
         const formData = new FormData();
         formData.append("image", e.target.files[0]);
-        UserService.userAvatar(currentUser.username, formData).then((res) => console.log(res.data));
+        UserService.userAvatar(currentUser.username, formData).then((res) => {
+            setUser({ ...user, profile_image: res.toString() });
+        });
     };
 
     const deleteFan = (username) => {
@@ -78,6 +82,14 @@ const LeftBar = () => {
     // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
+            {currentUser.username !== usernameParams && (
+                <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} open={openAlert} autoHideDuration={2000}>
+                    <Alert severity="success" sx={{ width: "100%" }}>
+                        {followStatus && `正在追蹤${usernameParams}`}
+                        {!followStatus && `已取消追蹤${usernameParams}`}
+                    </Alert>
+                </Snackbar>
+            )}
             <Stack direction="column" spacing={2} alignItems="center" pt={5}>
                 <Box position={"relative"}>
                     <Avatar alt="profile_image" src={user.profile_image} sx={{ width: 300, height: 300 }} />

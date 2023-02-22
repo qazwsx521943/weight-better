@@ -2,10 +2,10 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import React from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import AuthWrapper from "./AuthWrapper";
+import AuthWrapper from "../AuthWrapper";
 import AuthService from "@/pages/services/auth.service";
-import ArrowButton from "./ArrowButton/ArrowButton";
-import { useAuth } from "../../hooks/AuthContext";
+import ArrowButton from "../ArrowButton/ArrowButton";
+import { useAuth } from "../../../hooks/AuthContext";
 
 const Login = ({ currentUser, setCurrentUser }) => {
     const navigate = useNavigate();

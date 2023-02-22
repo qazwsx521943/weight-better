@@ -68,6 +68,7 @@ const Topbar = () => {
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
     const handleLogout = () => {
+        setOpen(false);
         // 清空local storage
         AuthService.logout();
         window.alert("登出成功！回到登入頁");
@@ -181,7 +182,7 @@ const Topbar = () => {
                     Profile
                 </MenuItem>
                 <MenuItem onClick={(e) => setOpen(false)}>My account</MenuItem>
-                <MenuItem onClick={(e) => setOpen(false)}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </AppBar>
         // </div>

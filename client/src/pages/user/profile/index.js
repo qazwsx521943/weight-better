@@ -1,20 +1,21 @@
-import { Box, TextField, Button, Input, InputLabel, InputAdornment, FormControl } from "@mui/material";
-import React, { useState, useEffect } from "react";
+// hooks
+import { useAuth } from "@/hooks/AuthContext";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import FlexBox from "@/components/FlexBox/FlexBox";
+import React, { useState, useEffect } from "react";
+// components
+import { Box, Input, InputLabel, InputAdornment, FormControl } from "@mui/material";
+import { TealButton } from "../components/TealButton";
+// icons
 import EmailIcon from "@mui/icons-material/Email";
 import UserService from "@/pages/services/user.service";
-import { TealButton } from "../components/TealButton";
 import SaveIcon from "@mui/icons-material/Save";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import BoyIcon from "@mui/icons-material/Boy";
 import InterestsIcon from "@mui/icons-material/Interests";
 import PaletteIcon from "@mui/icons-material/Palette";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import { useAuth } from "@/hooks/AuthContext";
 
-const data = [
+const tablist = [
     { name: "email", label: "Email", icon: <EmailIcon /> },
     { name: "fullname", label: "姓名", icon: <BoyIcon /> },
     { name: "interest", label: "興趣", icon: <InterestsIcon /> },
@@ -25,7 +26,7 @@ const data = [
 function Profile() {
     const { currentUser } = useAuth();
     const params = useParams();
-    const [profileData, setProfileData] = useState({});
+    const [profileData, setProfileData] = useState();
     const [editStatus, seteditStatus] = useState(false);
 
     const usernameParams = params.username;
@@ -89,7 +90,7 @@ function Profile() {
                 flexDirection={"column"}
                 alignItems={"center"}
                 marginX={3}>
-                {data.map((field, i) => (
+                {tablist.map((field, i) => (
                     <FormControl variant="standard" key={i}>
                         <InputLabel htmlFor={field.name}>{field.label}</InputLabel>
                         <Input
@@ -98,7 +99,7 @@ function Profile() {
                             id={field.name}
                             name={field.name}
                             onChange={inputChange}
-                            value={profileData[field.name] || ""}
+                            value={profileData?.[field.name] || ""}
                             startAdornment={<InputAdornment position="start">{field.icon}</InputAdornment>}></Input>
                     </FormControl>
                 ))}

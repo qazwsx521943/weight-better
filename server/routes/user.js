@@ -4,19 +4,39 @@ const router = express.Router();
 
 const userController = require("../controllers/userController");
 
-// POST : 會員註冊
+const multer = require("multer");
+
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
+
+// 會員註冊 TODO: 進階驗證留到最後
 router.post("/register", userController.userRegister);
 
-// POST : 會員資料更新
-router.post("/:username", userController.userUpdate);
+// 更新會員資料 test OK
+router.post("/update/:username", userController.userUpdate);
 
-// GET : 登入後會員資料
-router.get("/:username", userController.userProfile);
+// 取得會員資料 test OK
+router.get("/find/:username", userController.userProfile);
 
-// GET : 會員訂單
-router.get("/:username/orders", userController.userOrder);
+// 取得會員訂單 test OK
+router.get("/find/:username/orders", userController.userOrder);
 
-// Delete : 刪除會員
-router.delete("/delete", userController.userDelete);
+// TODO: Delete : 刪除會員
+// router.delete("/delete", userController.userDelete);
+
+// 追蹤了哪些人 test OK
+router.get("/find/:username/following", userController.userFollowing);
+
+// 被哪些人追蹤 test OK
+router.get("/find/:username/followers", userController.userFollowers);
+
+// 追蹤別人 / 退追別人 test OK
+router.post("/follow", userController.userFollow);
+
+// 移除粉絲 test OK
+router.post("/deletefan", userController.userDelFan);
+
+// 上傳大頭貼至cloudinary test OK
+router.post("/upload/avatar/:username", upload.single("image"), userController.userSetAvatar);
 
 module.exports = router;

@@ -9,7 +9,7 @@ const localLogin = async (req, res) => {
     const { username, password } = req.body;
     // Joi 驗證
     let { error } = loginValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error?.details[0].type === "string.empty") return res.status(400).send("欄位不得為空！");
 
     const sql = "SELECT * FROM `users` WHERE `username`=?";
     const [data] = await db.query(sql, username);

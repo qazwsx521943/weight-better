@@ -1,29 +1,25 @@
-import React from "react";
-import { Box, Stack, Avatar, Typography, Divider, Breadcrumbs, Link } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import WhatshotIcon from "@mui/icons-material/Whatshot";
+// hooks
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/AuthContext";
+import { useParams } from "react-router-dom";
+import UserService from "@/pages/services/user.service";
+// components
+import { Box, Stack, Avatar, Typography, Breadcrumbs, IconButton, Snackbar, Alert } from "@mui/material";
+import PopupModal from "./PopupModal";
+import AvatarBar from "./avatar/AvatarBar";
 import { TealButton } from "./TealButton";
+// icons
 import EditIcon from "@mui/icons-material/Edit";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-
-import PopupModal from "./PopupModal";
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/AuthContext";
-import AvatarBar from "./avatar/AvatarBar";
-import UserService from "@/pages/services/user.service";
-import { useParams } from "react-router-dom";
-
-const fakeData = [
-    { username: "jon", profile_image: "https://source.unsplash.com/random" },
-    { username: "jon", profile_image: "https://source.unsplash.com/random" },
-    { username: "jon", profile_image: "https://source.unsplash.com/random" },
-];
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { Close } from "@mui/icons-material";
 
 const LeftBar = () => {
     const params = useParams();
     const { currentUser } = useAuth();
-    // 追蹤modal states
+    // modal states
     const [fanOpenState, setfanOpenState] = useState(false);
     const fanOpen = () => setfanOpenState(true);
     const fanClose = () => setfanOpenState(false);
@@ -32,23 +28,83 @@ const LeftBar = () => {
     const followClose = () => setfollowOpenState(false);
     // leftbar information states
     const [user, setUser] = useState({});
-    const [following, setFollowing] = useState();
-    const [followers, setFollowers] = useState();
+    const [following, setFollowing] = useState([]);
+    const [followers, setFollowers] = useState([]);
+    const [followStatus, setFollowStatus] = useState();
+    const [openAlert, setOpenAlert] = useState(false);
 
     // fetch page user info
     const usernameParams = params.username;
+    // FIXME infinite rerendering
     useEffect(() => {
         UserService.userProfile(usernameParams).then((res) => {
             setUser(res.data[0]);
-            setFollowing(res.data[1]);
-            setFollowers(res.data[2]);
         });
-    }, [usernameParams]);
+        UserService.userFollowing(usernameParams).then((res) => {
+            setFollowing(res.data);
+        });
+        UserService.userFollowers(usernameParams).then((res) => {
+            setFollowers(res.data);
+            setFollowStatus(res.data.filter((fan) => fan.follower_id === currentUser.id).length === 1 ? true : false);
+        });
+    }, [followStatus, currentUser.id, usernameParams, user.profile_image]);
 
+    // 點擊follow / unfollow
+    const followUser = (e) => {
+        UserService.userFollow(usernameParams, currentUser.id).then((res) => {
+            setFollowStatus(!followStatus);
+            setOpenAlert(true);
+        });
+    };
+
+    // modal unfollow
+    const unfollowUser = (username) => {
+        UserService.userFollow(username, currentUser.id);
+        setFollowing(following.filter((follow) => follow.username !== username));
+    };
+
+    // 換大頭貼
+    const avatarChange = (e) => {
+        // setProfile_image(e.target.files[0]);
+        const formData = new FormData();
+        formData.append("image", e.target.files[0]);
+        UserService.userAvatar(currentUser.username, formData).then((res) => {
+            setUser({ ...user, profile_image: res.toString() });
+        });
+    };
+
+    const deleteFan = (username) => {
+        UserService.userDelFan(username, currentUser.id);
+        setFollowers(followers.filter((fan) => fan.username !== username));
+    };
+
+    // const checkFollowStatus = followers.filter((fan) => fan.follower_id === currentUser.id).length;
+    // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
+            {currentUser.username !== usernameParams && (
+                <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} open={openAlert} autoHideDuration={2000}>
+                    <Alert severity="success" sx={{ width: "100%" }}>
+                        {followStatus && `正在追蹤${usernameParams}`}
+                        {!followStatus && `已取消追蹤${usernameParams}`}
+                    </Alert>
+                </Snackbar>
+            )}
             <Stack direction="column" spacing={2} alignItems="center" pt={5}>
-                <Avatar alt="profile_image" src="/static/images/avatar/1.jpg" sx={{ width: 300, height: 300 }} />
+                <Box position={"relative"}>
+                    <Avatar alt="profile_image" src={user.profile_image} sx={{ width: 300, height: 300 }} />
+                    {currentUser.username === usernameParams && (
+                        <IconButton
+                            size="large"
+                            color="primary"
+                            aria-label="upload picture"
+                            component="label"
+                            sx={{ position: "absolute", bottom: "10%", right: "10%", "&:hover": { bgcolor: "teal.main" } }}>
+                            <input hidden accept="image/*" type="file" onChange={avatarChange} />
+                            <CameraAltIcon fontSize="inherit" color="teal" sx={{ "&:hover": { color: "whitesmoke" } }} />
+                        </IconButton>
+                    )}
+                </Box>
                 <Typography variant="h3" fontWeight={600} color="initial">
                     {user.fullname}
                 </Typography>
@@ -59,42 +115,36 @@ const LeftBar = () => {
                     <Box>
                         <Typography onClick={fanOpen} sx={{ display: "flex", alignItems: "center", "&:hover": { cursor: "pointer" } }}>
                             <PeopleIcon sx={{ mr: 1 }} fontSize="inherit" />
-                            {followers} 位粉絲
+                            {followers.length} 位粉絲
                         </Typography>
                         <PopupModal handleClose={fanClose} open={fanOpenState} title="粉絲">
-                            忠實的粉絲們
+                            {followers.map((follow, i) => (
+                                <AvatarBar
+                                    key={i}
+                                    username={follow.username}
+                                    profile_image={follow.profile_image}
+                                    situation={"fan"}
+                                    // setFollowStatus={setFollowStatus}
+                                    deleteFan={deleteFan}
+                                    followClose={fanClose}></AvatarBar>
+                            ))}
                         </PopupModal>
                     </Box>
                     <Box>
                         <Typography onClick={followOpen} sx={{ display: "flex", alignItems: "center", "&:hover": { cursor: "pointer" } }}>
-                            {following} 追蹤中
-                            {/* <WhatshotIcon sx={{ ml: 0.5 }} fontSize="inherit" /> */}
+                            {following.length} 追蹤中
                         </Typography>
                         <PopupModal handleClose={followClose} open={followOpenState} title="追蹤中">
-                            <div className="container d-flex align-items-center">
-                                <div
-                                    className="imgBox col-1"
-                                    style={{
-                                        overflow: "hidden",
-                                        borderRadius: "500px",
-                                        aspectRatio: "1/1",
-                                    }}>
-                                    <img
-                                        src={`/ImagesStory/users/${user.imgPath || "user.png"}`}
-                                        alt=""
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            objectFit: "cover",
-                                        }}
-                                    />
-                                </div>
-
-                                <div className="username font-medium lg:text-h5 md:text-h6 text-h7 px-3">{user.username}</div>
-                            </div>
-                            {/* {fakeData.map((fan, i) => (
-                                <AvatarBar key={i} username={fan.username} profile_image={fan.profile_image}></AvatarBar>
-                            ))} */}
+                            {following.map((fan, i) => (
+                                <AvatarBar
+                                    key={i}
+                                    username={fan.username}
+                                    profile_image={fan.profile_image}
+                                    setFollowStatus={setFollowStatus}
+                                    unfollowUser={unfollowUser}
+                                    situation={"following"}
+                                    followClose={followClose}></AvatarBar>
+                            ))}
                         </PopupModal>
                     </Box>
                 </Breadcrumbs>
@@ -103,9 +153,14 @@ const LeftBar = () => {
                         編輯自介
                     </TealButton>
                 )}
-                {currentUser.username !== usernameParams && (
-                    <TealButton endIcon={<PersonAddIcon />} fullWidth>
+                {currentUser.username !== usernameParams && !followStatus && (
+                    <TealButton onClick={followUser} endIcon={<PersonAddIcon />} fullWidth>
                         Follow
+                    </TealButton>
+                )}
+                {currentUser.username !== usernameParams && followStatus && (
+                    <TealButton onClick={followUser} endIcon={<PersonRemoveIcon />} fullWidth>
+                        unFollow
                     </TealButton>
                 )}
             </Stack>

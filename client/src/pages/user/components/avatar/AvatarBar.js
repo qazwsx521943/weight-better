@@ -1,6 +1,9 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Badge, Avatar, Stack, Typography, Button, Box } from "@mui/material";
+import { Badge, Avatar, Stack, Typography, Button } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "@/hooks/AuthContext";
+import UserService from "@/pages/services/user.service";
 const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
         backgroundColor: "#44b700",
@@ -39,20 +42,51 @@ const RemoveAvatarBtn = styled(Button)(({ theme }) => ({
     scale: "0.8",
 }));
 
-const AvatarBar = ({ username, profile_image }) => {
+const AvatarBar = ({ username, profile_image, followClose, situation, deleteFan, unfollowUser }) => {
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+
+    const params = useParams();
+    const usernameParams = params.username;
     return (
         <Stack direction="row" spacing={2} justifyContent="space-between" width={"100%"}>
             <Stack direction={"row"} spacing={2} justifyContent="space-between">
                 <StyledBadge overlap="circular" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} variant="dot">
                     <Avatar alt="Remy Sharp" src={profile_image} />
                 </StyledBadge>
-                <Typography variant="h6" color="black.main" mt={2} lineHeight="40px">
+                <Typography
+                    variant="h6"
+                    color="black.main"
+                    mt={2}
+                    lineHeight="40px"
+                    onClick={() => {
+                        followClose();
+                        navigate(`/${username}`);
+                    }}
+                    sx={{ "&:hover": { cursor: "pointer" } }}>
                     {username}
                 </Typography>
             </Stack>
-            <RemoveAvatarBtn variant="outlined" align="end">
-                移除
-            </RemoveAvatarBtn>
+            {situation === "following" && currentUser.username === usernameParams && (
+                <RemoveAvatarBtn
+                    variant="outlined"
+                    align="end"
+                    onClick={() => {
+                        unfollowUser(username);
+                    }}>
+                    取消追蹤
+                </RemoveAvatarBtn>
+            )}
+            {situation === "fan" && currentUser.username === usernameParams && (
+                <RemoveAvatarBtn
+                    variant="outlined"
+                    align="end"
+                    onClick={() => {
+                        deleteFan(username);
+                    }}>
+                    移除
+                </RemoveAvatarBtn>
+            )}
         </Stack>
     );
 };

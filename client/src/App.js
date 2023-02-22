@@ -10,7 +10,7 @@ import { useAuth } from "./hooks/AuthContext";
 // import Login from "./pages/login";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
-import Home from "./pages/home/Home";
+import Home from "./pages/home/home";
 import ErrorPage from "./pages/ErrorPage";
 import AuthRequired from "./pages/authentication/RequireAuth";
 

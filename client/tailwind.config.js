@@ -11,6 +11,9 @@ module.exports = {
             black: "#2F2D3F",
             white: "#FFFFFF",
             gray: "#A9A9A9",
+            main: '#6677C8',
+            mainyellow: '#FFE4A3',
+            maingrey: '#aaa'
         },
         boxShadow: {
             sm: "0px 2px 4px 0px rgba(11,10,55,0.15)",

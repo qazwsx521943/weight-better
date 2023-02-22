@@ -6,26 +6,58 @@ import styles from './styleModules/Player.module.css'
 import Comment from './components/Comment'
 
 function ModalPlayer(props) {
-  const { showModal, setShowModal, playingStoryId: sid } = props
+  const {
+    showModal,
+    setShowModal,
+    playingStoryId: sid,
+    setPlayingStoryId,
+    playingStoryIdx: sidx,
+    setPlayingStoryIdx,
+    videosCount,
+    videos,
+  } = props
 
-  // if (!showModal) {
-  //   return <></>
-  // }
+  const uid = 2
 
-  const handleClick = () => {
+  const showOrCloseModal = () => {
+    clearInterval(timer)
     setShowModal(!showModal)
   }
 
   const [videoData, setVideoData] = useState({})
   const [videoTags, setVideoTags] = useState([])
+  const [videoLikes, setVideoLikes] = useState('')
+  const [videoWatches, setVideoWatches] = useState('')
   const [collected, setCollected] = useState(true)
+  const [liked, setLiked] = useState(false)
   const [userImage, setUserImage] = useState('user.png')
+  // const [watched, setWatched] = useState(false)
 
   useEffect(() => {
-    componentDidMount()
-  }, [])
+    renderLike()
+    renderStory()
+  }, [sid])
 
-  const componentDidMount = async () => {
+  let timer
+  const handlePlay = (e) => {
+    const video = e.currentTarget
+    timer = setInterval(() => {
+      console.log('check progress')
+      const currentTime = video.currentTime
+      const duration = video.duration
+
+      if (currentTime / duration > 0.5) {
+        clearInterval(timer)
+        updateWatched()
+      }
+    }, 1000)
+  }
+
+  const handlePause = (e) => {
+    clearInterval(timer)
+  }
+
+  const renderStory = async () => {
     try {
       const url = `http://localhost:8080/story/video/${sid}/data`
       const res = await fetch(url)
@@ -34,18 +66,83 @@ function ModalPlayer(props) {
       setVideoData(data.rowsStory[0])
       setVideoTags(data.rowsTags)
       setUserImage(data.rowsStory[0].image_path)
+      setVideoWatches(data.rowsStory[0].times)
     } catch (error) {
       console.log(error)
     }
   }
 
+  const renderLike = () => {
+    const url = `http://localhost:8080/story/video/${sid}/like-count`
+    const data = { userId: uid }
+
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setVideoLikes(rData.count)
+        setLiked(rData.liked)
+      })
+  }
+
   const collectStory = () => {
-    console.log('click')
+    console.log('collect')
     setCollected(!collected)
   }
 
-  const handleClickBubble = (e) => {
-    e.stopPropagation()
+  const likeStory = () => {
+    console.log('like')
+
+    const url = `http://localhost:8080/story/video/${sid}/like`
+    const data = { userId: uid }
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setLiked(rData.liked)
+        renderLike()
+      })
+  }
+
+  const updateWatched = () => {
+    const url = `http://localhost:8080/story/video/${sid}/watched`
+    fetch(url)
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+        setVideoWatches(videoWatches + 1)
+      })
+  }
+
+  const goPrevStory = () => {
+    clearInterval(timer)
+    if (sidx > 0) {
+      console.log(sidx - 1)
+      const prevStoryId = videos[sidx - 1].story_id
+      setPlayingStoryIdx(sidx - 1)
+      setPlayingStoryId(prevStoryId)
+    }
+  }
+  const goNextStory = () => {
+    clearInterval(timer)
+    if (sidx < videosCount - 1) {
+      console.log(sidx + 1)
+      const nextStoryId = videos[sidx + 1].story_id
+      setPlayingStoryIdx(sidx + 1)
+      setPlayingStoryId(nextStoryId)
+    }
   }
 
   return (
@@ -57,31 +154,66 @@ function ModalPlayer(props) {
         role="dialog"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
-        <div className="modal modal-dialog-centered" onClick={handleClick}>
+        <div
+          className="modal modal-dialog-centered"
+          style={{ overflow: 'hidden' }}
+        >
           <div
             className="modal-content"
             style={{
               height: 'calc(100vh - 0px)',
+              width: 'calc(100vw - 0px)',
               position: 'absolute',
               bottom: '0px',
               borderRadius: '0px',
             }}
-            onClick={handleClickBubble}
           >
-            <div className="modal-body p-0">
-              <div className="container-fluid h-100 w-100">
-                <div className="row" style={{ height: 'calc(100vh - 0px)' }}>
-                  <div className="storyView col-7 p-0 d-flex h-100">
-                    <video controls muted autoPlay className="bg-black">
-                      <source
-                        src={`http://localhost:8080/story/video/${sid}`}
-                        type="video/mp4"
-                      ></source>
-                    </video>
+            <div className="modal-body h-100 p-0">
+              <div className="container-fluid h-100 p-0">
+                <div
+                  className="row h-100 w-100 m-0"
+                  style={{ boxSizing: 'border-box', position: 'relative' }}
+                >
+                  <button
+                    className={styles.closeBtn}
+                    type="button"
+                    onClick={showOrCloseModal}
+                  >
+                    <i className="fa-solid fa-xmark"></i>
+                  </button>
+                  <button
+                    className={styles.nextBtn}
+                    type="button"
+                    onClick={goNextStory}
+                  >
+                    <i className="fa-solid fa-forward-step"></i>
+                  </button>
+
+                  <div
+                    className="storyView col-7 p-0 h-100"
+                    style={{ position: 'relative' }}
+                  >
+                    <video
+                      controls
+                      muted
+                      autoPlay
+                      className="bg-black h-100"
+                      src={`http://localhost:8080/story/video/${sid}/get`}
+                      type="video/mp4"
+                      onPlay={handlePlay}
+                      onPause={handlePause}
+                    ></video>
+                    <button
+                      className={styles.prevBtn}
+                      type="button"
+                      onClick={goPrevStory}
+                    >
+                      <i className="fa-solid fa-backward-step"></i>
+                    </button>
                   </div>
-                  <div className="storyInfo col-5 d-flex flex-column px-4 h-100">
+                  <div className="storyInfo col-5 d-flex flex-column h-100 border-none pl-4 pr-14">
                     <div
-                      className="infoDetail h-75 d-flex flex-column border-solid border-black"
+                      className="infoDetail d-flex flex-column border-solid border-black border-opacity-25"
                       style={{ borderBottomWidth: '1px' }}
                     >
                       <div className="userInfo container-fluid d-flex px-0 py-4">
@@ -104,7 +236,7 @@ function ModalPlayer(props) {
                         </div>
                       </div>
 
-                      <div className="storyTitle font-bold lg:text-h1 md:text-h2 text-h3 pt-4 pb-2">
+                      <div className="storyTitle font-bold lg:text-h2 md:text-h3 text-h4 pt-4 pb-2">
                         {videoData.story_title}
                       </div>
                       <div className="storyTags d-flex flex-wrap">
@@ -119,17 +251,29 @@ function ModalPlayer(props) {
                           )
                         })}
                       </div>
-                      <div className="flex-1 d-flex align-items-end py-2">
+                      <div className="flex-1 d-flex align-items-end py-2 mt-4">
                         <div className="likesTimes d-flex">
-                          <div className="likes font-bold lg:text-h4 md:text-h5 text-h6 mr-3">
-                            <i className="fa-solid fa-heart text-pink"></i>
+                          <div
+                            className="likes font-bold lg:text-h4 md:text-h5 text-h6 mr-3"
+                            onClick={likeStory}
+                          >
+                            <i
+                              className={`fa-solid fa-heart text-pink ${
+                                !liked && styles.hide
+                              }`}
+                            ></i>
+                            <i
+                              className={`fa-regular fa-heart text-pink ${
+                                liked && styles.hide
+                              }`}
+                            ></i>
                             &nbsp;&nbsp;
-                            {videoData.likes}
+                            {videoLikes}
                           </div>
                           <div className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3">
                             <i className="fa-solid fa-play text-teal"></i>
                             &nbsp;&nbsp;
-                            {videoData.times}
+                            {videoWatches}
                           </div>
                           <div
                             className="times font-bold lg:text-h4 md:text-h5 text-h6 mr-3"
@@ -138,19 +282,20 @@ function ModalPlayer(props) {
                             <i
                               className={`fa-solid fa-bookmark ${
                                 !collected && styles.hide
-                              } text-primary`}
+                              } text-main`}
                             ></i>
                             <i
                               className={`fa-regular fa-bookmark ${
                                 collected && styles.hide
-                              } text-primary`}
+                              } text-main`}
                             ></i>
                             &nbsp;&nbsp;{collected ? '已收藏 !' : '收藏'}
+                            {/* {sidx} */}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <Comment className={'h-75'} sid={sid}></Comment>
+                    <Comment className={'flex-1'} sid={sid} uid={uid}></Comment>
                   </div>
                 </div>
               </div>

@@ -8,19 +8,19 @@ console.log(__dirname)
 
 const images = [
   {
-    url: '/Image/01.jpg',
+    url: '/ImageMenu/Bmr01.jpg',
     title: '幾乎不運動',
-    width: '40%',
+    width: '33%',
   },
   {
-    url: '/static/images/buttons/burgers.jpg',
+    url: '/ImageMenu/Bmr02.jpg',
     title: '每週運動3-5天',
-    width: '30%',
+    width: '33%',
   },
   {
-    url: '/static/images/buttons/camera.jpg',
+    url: '/ImageMenu/Bmr03.jpg',
     title: '每週運動6-7天',
-    width: '30%',
+    width: '33%',
   },
 ];
 

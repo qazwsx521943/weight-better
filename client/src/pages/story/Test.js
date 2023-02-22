@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import './test.css'
-import { Button, Box, Typography, Modal } from '@mui/material'
-import UserInfo from './components/UserInfo'
-import ReactPlayer from 'react-player'
+import React, { useEffect, useState } from "react";
+import "./test.css";
+import { Button, Box, Typography, Modal } from "@mui/material";
+import UserInfo from "./components/UserInfo";
+// import ReactPlayer from 'react-player'
 
 // Render a YouTube video player
 
 function Test() {
-  const [showModal, setShowModal] = useState(false)
-  const [played, setPlayed] = useState(0)
-  const [count, setCount] = useState({ counted: false, total: 0 })
+    const [showModal, setShowModal] = useState(false);
+    const [played, setPlayed] = useState(0);
+    const [count, setCount] = useState({ counted: false, total: 0 });
 
-  const handleClick = () => {
-    console.log('click')
-    setShowModal(!showModal)
-  }
+    const handleClick = () => {
+        console.log("click");
+        setShowModal(!showModal);
+    };
 
-  useEffect(() => {
-    if (!count.counted) {
-      if (played > 0.5) {
-        setCount({ counted: true, total: count.total + 1 })
-      }
-    }
-  }, [played])
+    useEffect(() => {
+        if (!count.counted) {
+            if (played > 0.5) {
+                setCount({ counted: true, total: count.total + 1 });
+            }
+        }
+    }, [played]);
 
-  return (
-    <div>
-      {/* <button
+    return (
+        <div>
+            {/* <button
         style={{ backgroundColor: 'salmon' }}
         onClick={() => {
           handleClick()
@@ -65,7 +65,7 @@ function Test() {
           </div>
         </div>
       </div> */}
-      {/* <Button onClick={handleClick}>Open modal</Button>
+            {/* <Button onClick={handleClick}>Open modal</Button>
       <Modal
         className="modalBox"
         open={showModal}
@@ -82,20 +82,20 @@ function Test() {
         </Box>
       </Modal> */}
 
-      {/* <UserInfo imgPath={'kris.jpg'} username={'kris1997'}></UserInfo> */}
+            {/* <UserInfo imgPath={'kris.jpg'} username={'kris1997'}></UserInfo> */}
 
-      <ReactPlayer
-        url={`http://localhost:8080/story/video/1/get`}
-        controls
-        onProgress={(progress) => {
-          setPlayed(progress.played)
-        }}
-      />
-      <div>played: {played}</div>
-      <div>counted: {count.counted}</div>
-      <div>total: {count.total}</div>
-    </div>
-  )
+            {/* <ReactPlayer
+                url={`http://localhost:8080/story/video/1/get`}
+                controls
+                onProgress={(progress) => {
+                    setPlayed(progress.played);
+                }}
+            />
+            <div>played: {played}</div>
+            <div>counted: {count.counted}</div>
+            <div>total: {count.total}</div> */}
+        </div>
+    );
 }
 
-export default Test
+export default Test;

@@ -29,7 +29,6 @@ import ProductDetails from "./pages/shop/ProductDetails";
 // import MainContent from "./pages/shop/product/mainConent";
 import Products from "./pages/shop/components/Products";
 
-
 //**? 部落格 */
 import Blog from "./pages/blog/Blog";
 
@@ -44,8 +43,7 @@ import Test from "./pages/story/Test";
 //**? 抽卡 */
 // import Reels from "./pages/reels";
 // import Blogs from "./pages/blogs";
-import Shop from "./pages/shop/product";
-import SidebarV2 from "./pages/global/SidebarV2";
+
 import Layout from "./pages/global/Layout";
 import Favorites from "./pages/user/favorites/Favorites";
 import OrderList from "./pages/user/orderList";
@@ -80,20 +78,11 @@ function App() {
                             </Route>
                             {/*SECTION 商城 */}
                             <Route path="/shop">
-                                <Route
-                                    path=""
-                                    element={<Shop />}
-                                />
-                                <Route
-                                    path="productdetails"
-                                    element={<ProductDetails />}
-                                />
+                                <Route path="" element={<Shop />} />
+                                <Route path="productdetails" element={<ProductDetails />} />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
-                            <Route
-                                path="shop"
-                                element={<Products />}
-                            ></Route>
+                            <Route path="shop" element={<Products />}></Route>
 
                             <Route path="/blog" element={<Blog />}></Route>
                             {/* <Route path="/menu" element={<Menu />}></Route> */}

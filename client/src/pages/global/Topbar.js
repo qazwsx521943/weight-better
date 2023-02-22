@@ -98,7 +98,7 @@ const Topbar = () => {
                     </Typography>
                 </Logo>
                 <Nav sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
-                    {pages.map((page) => (
+                    {Object.keys(pages).map((page) => (
                         <Button
                             key={page}
                             sx={{

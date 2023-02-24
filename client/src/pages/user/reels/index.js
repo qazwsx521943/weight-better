@@ -16,7 +16,6 @@ import {
 
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 import MyStoryList from "./components/MyStoryList";
 import CollectStoryList from "./components/CollectStoryList";
 

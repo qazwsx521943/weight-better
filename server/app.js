@@ -21,6 +21,8 @@ const userRouter = require("./routes/user");
 // --[建立 products 路由]
 const products = require("./routes/products");
 // const courseRouter = require("./routes/course");
+// --[建立blogs路由]
+const blogRouter = require("./routes/blogs"); 
 
 // middlewares
 app.use(bodyParser.json());
@@ -47,6 +49,12 @@ app.use("/user", userRouter);
 app.use("/story", require("./routes/story"));
 app.use("/menu", require("./routes/menu"));
 app.use("/products", products);
+app.use("/blogs", blogRouter);
+// app.use(
+//     "/course",
+//     passport.authenticate("jwt", { session: false }),
+//     courseRouter
+// );
 
 // app.use("/user", passport.authenticate("jwt",{session:false}),userRouter);
 

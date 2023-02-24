@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../styleModules/VideoCard.module.css'
 
-function VideoCard({ video, handleShowModal }) {
+function VideoCard({ video, handleShowModal, textSize, iconSize }) {
   return (
     <>
       <div
@@ -36,16 +36,26 @@ function VideoCard({ video, handleShowModal }) {
           <div
             className={`${styles.storyInfo} card-body d-flex flex-wrap justify-evenly p-1`}
           >
-            <div className="likes text-h7 md:text-h6 xl:text-h5">
-              <i className="fa-solid fa-heart text-h6 md:text-h5 xl:text-h4 text-pink"></i>
+            <div className={`likes ${textSize}`}>
+              <i className={`fa-solid fa-heart ${iconSize} text-pink`}></i>
               &nbsp;&nbsp;{video.likes}
             </div>
-            <div className="times text-h7 md:text-h6 xl:text-h5">
-              <i className="fa-solid fa-play text-h6 md:text-h5 xl:text-h4 text-teal"></i>
+            <div className={`times ${textSize}`}>
+              <i className={`fa-solid fa-play ${iconSize} text-teal`}></i>
               &nbsp;&nbsp;{video.times}
             </div>
-            <div className="storyTitle w-100 text-center font-bold text-h6 md:text-h5 xl:text-h4">
-              {video.story_title}
+            <div
+              className={`storyTitle w-100 h-50 text-center font-bold ${textSize}`}
+            >
+              <div
+                style={{
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {video.story_title}
+              </div>
             </div>
           </div>
         </div>

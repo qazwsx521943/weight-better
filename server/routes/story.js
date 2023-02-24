@@ -15,6 +15,7 @@ const router = express.Router()
 // --[取得影片清單資料]
 router.get('/videos', async (req, res) => {
   const sql = "SELECT * FROM `story_all` WHERE 1";
+  // SELECT a.*, COUNT(*) AS likes_count FROM `story_all` AS a JOIN `story_like` AS b on a.story_id=b.story_id WHERE a.story_id=1 GROUP BY a.story_id;
   const [rows] = await db.query(sql);
 
   res.json(rows)
@@ -101,25 +102,25 @@ router.get('/comment/:sid', async (req, res) => {
     // .format('YYYY-MM-DD HH:mm:ss')
 
     const diffMonth = currentTime.diff(commentTime, 'month')
-    if (diffMonth > 1){
+    if (diffMonth >= 1){
       el.time = `${diffMonth} 個月前`
       return el
     } 
 
     const diffDay = currentTime.diff(commentTime, 'day')
-    if (diffDay > 1){
+    if (diffDay >= 1){
       el.time = `${diffDay} 天前`
       return el
     } 
 
     const diffHour = currentTime.diff(commentTime, 'hour')
-    if (diffHour > 1){
+    if (diffHour >= 1){
       el.time = `${diffHour} 小時前`
       return el
     } 
 
     const diffMinute = currentTime.diff(commentTime, 'minute')
-    if (diffMinute > 1){
+    if (diffMinute >= 1){
       el.time = `${diffMinute} 分鐘前`
       return el
     } 
@@ -203,7 +204,7 @@ router.post('/video/:sid/like', async (req, res) => {
   }
 })
 
-// --[對單一影片觀看次數 + 1]
+// --[確認此影片的觀看數 & 對單一影片觀看次數 + 1]
 router.get('/video/:sid/watched', async (req, res) => {
   let output = {
     success: false
@@ -254,9 +255,30 @@ router.post('/video/:sid/collect', async (req, res) => {
   }
 
   return res.json(output)
-
-  
 })
+
+// --[取得使用者上傳的影片清單資料]
+router.post('/my-videos', async (req, res) => {
+  const uid = req.body.userId
+  console.log(req.body)
+
+  const sql = "SELECT * FROM `story_all` WHERE `user_id`=?"
+  const [rows] = await db.query(sql, [uid])
+
+  res.json(rows)
+
+});
+
+// --[取得使用者收藏的影片清單資料]
+router.post('/collect-videos', async (req, res) => {
+  const uid = req.body.userId
+  console.log(req.body)
+
+  const sql = "SELECT * FROM `story_collect` AS a JOIN `story_all` AS b ON a.story_id=b.story_id WHERE a.`user_id`=?"
+  const [rows] = await db.query(sql, [uid])
+
+  res.json(rows)
+});
 
 
 module.exports = router

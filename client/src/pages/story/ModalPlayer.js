@@ -181,7 +181,7 @@ function ModalPlayer(props) {
       })
   }
 
-  // --[確認此影片的觀看數]
+  // --[確認此影片的觀看數 & 對單一影片觀看次數 + 1]
   const updateWatched = () => {
     const url = `http://localhost:8080/story/video/${sid}/watched`
     fetch(url)

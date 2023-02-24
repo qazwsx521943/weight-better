@@ -83,7 +83,9 @@ function App() {
                             {/*SECTION 商城 */}
                             <Route path="/shop">
                                 <Route path="" element={<Shop />} />
-                                <Route path="productdetails" element={<ProductDetails />} />
+                                <Route path="productdetails/:pid" element={<ProductDetails />} />
+                                {/* <Route path="productdetails/:category" element={<ProductDetails />} /> */}
+                                <Route path=":id" element={<ProductDetails />} />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route path="shop" element={<Products />}></Route>

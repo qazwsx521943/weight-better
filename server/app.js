@@ -48,8 +48,10 @@ app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/story", require("./routes/story"));
 app.use("/menu", require("./routes/menu"));
-app.use("/products", products);
+// app.use("/products", products);
 app.use("/blogs", blogRouter);
+// app.use("/products", products);
+app.use("/product", require("./routes/product"));
 // app.use(
 //     "/course",
 //     passport.authenticate("jwt", { session: false }),

@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {product_card} from './product_data'
 import Product from './Product'
@@ -19,7 +19,25 @@ const Container = styled.div`
 
 
 const Products = () => {
+  const [products, setProducts] = useState([])
 
+  useEffect(() => {
+    getProducts()
+  }, [])
+
+  const getProducts = () => {
+    const url = `http://localhost:8080/product/getProduct`
+    fetch(url, {
+      method: 'get'
+    })
+    .then(r => r.json())
+    .then(rData => {
+      console.log(url, rData)
+      setProducts(rData)
+    })
+  }
+
+  
 
 
   return (
@@ -28,8 +46,8 @@ const Products = () => {
     <Container>
     
       {/* {[1, 2, 3].map((ele) => {return ele +2 })} */}
-        {product_card.map((item)=>(
-            <Product item={item} key={item.id} />)) }
+        {products.map((item)=>(
+            <Product item={item} key={item.product_id} />)) }
     
     </Container>
   </>

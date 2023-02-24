@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
     
 const Container = styled.div `
     ${'' /* flex:1; */}
-    ${'' /* display:flex; */}
+    display:flex;
+    flex-direction:column;
     margin:15px 10px;
     align-item:center;
     justify-align:center;
@@ -40,7 +41,7 @@ const Circle = styled.div `
 `
 const Image = styled.img `
     height:65%;
-    object-fit:cover;
+    object-fit:contain;
     display:flex;
     justify-align:center;
     align-items:center;
@@ -87,19 +88,21 @@ const ProductInfo = styled.h2`
 const Product = ({item}) => {
     const navigate = useNavigate();
 
-    const gotoDetail = () => {
+    const gotoDetail = (pid) => {
         console.log('click')
-        navigate('/shop/productdetails')
+        navigate(`/shop/productdetails/${pid}`)
     }
-
+    // const gotoCategory =() => {
+    //     navigate(`/shop/${category}`)
+    // }
 
     
     return (
-        <Container onClick={gotoDetail}>
+        <Container onClick={() => {gotoDetail(item.product_id)}}>
             <Circle />
-            <Image src={item.img} />
-            <ProductInfo>{item.product_name}</ProductInfo>
-            <ProductInfo>{item.currency}{item.price}</ProductInfo>
+            <Image src={item.img_src} />
+            <ProductInfo>{item.name}</ProductInfo>
+            <ProductInfo>${item.unit_price}</ProductInfo>
             <Info>
                 <Icon>
                     <ShoppingCartIcon/>

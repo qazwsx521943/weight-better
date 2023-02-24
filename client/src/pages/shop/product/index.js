@@ -7,6 +7,8 @@ import BasicSelect from "../components/Input/select";
 import styled from "styled-components";
 import Categories from "../components/Categories";
 
+
+
 const Container =styled.div`
 ${'' /* padding:50px 0px; */}
 margin:0px 0px;
@@ -46,7 +48,12 @@ justify-content:center;
 align-items:center;
 `
 
+
+
 const Shop = () => {
+
+   
+
     return (
         <div>
         

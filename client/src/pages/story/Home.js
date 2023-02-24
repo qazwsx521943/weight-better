@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-// import { Link } from 'react-router-dom'
 import styles from './styleModules/Home.module.css'
-// import { Typography } from '@mui/material'
-// import Test from './Test';
+
+// --[components]
 import ModalPlayer from './ModalPlayer'
+import VideoCard from './components/VideoCard'
 
 // --[material icon]
 import SearchIcon from '@mui/icons-material/Search'
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 function HomeStory() {
   const [videos, setVideos] = useState([])
@@ -21,6 +19,10 @@ function HomeStory() {
   useEffect(() => {
     renderVideos() // 取得影片清單
   }, [])
+
+  const uid = JSON.parse(localStorage.getItem('user'))
+    ? JSON.parse(localStorage.getItem('user')).id
+    : 0
 
   const renderVideos = async () => {
     try {
@@ -66,52 +68,15 @@ function HomeStory() {
         </div>
       </div>
       <div className={`.container py-3 mx-5`}>
-        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
           {videos.map((video) => (
-            <div
-              className="col"
+            <VideoCard
               key={video.story_id}
-              onClick={(e) => {
-                handleShowModal(e, video.story_id)
-              }}
-            >
-              <div
-                className="card border-0 overflow-hidden shadow-lg"
-                style={{
-                  backgroundColor: '#eee',
-                  borderRadius: '10px',
-                  aspectRatio: '16/10',
-                }}
-              >
-                <div className="imgBox h-100">
-                  <img
-                    src={`http://localhost:8080/story/video/${video.story_path}/poster`}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'block',
-                      objectFit: 'cover',
-                    }}
-                    alt={video.story_name}
-                  />
-                </div>
-                <div
-                  className={`${styles.storyInfo} card-body d-flex flex-wrap justify-evenly p-1`}
-                >
-                  <div className="likes text-h7 md:text-h6 xl:text-h5">
-                    <i className="fa-solid fa-heart text-h6 md:text-h5 xl:text-h4 text-pink"></i>
-                    &nbsp;&nbsp;{video.likes}
-                  </div>
-                  <div className="times text-h7 md:text-h6 xl:text-h5">
-                    <i className="fa-solid fa-play text-h6 md:text-h5 xl:text-h4 text-teal"></i>
-                    &nbsp;&nbsp;{video.times}
-                  </div>
-                  <div className="storyTitle w-100 text-center font-bold text-h6 md:text-h5 xl:text-h4">
-                    {video.story_title}
-                  </div>
-                </div>
-              </div>
-            </div>
+              video={video}
+              handleShowModal={handleShowModal}
+              textSize={'text-h7 md:text-h6 lg:text-h5'}
+              iconSize={'text-h6 md:text-h5 lg:text-h4'}
+            ></VideoCard>
           ))}
         </div>
       </div>
@@ -125,6 +90,7 @@ function HomeStory() {
           playingStoryIdx={playingStoryIdx}
           setPlayingStoryIdx={setPlayingStoryIdx}
           videosCount={videosCount}
+          uid={uid}
         ></ModalPlayer>
       )}
     </div>

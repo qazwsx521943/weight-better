@@ -100,7 +100,7 @@ function App() {
                                 <Route path="home" element={<HomeStory></HomeStory>}></Route>
                                 <Route path="player/:sid" element={<Player></Player>}></Route>
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
-                                <Route path="test" element={<Test></Test>}></Route>
+                                <Route path="test/*" element={<Test></Test>}></Route>
                             </Route>
 
                             <Route path="*" element={<ErrorPage />} />

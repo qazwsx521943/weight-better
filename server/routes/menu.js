@@ -4,14 +4,22 @@ const db = require('./../modules/connect-mysql')
 const router = express.Router()
 
 
-// router.get('/data', async (req, res) => {
-//   // 'http://localhost:8080/menu/data'
+router.post('/addUserData/:uid', async (req, res) => {
+    let output = {
+      success: false,
+      data: req.body,
+      error: ''
+    }
 
-//   const sql = "SELECT * FROM `products_category` WHERE 1";
-//   const [rows] = await db.query(sql)
-  
-//   return res.json(rows)
-// })
+    const uid = req.params.uid
+    const {weight, height, goalWeight, dietType, age} = req.body
+
+
+    const sql = "UPDATE `users` SET `weight`=?,`age`=?, `diet_type`=?, `goal_weight`=?, `height`=? WHERE `id`=?"
+    const [results] = await db.query(sql, [weight, age, dietType, goalWeight, height, uid])
+
+    return res.json(results)
+})
 
 
 

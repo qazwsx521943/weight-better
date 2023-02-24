@@ -104,6 +104,7 @@ function BmrCard() {
   
       {images.map((image) => (
         <ImageButton
+          // value={userData.age}
           focusRipple
           key={image.title}
           style={{

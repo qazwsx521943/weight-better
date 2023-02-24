@@ -9,6 +9,7 @@ const pool = mysql.createPool({
     connectionLimit: 5, // 最大連線數
     queueLimit: 0, // 允許排隊人數，0: 不限
     // port: 3307,
+    port: 3308,
 });
 
 module.exports = pool.promise();

@@ -1,8 +1,14 @@
+// import { ListItem } from '@mui/material'
+import ListItem from './ListItem'
 import React from 'react'
+import './styles.css'
 
-function List() {
+function List({list}) {
   return (
-    <div>List</div>
+    <div className='list-wrap'>
+    {list.map(item=><ListItem key={item.id} item={item}/>)}
+    
+    </div>
   )
 }
 

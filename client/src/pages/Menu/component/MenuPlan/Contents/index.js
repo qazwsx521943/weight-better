@@ -81,7 +81,7 @@ export const categoryList = [
       cuisine: 'chinese',
       rating: 3,
       price: 2000,
-      coverSrc: '/ImageMenu/Bmr01.jpg',
+      coverSrc: '/ImageMenu/Bmr02.jpg',
     },
     {
       id: 4,
@@ -92,7 +92,7 @@ export const categoryList = [
       cuisine: 'american',
       rating: 1,
       price: 1800,
-      coverSrc: '/ImageMenu/Bmr01.jpg',
+      coverSrc: '/ImageMenu/Bmr03.jpg',
     },
     {
       id: 5,

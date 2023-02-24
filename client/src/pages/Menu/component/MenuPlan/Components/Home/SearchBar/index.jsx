@@ -10,7 +10,7 @@ const SearchBar = ({ value, changeInput }) => (
       {/* <SearchIcon className='searchBar-icon' /> */}
       <input
         type="text"
-        placeholder="Rearch..."
+        placeholder="search..."
         value={value}
         onChange={changeInput} />
     </div>

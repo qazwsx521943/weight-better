@@ -6,6 +6,8 @@ import BmiCard from '../BmiCard';
 import BmrCard from '../BmrCard';
 import GoalCard from '../GoalCard';
 import TestResult from '../TestResult';
+import jwt_decode from "jwt-decode";
+import AuthService from '../../../services/auth.service'
 
 
 function CardStep() {
@@ -16,6 +18,15 @@ function CardStep() {
     { label: 'Goal', completed: false },
     { label: 'Result', completed: false },
   ]);
+  const [userData, setUserData] = useState({
+    weight: '',
+    height:'',
+    age:'',
+    goalWeight:'',
+    dietType:'',
+    active:'',
+    goal:'',
+  })
 
 
   const handleNext = () => {
@@ -36,6 +47,27 @@ function CardStep() {
 
   const findUnfinshed = () => {
     return steps.findIndex(step => !step.completed)
+  }
+
+  const submitUserData = () => {
+
+    console.log(userData)
+    const decodedToken = jwt_decode(AuthService.getCurrentUser().token)
+    const uid = decodedToken.id
+    const url = `http://localhost:8080/menu/addUserData/${uid}`
+
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(userData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(r=>r.json())
+    .then(rData => {
+      console.log(url, rData)
+    })
+
   }
 
 
@@ -59,10 +91,10 @@ function CardStep() {
       </Stepper>
       <Box>
         {{
-          0:<BmiCard/>,
-          1:<BmrCard/>,
-          2:<GoalCard/>,
-          3:<TestResult/>,
+          0:<BmiCard userData={userData} setUserData={setUserData} />,
+          1:<BmrCard  userData={userData} setUserData={setUserData}/>,
+          2:<GoalCard userData={userData} setUserData={setUserData}/>,
+          3:<TestResult userData={userData} setUserData={setUserData}/>,
         }[activeStep]}
       </Box>
       {/* Back&And button */}
@@ -83,6 +115,11 @@ function CardStep() {
         >
           Next
         </Button>
+        {activeStep===2?         
+        <Button
+          disabled={checkDisabled()}
+          onClick={submitUserData}
+        >Finish</Button> : false}
 
       </Stack>
     </Container>

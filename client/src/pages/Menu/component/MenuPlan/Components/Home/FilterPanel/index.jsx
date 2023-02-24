@@ -3,16 +3,20 @@ import React from 'react'
 import { categoryList, ratingList } from '../../../Contents'
 import CheckboxProton from '../../Common/CheckboxProton'
 import FilterListToggle from '../../Common/FilterListToggle'
+import SliderProton from '../../Common/SliderProton'
 import './styles.css'
 
 
 function FileterPanel(
-  selectedCategory, 
+{  selectedCategory, 
   selectToggle,
   selectedRating,
   selectRating,
   cuisines,
   changeChecked,
+  changedPrice,
+  selectedPrice,
+}
   
   ) {
   return (
@@ -24,24 +28,34 @@ function FileterPanel(
           options={categoryList}
           value={selectedCategory}
           selectToggle={selectToggle}
+          
         />
-
       </div>
+
       {/* Cusines  減脂 正常 增肌*/}
       <div className='input-group'>
       <p className='label'>Cuisine</p>
-      {/* {cuisines.map((cuisine) => (
+      {/* <CheckboxProton/> */}
+      {cuisines.map((cuisine) => (
         <CheckboxProton
           key={cuisine.id}
-          cuisine={cuisine}
+          id={cuisine.id}
+          // cuisine={cuisine.label}
+          checked={cuisine.checked}
+          label={cuisine.label}
           changeChecked={changeChecked}
         />
-      ))} */}
+      ))}
 
       </div>
 
 
       {/* Price Range (Calories) */}
+      <div className='input-group'>
+      <p className='label-range'>Cuisine</p>
+      <SliderProton value={selectedPrice} changedPrice={changedPrice} />
+
+      </div>
       {/* Star Rating */}
       <div className='input-group'>
         <p className='label'>Star Rating</p>

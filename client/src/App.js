@@ -10,7 +10,7 @@ import { useAuth } from "./hooks/AuthContext";
 // import Login from "./pages/login";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
-import Home from "./pages/home/Home";
+import Home from "./pages/home/home";
 import ErrorPage from "./pages/ErrorPage";
 import AuthRequired from "./pages/authentication/RequireAuth";
 
@@ -33,7 +33,7 @@ import Products from "./pages/shop/components/Products";
 import Blog from "./pages/blog/Blog";
 
 //**? 客製化菜單 */
-import Menu from "./pages/menu";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";

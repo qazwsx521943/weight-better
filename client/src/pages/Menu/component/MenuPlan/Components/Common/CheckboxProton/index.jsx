@@ -1,20 +1,23 @@
-import { Checkbox } from '@mui/material'
+import { Checkbox,FormGroup } from '@mui/material'
 import React from 'react'
-import { FormControlLabel } from '@mui/material';
+import { FormControlLabel , Box } from '@mui/material';
 // import { makeStyles } from '@mui/material'
 
 
 
-  const CheckboxProton = ({ changeChecked, cuisine }) => {
+  const CheckboxProton = ({ changeChecked, checked, label, id }) => {
     // const classes = useStyles();
-    const { checked, label, id } = cuisine;
+    //const { checked, label, id } = otherProps;
+
+    // console.log('L11 ',id)
     return (
       <div>
 
 
 
 
-      
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+      <FormGroup>
         <FormControlLabel
          
           control={
@@ -28,6 +31,10 @@ import { FormControlLabel } from '@mui/material';
           }
           label={label}
         />
+          
+        </FormGroup>
+        </Box>
+
       </div>
     );
   };

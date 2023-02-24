@@ -11,6 +11,7 @@ import { Divider } from "@mui/material";
 function FeaturedPost(props) {
     const { post, cardStyle, actionAreaStyle, mediaStyle, contentStyle } =
         props;
+
     const cardStyles = {
         normalCard: {
             display: "flex",
@@ -86,7 +87,7 @@ function FeaturedPost(props) {
                         {/* <Typography variant="subtitle1" color="text.secondary">
                             {post.date}
                         </Typography> */}
-                        <Divider sx={{ borderColor: "transparent" ,my: 1 }} />
+                        <Divider sx={{ borderColor: "transparent", my: 1 }} />
                         <Typography variant="subtitle2" paragraph>
                             {post.description}
                         </Typography>
@@ -100,14 +101,14 @@ function FeaturedPost(props) {
     );
 }
 
-FeaturedPost.propTypes = {
-    post: PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        imageLabel: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-    }).isRequired,
-};
+// FeaturedPost.propTypes = {
+//     post: PropTypes.shape({
+//         date: PropTypes.string.isRequired,
+//         description: PropTypes.string.isRequired,
+//         image: PropTypes.string.isRequired,
+//         imageLabel: PropTypes.string.isRequired,
+//         title: PropTypes.string.isRequired,
+//     }).isRequired,
+// };
 
 export default FeaturedPost;

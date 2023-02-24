@@ -26,59 +26,13 @@ const sections = [
     { title: "養生保健", url: "#" },
 ];
 
-const mainFeaturedPost = {
-    title: "原來運動可以不用這麼辛苦？",
-    description: "享受運動，維持身心健康，讓運動成為生活中的一部分。",
-    image: "https://source.unsplash.com/random/?workout",
-    imageText: "main image description",
-    // linkText: 'Continue reading…',
-};
-
-const featuredPosts = [
-    {
-        title: "滑雪好處竟然這麼多!?",
-        // date: 'Nov 12',
-        // description:
-        //   'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: "https://source.unsplash.com/random/500x500/?skiing",
-        imageLabel: "Image Text",
-    },
-    {
-        title: "多樣食材運用好吃驚!",
-        // date: 'Nov 11',
-        // description:
-        //   'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: "https://source.unsplash.com/random/500x500/?ingredients",
-        imageLabel: "Image Text",
-    },
-    {
-        title: "孕婦也能做的五種運動",
-        // date: 'Nov 11',
-        // description:
-        //   'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: "https://source.unsplash.com/random/500x500/?pregnant",
-        imageLabel: "Image Text",
-    },
-    {
-        title: "五分鐘學會健康吃",
-        // date: 'Nov 11',
-        // description:
-        //   'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: "https://source.unsplash.com/random/500x500/?Healthy+Meals",
-        imageLabel: "Image Text",
-    },
-    {
-        title: "從事運動沒想到這麼簡單！",
-        // date: 'Nov 11',
-        description:
-            "避免於太飽或太餓時做運動。不應空腹做運動，特別緊記要吃早餐，以免體力不支。游泳前不要喝過多飲料，以免因嘔吐而導致哽塞。避免於太飽或太餓時做運動。不應空腹做運動，特別緊記要吃早餐，以免體力不支。游泳前不要喝過多飲料，以免因嘔吐而導致哽塞。",
-        image: "https://source.unsplash.com/random/500x500/?sports",
-        imageLabel: "Image Text",
-    },
-];
-const fourPosts = featuredPosts.slice(0, 4);
-const threePosts = featuredPosts.slice(0, 3);
-const largePost = featuredPosts.slice(4, 5);
+// const mainFeaturedPost = {
+//     title: "原來運動可以不用這麼辛苦？",
+//     description: "享受運動，維持身心健康，讓運動成為生活中的一部分。",
+//     image: "https://source.unsplash.com/random/?workout",
+//     imageText: "main image description",
+//     // linkText: 'Continue reading…',
+// };
 
 const posts = [post1, post2, post3];
 
@@ -107,18 +61,29 @@ const sidebar = {
 };
 
 export default function Blog() {
+    const [posts, setPosts] = React.useState([]);
+    React.useEffect(() => {
+        fetch("http://localhost:8080/blogs")
+            .then((response) => response.json())
+            .then((data) => setPosts(data));
+    }, []);
+
     return (
         <>
             <Header title="Blog" sections={sections} />
-            <MainFeaturedPost post={mainFeaturedPost} />
+            {posts.slice(6, 7).map((post) => (
+                <MainFeaturedPost post={post} />
+            ))}
+
             <Grid container spacing={6}>
-                {fourPosts.map((post) => (
-                    <Grid item key={post.title}>
+                {posts.slice(0, 4).map((post) => (
+                    <Grid item>
                         <FeaturedPost
                             cardStyle="normalCard"
                             actionAreaStyle="normalActionArea"
                             mediaStyle="normalMedia"
                             contentStyle="normalContent"
+                            currentIndex={0}
                             key={post.title}
                             post={post}
                         />
@@ -126,13 +91,14 @@ export default function Blog() {
                 ))}
                 <Grid item xs={4} sx={{ p: 0, my: 3 }}>
                     <Grid container spacing={3}>
-                        {largePost.map((post) => (
-                            <Grid item key={post.title} sx={{ p: 0, mr: 3 }}>
+                        {posts.slice(4, 5).map((post) => (
+                            <Grid item sx={{ p: 0, mr: 3 }}>
                                 <FeaturedPost
                                     cardStyle="largeCard"
                                     actionAreaStyle="largeActionArea"
                                     mediaStyle="largeMedia"
                                     contentStyle="largeContent"
+                                    currentIndex={0}
                                     post={post}
                                 />
                             </Grid>
@@ -141,35 +107,38 @@ export default function Blog() {
                 </Grid>
                 <Grid item xs={8} sx={{ mt: 3 }}>
                     <Grid container spacing={3}>
-                        {threePosts.map((post) => (
-                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                        {posts.slice(0, 3).map((post) => (
+                            <Grid item sx={{ p: 0, mx: 3 }}>
                                 <FeaturedPost
                                     cardStyle="smallCard"
                                     actionAreaStyle="smallActionArea"
                                     mediaStyle="smallMedia"
                                     contentStyle="smallContent"
+                                    currentIndex={0}
                                     post={post}
                                 />
                             </Grid>
                         ))}
-                        {threePosts.map((post) => (
-                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                        {posts.slice(0, 3).map((post) => (
+                            <Grid item sx={{ p: 0, mx: 3 }}>
                                 <FeaturedPost
                                     cardStyle="smallCard"
                                     actionAreaStyle="smallActionArea"
                                     mediaStyle="smallMedia"
                                     contentStyle="smallContent"
+                                    currentIndex={0}
                                     post={post}
                                 />
                             </Grid>
                         ))}
-                        {threePosts.map((post) => (
-                            <Grid item key={post.title} sx={{ p: 0, mx: 3 }}>
+                        {posts.slice(0, 3).map((post) => (
+                            <Grid item sx={{ p: 0, mx: 3 }}>
                                 <FeaturedPost
                                     cardStyle="smallCard"
                                     actionAreaStyle="smallActionArea"
                                     mediaStyle="smallMedia"
                                     contentStyle="smallContent"
+                                    currentIndex={0}
                                     post={post}
                                 />
                             </Grid>
@@ -210,32 +179,26 @@ export default function Blog() {
                             </Grid>
                         </Grid>
                         <Grid container spacing={3}>
-                            {threePosts.map((post) => (
-                                <Grid
-                                    item
-                                    key={post.title}
-                                    sx={{ p: 0, mx: 1 }}
-                                >
+                            {posts.slice(1, 4).map((post) => (
+                                <Grid item sx={{ p: 0, mx: 1 }}>
                                     <FeaturedPost
                                         cardStyle="smallCard"
                                         actionAreaStyle="smallActionArea"
                                         mediaStyle="smallMedia"
                                         contentStyle="smallContent"
+                                        currentIndex={0}
                                         post={post}
                                     />
                                 </Grid>
                             ))}
-                            {threePosts.map((post) => (
-                                <Grid
-                                    item
-                                    key={post.title}
-                                    sx={{ p: 0, mx: 1 }}
-                                >
+                            {posts.slice(1, 4).map((post) => (
+                                <Grid item sx={{ p: 0, mx: 1 }}>
                                     <FeaturedPost
                                         cardStyle="smallCard"
                                         actionAreaStyle="smallActionArea"
                                         mediaStyle="smallMedia"
                                         contentStyle="smallContent"
+                                        currentIndex={0}
                                         post={post}
                                     />
                                 </Grid>
@@ -245,8 +208,8 @@ export default function Blog() {
                 </Grid>
                 <Grid item xs={5}>
                     <Grid container spacing={3}>
-                        {largePost.map((post) => (
-                            <Grid item key={post.title} sx={{ p: 0, mr: 3 }}>
+                        {posts.slice(5, 6).map((post) => (
+                            <Grid item sx={{ p: 0, mr: 3 }}>
                                 <FeaturedPost
                                     cardStyle="largeCard"
                                     actionAreaStyle="largeActionArea"

@@ -6,6 +6,10 @@ const userController = require("../controllers/userController");
 
 const multer = require("multer");
 
+const passport = require("passport");
+require("../config/passport")(passport);
+// require("../config/googlePassport");
+
 const { storage } = require("../cloudinary");
 const upload = multer({ storage });
 
@@ -13,7 +17,7 @@ const upload = multer({ storage });
 router.post("/register", userController.userRegister);
 
 // 更新會員資料 test OK
-router.post("/update/:username", userController.userUpdate);
+router.post("/update/profile/:id", userController.userUpdate);
 
 // 取得會員資料 test OK
 router.get("/find/:username", userController.userProfile);
@@ -31,7 +35,7 @@ router.get("/find/:username/following", userController.userFollowing);
 router.get("/find/:username/followers", userController.userFollowers);
 
 // 追蹤別人 / 退追別人 test OK
-router.post("/follow", userController.userFollow);
+router.post("/follow", passport.authenticate("jwt", { session: false }), userController.userFollow);
 
 // 移除粉絲 test OK
 router.post("/deletefan", userController.userDelFan);

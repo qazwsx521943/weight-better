@@ -26,38 +26,38 @@ const userRegister = async (req, res) => {
 // 撈取已登入會員的資料
 const userProfile = async (req, res) => {
     //  /user/:username
+    console.log("id", req.user);
     const username = req.params.username;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
-
+    if (!user) return res.json({ error: "找不到使用者" });
     // 找到使用者追蹤的人
-    const sql2 =
-        "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
-    const [following] = await db.execute(sql2, [user[0].id]);
+    // const sql2 =
+    //     "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
+    // const [following] = await db.execute(sql2, [user[0].id]);
 
     // 找粉絲
-    const sql3 =
-        "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
-    const [followedBy] = await db.execute(sql3, [user[0].id]);
+    // const sql3 =
+    //     "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
+    // const [followedBy] = await db.execute(sql3, [user[0].id]);
 
-    const followingUser = following;
-    const followedByUser = followedBy;
+    // const followingUser = following;
+    // const followedByUser = followedBy;
 
     // 整理傳回前端的array
-    user.push(followingUser, followedByUser);
+    // user.push(followingUser, followedByUser);
 
-    res.json(user);
+    res.json(user[0]);
 };
 
 // 更新已登入會員資料
 const userUpdate = async (req, res) => {
-    //  /user/:username
-    let username = req.params.username;
-    let data = req.body;
-
-    const sql = "UPDATE `users` SET ? WHERE `username`=?";
-    const user = await db.query(sql, [data, username]);
+    //  /user/:id
+    const id = req.params.id;
+    const { email, fullname, interest, introduction, username } = req.body;
+    const sql = "UPDATE `users` SET email = ?, fullname = ?, interest = ?, introduction = ? WHERE `id`= ?";
+    const user = await db.execute(sql, [email, fullname, interest, introduction, id]);
 
     res.json(user);
 };
@@ -83,7 +83,9 @@ const userOrder = async (req, res) => {
 
 const userFollow = async (req, res) => {
     // const follow = req.params.username;
-    const { follower_id, following_username } = req.body;
+    // const { follower_id, following_username } = req.body;
+    const { following_username } = req.body;
+    const follower_id = req.user.id;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [followUser] = await db.execute(sql, [following_username]);
@@ -116,12 +118,12 @@ const userFollowing = async (req, res) => {
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
+    console.log(user);
 
     // 找到使用者追蹤的人
     const sql2 =
-        "SELECT follower_id,following_id,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
+        "SELECT follower_id,following_id,users.username,users.profile_image FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
     const [following] = await db.execute(sql2, [user[0].id]);
-
     res.send(following);
 };
 const userFollowers = async (req, res) => {
@@ -132,7 +134,7 @@ const userFollowers = async (req, res) => {
 
     // 找到使用者追蹤的人
     const sql3 =
-        "SELECT follower_id,following_id,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
+        "SELECT follower_id,following_id,users.username,users.profile_image FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
     const [followedBy] = await db.execute(sql3, [user[0].id]);
 
     res.send(followedBy);

@@ -93,8 +93,8 @@ const Topbar = () => {
         <AppBar position="sticky">
             <StyledToolbar p={1.5} bgcolor="primary.main">
                 <Logo sx={{ mr: 2 }}>
-                    <Typography alignSelf={"center"}>
-                        <img src={logo} alt="logo" className="h-8" />
+                    <Typography alignSelf={"center"} sx={{ "&:hover": { cursor: "pointer" } }}>
+                        <img src={logo} alt="logo" className="h-8" onClick={() => navigate("/")} />
                     </Typography>
                 </Logo>
                 <Nav sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
@@ -149,7 +149,11 @@ const Topbar = () => {
                     )}
                     {auth.currentUser && (
                         <IconButton onClick={() => setOpen(true)}>
-                            <Avatar alt="profile_image" sx={{ width: "30px", height: "30px" }} src="/static/images/avatar/3.jpg" />
+                            <Avatar
+                                alt="profile_image"
+                                sx={{ width: "30px", height: "30px" }}
+                                src={auth.currentUser?.profile_image || "/imagesStory/users/joe.jpg"}
+                            />
                         </IconButton>
                     )}
                 </Icons>
@@ -157,7 +161,11 @@ const Topbar = () => {
                     {/* <Typography>{currentUser.username}</Typography> */}
                     {/* <IconButton onClick={() => navigate(`/user/${currentUser.username}`)}> */}
                     <IconButton onClick={() => setOpen(true)}>
-                        <Avatar alt="profile_image" sx={{ width: "30px", height: "30px" }} src="/static/images/avatar/3.jpg" />
+                        <Avatar
+                            alt="profile_image"
+                            sx={{ width: "30px", height: "30px" }}
+                            src={auth.currentUser?.profile_image || "/imagesStory/users/joe.jpg"}
+                        />
                     </IconButton>
                 </UserBox>
             </StyledToolbar>
@@ -181,7 +189,13 @@ const Topbar = () => {
                     }}>
                     Profile
                 </MenuItem>
-                <MenuItem onClick={(e) => setOpen(false)}>My account</MenuItem>
+                <MenuItem
+                    onClick={(e) => {
+                        setOpen(false);
+                        navigate(`/settings`);
+                    }}>
+                    My account
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </AppBar>

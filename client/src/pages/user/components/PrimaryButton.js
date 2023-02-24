@@ -1,10 +1,10 @@
 import { Button, styled } from "@mui/material";
 
-export const TealButton = styled(Button)(({ theme }) => ({
+export const PrimaryButton = styled(Button)(({ theme }) => ({
     color: "white",
-    backgroundColor: theme.palette.teal.main,
+    backgroundColor: theme.palette.primary.main,
     "&:hover": {
-        backgroundColor: theme.palette.teal.light,
+        backgroundColor: theme.palette.primary.light,
     },
     "&:disabled": {
         backgroundColor: theme.palette.teal.light,

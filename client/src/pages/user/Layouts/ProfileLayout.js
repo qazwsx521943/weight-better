@@ -28,9 +28,14 @@ const ProfileLayout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { currentUser } = useAuth();
-
+    const [hasUser, setHasUser] = useState();
     // tab selection
     const userParams = params.username;
+    useEffect(() => {
+        UserService.userProfile(userParams).then((res) => {
+            res.data.error ? setHasUser(false) : setHasUser(true);
+        });
+    }, []);
     const currentLocation = location.pathname.split("/")[2] || "profile";
     const [selectedTab, setSelectedTab] = useState(currentLocation);
     const handleChange = (e, newValue) => {
@@ -44,26 +49,29 @@ const ProfileLayout = () => {
 
     return (
         <Container maxWidth="lg">
-            <Stack direction={{ md: "row", sm: "column" }} spacing={4} justifyContent="space-between">
-                <LeftBar />
-                <Box flex={4} p={2}>
-                    <Box sx={{ width: "100%" }} position="static">
-                        <Tabs
-                            centered
-                            defaultValue={"profile"}
-                            value={selectedTab}
-                            onChange={handleChange}
-                            textColor="primary"
-                            indicatorColor="primary">
-                            {tabs.map((tab, i) => (
-                                <Tab key={i} label={tab.title} value={tab.value} />
-                            ))}
-                        </Tabs>
-                    </Box>
+            {!hasUser && <Box>沒人啦</Box>}
+            {hasUser && (
+                <Stack direction={{ md: "row", sm: "column" }} spacing={4} justifyContent="space-between">
+                    <LeftBar />
+                    <Box flex={5} p={2}>
+                        <Box sx={{ width: "100%" }} position="static">
+                            <Tabs
+                                centered
+                                defaultValue={"profile"}
+                                value={selectedTab}
+                                onChange={handleChange}
+                                textColor="primary"
+                                indicatorColor="primary">
+                                {tabs.map((tab, i) => (
+                                    <Tab key={i} label={tab.title} value={tab.value} />
+                                ))}
+                            </Tabs>
+                        </Box>
 
-                    <Outlet />
-                </Box>
-            </Stack>
+                        <Outlet />
+                    </Box>
+                </Stack>
+            )}
         </Container>
     );
 };

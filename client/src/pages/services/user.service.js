@@ -1,9 +1,10 @@
 import axios from "axios";
-
+let config = { headers: { Authorization: JSON.parse(localStorage.getItem("user"))?.token } };
 // 關於使用者資料的api
 class UserService {
     userProfile(username) {
-        return axios.get(`${process.env.REACT_APP_API_KEY}/user/find/${username}`);
+        // console.log(JSON.parse(localStorage.getItem("user")).token);
+        return axios.get(`${process.env.REACT_APP_API_KEY}/user/find/${username}`, config);
     }
 
     userFollowing(username) {
@@ -14,8 +15,8 @@ class UserService {
         return axios.get(`${process.env.REACT_APP_API_KEY}/user/find/${username}/followers`);
     }
 
-    updateUser(username, data) {
-        return axios.post(`${process.env.REACT_APP_API_KEY}/user/update/${username}`, data);
+    updateUser(id, data) {
+        return axios.post(`${process.env.REACT_APP_API_KEY}/user/update/profile/${id}`, data);
     }
 
     userOrders(username) {
@@ -23,10 +24,14 @@ class UserService {
     }
 
     userFollow(following_username, follower_id) {
-        return axios.post(`${process.env.REACT_APP_API_KEY}/user/follow`, {
-            follower_id: follower_id,
-            following_username: following_username,
-        });
+        return axios.post(
+            `${process.env.REACT_APP_API_KEY}/user/follow`,
+            {
+                follower_id: follower_id,
+                following_username: following_username,
+            },
+            config
+        );
     }
 
     userUnfollow(following_username, follower_id) {

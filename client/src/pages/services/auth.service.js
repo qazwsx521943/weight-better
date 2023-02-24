@@ -6,8 +6,14 @@ class AuthService {
         return axios.post(process.env.REACT_APP_API_KEY + "/auth/login", loginData);
     }
     googleLogin() {
-        return process.env.REACT_APP_API_KEY + "/auth/google";
+        window.open(process.env.REACT_APP_API_KEY + "/auth/google");
+        // return axios.post(process.env.REACT_APP_API_KEY + "/auth/google/login", loginData);
     }
+
+    githubLogin() {
+        // window.location.assign(`https://github.com/login/oauth/authorize?client_id=654b686d803fdde176eb`);
+    }
+
     logout() {
         localStorage.removeItem("user");
     }

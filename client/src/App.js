@@ -1,25 +1,24 @@
 import { Route, Routes } from "react-router-dom";
-// 導入MUI預設覆蓋 for themeProvider
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useState } from "react";
-import AuthService from "./pages/services/auth.service";
 import { AuthProvider } from "./hooks/AuthContext";
-import { useAuth } from "./hooks/AuthContext";
 // route import
-// import Login from "./pages/login";
+
+//**? 不分區router */
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
 import Home from "./pages/home/Home";
 import ErrorPage from "./pages/ErrorPage";
 import AuthRequired from "./pages/authentication/RequireAuth";
+import Layout from "./pages/global/Layout";
 
 //**? 會員 */
 import ProfileLayout from "./pages/user/Layouts/ProfileLayout";
-// import User from "./pages/user";
 import Reels from "./pages/user/reels";
-
-import TestButton from "./pages/test_button/TestButton";
+import Profile from "./pages/user/profile";
+import Settings from "./pages/user/Settings";
+import Favorites from "./pages/user/favorites/Favorites";
+import OrderList from "./pages/user/orderList";
 
 //**? 商品 */
 import Shop from "./pages/shop/product";
@@ -44,15 +43,15 @@ import Test from "./pages/story/Test";
 // import Reels from "./pages/reels";
 // import Blogs from "./pages/blogs";
 
-import Layout from "./pages/global/Layout";
-import Favorites from "./pages/user/favorites/Favorites";
-import OrderList from "./pages/user/orderList";
-import Profile from "./pages/user/profile";
+import TestButton from "./pages/test_button/TestButton";
 import RegisterForm from "./pages/authentication/forms/RegisterForm";
+import LoginSuccess from "./pages/authentication/LoginSuccess";
+import { useEffect } from "react";
+import Billing from "./pages/user/Settings/Billing/Billing";
+import Account from "./pages/user/Settings/Account/Account";
 // import Menu from "./pages/menu";
 
 function App() {
-    // const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
     return (
         <ThemeProvider theme={theme}>
             <AuthProvider>
@@ -63,7 +62,12 @@ function App() {
                         <Route path="/" element={<Layout />}>
                             <Route index element={<Home />} />
                             <Route path="login" element={<Login />} />
+                            <Route path="login/success" element={<LoginSuccess />} />
                             <Route path="register" element={<Register />} />
+                            <Route path="settings" element={<Settings />}>
+                                <Route path="billing" element={<Billing />} />
+                                <Route path="account" element={<Account />} />
+                            </Route>
                             <Route
                                 path="/:username"
                                 element={

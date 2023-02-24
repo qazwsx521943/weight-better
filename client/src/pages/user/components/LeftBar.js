@@ -3,11 +3,29 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/AuthContext";
 import { useParams } from "react-router-dom";
 import UserService from "@/pages/services/user.service";
+import AuthService from "../../services/auth.service";
+// ANCHOR
+import jwt_decode from "jwt-decode";
+
 // components
-import { Box, Stack, Avatar, Typography, Breadcrumbs, IconButton, Snackbar, Alert } from "@mui/material";
+import {
+    Box,
+    Stack,
+    Avatar,
+    Typography,
+    Breadcrumbs,
+    IconButton,
+    Snackbar,
+    Alert,
+    FormControlLabel,
+    FormGroup,
+    Switch,
+    Chip,
+} from "@mui/material";
 import PopupModal from "./PopupModal";
 import AvatarBar from "./avatar/AvatarBar";
 import { TealButton } from "./TealButton";
+import { PrimaryButton } from "./PrimaryButton";
 // icons
 import EditIcon from "@mui/icons-material/Edit";
 import PeopleIcon from "@mui/icons-material/People";
@@ -17,6 +35,8 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { Close } from "@mui/icons-material";
 
 const LeftBar = () => {
+    // ANCHOR
+    const decodedToken = jwt_decode(AuthService.getCurrentUser().token);
     const params = useParams();
     const { currentUser } = useAuth();
     // modal states
@@ -35,23 +55,23 @@ const LeftBar = () => {
 
     // fetch page user info
     const usernameParams = params.username;
-    // FIXME infinite rerendering
+    // FIXME error handling ?
     useEffect(() => {
         UserService.userProfile(usernameParams).then((res) => {
-            setUser(res.data[0]);
+            setUser(res.data);
         });
         UserService.userFollowing(usernameParams).then((res) => {
             setFollowing(res.data);
         });
         UserService.userFollowers(usernameParams).then((res) => {
             setFollowers(res.data);
-            setFollowStatus(res.data.filter((fan) => fan.follower_id === currentUser.id).length === 1 ? true : false);
+            setFollowStatus(res.data.filter((fan) => fan.follower_id === decodedToken.id).length === 1 ? true : false);
         });
-    }, [followStatus, currentUser.id, usernameParams, user.profile_image]);
+    }, [followStatus, decodedToken.id, usernameParams, user.profile_image]);
 
     // 點擊follow / unfollow
     const followUser = (e) => {
-        UserService.userFollow(usernameParams, currentUser.id).then((res) => {
+        UserService.userFollow(usernameParams, decodedToken.id).then((res) => {
             setFollowStatus(!followStatus);
             setOpenAlert(true);
         });
@@ -59,7 +79,7 @@ const LeftBar = () => {
 
     // modal unfollow
     const unfollowUser = (username) => {
-        UserService.userFollow(username, currentUser.id);
+        UserService.userFollow(username, decodedToken.id);
         setFollowing(following.filter((follow) => follow.username !== username));
     };
 
@@ -68,7 +88,7 @@ const LeftBar = () => {
         // setProfile_image(e.target.files[0]);
         const formData = new FormData();
         formData.append("image", e.target.files[0]);
-        UserService.userAvatar(currentUser.username, formData).then((res) => {
+        UserService.userAvatar(decodedToken.username, formData).then((res) => {
             setUser({ ...user, profile_image: res.toString() });
         });
     };
@@ -82,7 +102,7 @@ const LeftBar = () => {
     // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
-            {currentUser.username !== usernameParams && (
+            {decodedToken.username !== usernameParams && (
                 <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} open={openAlert} autoHideDuration={2000}>
                     <Alert severity="success" sx={{ width: "100%" }}>
                         {followStatus && `正在追蹤${usernameParams}`}
@@ -93,15 +113,20 @@ const LeftBar = () => {
             <Stack direction="column" spacing={2} alignItems="center" pt={5}>
                 <Box position={"relative"}>
                     <Avatar alt="profile_image" src={user.profile_image} sx={{ width: 300, height: 300 }} />
-                    {currentUser.username === usernameParams && (
+                    {decodedToken.username === usernameParams && (
                         <IconButton
                             size="large"
                             color="primary"
                             aria-label="upload picture"
                             component="label"
-                            sx={{ position: "absolute", bottom: "10%", right: "10%", "&:hover": { bgcolor: "teal.main" } }}>
+                            sx={{
+                                position: "absolute",
+                                bottom: "10%",
+                                right: "10%",
+                                "&:hover": { bgcolor: "primary.main" },
+                            }}>
                             <input hidden accept="image/*" type="file" onChange={avatarChange} />
-                            <CameraAltIcon fontSize="inherit" color="teal" sx={{ "&:hover": { color: "whitesmoke" } }} />
+                            <CameraAltIcon fontSize="inherit" color="primary" sx={{ "&:hover": { color: "whitesmoke" } }} />
                         </IconButton>
                     )}
                 </Box>
@@ -148,20 +173,34 @@ const LeftBar = () => {
                         </PopupModal>
                     </Box>
                 </Breadcrumbs>
-                {currentUser.username === usernameParams && (
-                    <TealButton endIcon={<EditIcon />} fullWidth>
+                <FormGroup>
+                    {/* <FormControlLabel control={<Switch defaultChecked />} label="公開個人資訊" /> */}
+                    <Chip label={user.state} color="primary" variant="outlined" />
+                </FormGroup>
+                {decodedToken.username === usernameParams && (
+                    <PrimaryButton endIcon={<EditIcon />} fullWidth>
                         編輯自介
-                    </TealButton>
+                    </PrimaryButton>
                 )}
-                {currentUser.username !== usernameParams && !followStatus && (
-                    <TealButton onClick={followUser} endIcon={<PersonAddIcon />} fullWidth>
+                {decodedToken.username !== usernameParams && !followStatus && (
+                    <PrimaryButton onClick={followUser} endIcon={<PersonAddIcon />} fullWidth>
                         Follow
-                    </TealButton>
+                    </PrimaryButton>
                 )}
-                {currentUser.username !== usernameParams && followStatus && (
-                    <TealButton onClick={followUser} endIcon={<PersonRemoveIcon />} fullWidth>
+                {decodedToken.username !== usernameParams && followStatus && (
+                    <PrimaryButton
+                        variant="outlined"
+                        sx={{
+                            bgcolor: "whitesmoke",
+                            color: "primary.main",
+                            "&:hover": { backgroundColor: "whitesmoke" },
+                            // border: "2px solid",
+                        }}
+                        onClick={followUser}
+                        endIcon={<PersonRemoveIcon />}
+                        fullWidth>
                         unFollow
-                    </TealButton>
+                    </PrimaryButton>
                 )}
             </Stack>
         </Box>

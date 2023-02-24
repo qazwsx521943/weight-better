@@ -9,8 +9,8 @@ require("dotenv").config();
 
 const passport = require("passport");
 require("./config/passport")(passport);
-require("./config/googlePassport");
 const session = require("express-session");
+// require("./config/googlePassport");
 
 // --[連線資料庫]
 const db = require("./modules/connect-mysql");
@@ -34,10 +34,12 @@ app.use(
         cookie: { secure: false },
     })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 // resolution for CORS
-app.use(cors());
+
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // routes middleware
 app.use("/auth", authRouter);
@@ -45,11 +47,6 @@ app.use("/user", userRouter);
 app.use("/story", require("./routes/story"));
 app.use("/menu", require("./routes/menu"));
 app.use("/products", products);
-// app.use(
-//     "/course",
-//     passport.authenticate("jwt", { session: false }),
-//     courseRouter
-// );
 
 // app.use("/user", passport.authenticate("jwt",{session:false}),userRouter);
 

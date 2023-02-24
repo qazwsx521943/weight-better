@@ -3,11 +3,12 @@ import { styled } from "@mui/material/styles";
 import { Badge, Avatar, Stack, Typography, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/hooks/AuthContext";
-import UserService from "@/pages/services/user.service";
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
-        backgroundColor: "#44b700",
-        color: "#44b700",
+        backgroundColor: theme.palette.pink.main,
+        // color: "#44b700",
+        color: theme.palette.pink.main,
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         "&::after": {
             position: "absolute",
@@ -52,7 +53,7 @@ const AvatarBar = ({ username, profile_image, followClose, situation, deleteFan,
         <Stack direction="row" spacing={2} justifyContent="space-between" width={"100%"}>
             <Stack direction={"row"} spacing={2} justifyContent="space-between">
                 <StyledBadge overlap="circular" anchorOrigin={{ vertical: "bottom", horizontal: "right" }} variant="dot">
-                    <Avatar alt="Remy Sharp" src={profile_image} />
+                    <Avatar alt="profile_image" src={profile_image} />
                 </StyledBadge>
                 <Typography
                     variant="h6"

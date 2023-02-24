@@ -1,4 +1,4 @@
-import { useMemo, createContext, useContext } from "react";
+import { useMemo, createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
     // 自訂類useState hook 檢測 localStorage user token
     const [currentUser, setCurrentUser] = useLocalStorage("user", null);
+    // const [currentUser, setCurrentUser] = useState();
     const navigate = useNavigate();
 
     // TODO: 登入驗證

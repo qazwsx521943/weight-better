@@ -3,6 +3,7 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { loginValidation } = require("../validation");
+const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 // 會員登入
 const localLogin = async (req, res) => {
@@ -28,18 +29,68 @@ const localLogin = async (req, res) => {
             username: user.username,
             id: user.id,
             state: user.state,
+            profile_image: user.profile_image,
         });
     });
 };
 
-const googleLogin = async (req, res) => {
-    passport.authenticate("google", {
-        scope: ["profile", "email"],
-        prompt: "select_account",
+const passwordReset = async (req, res) => {
+    const { email } = req.body;
+    const oldUser = await db.execute("SELECT * FROM `users` WHERE email = ?", [email]);
+    if (!oldUser) return res.send("此信箱從未註冊過！");
+    const secret = proce;
+};
+
+const githubLogin = async (req, res) => {
+    console.log(req.query.code);
+    const params =
+        "?client_id" + process.env.GITHUB_CLIENT_ID + "&client_secret" + process.env.GITHUB_CLIENT_SECRET + "&code=" + req.query.code;
+    await fetch("https://github.com/login/oauth/access_token" + params, { method: "POST", headers: { Accept: "application/json" } })
+        .then((res) => res.json())
+        .then((data) => {
+            res.json(data);
+        });
+};
+
+const githubGetProfile = async (req, res) => {
+    req.get("Authorization");
+    await fetch("https://api.github.com/user", {
+        method: "GET",
+        headers: {
+            Authorization: req.get("Authorization"),
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            res.json(data);
+        });
+};
+
+const googleSuccess = async (req, res) => {
+    if (req.user) {
+        res.status(200).json({
+            error: false,
+            message: "成功登入",
+            user: req.user,
+        });
+    } else {
+        res.status(403).json({ error: true, message: "沒有權限" });
+    }
+};
+
+const googleFail = async (req, res) => {
+    res.status(401).json({
+        error: true,
+        message: "登入失敗",
     });
 };
 
 module.exports = {
     localLogin,
-    googleLogin,
+    githubLogin,
+    githubGetProfile,
+    googleSuccess,
+    passwordReset,
+    // googleFirebaseLogin,
 };

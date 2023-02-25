@@ -27,7 +27,7 @@ export default function SettingList({ user }) {
 
     return (
         <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            sx={{ width: "100%", maxWidth: 360, minWidth: 200, bgcolor: "background.paper" }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={

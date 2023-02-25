@@ -111,7 +111,7 @@ const Topbar = () => {
                                     navigate("/shop");
                                 } else if (page === "菜單") {
                                     navigate("/menu");
-                                } else if (page === "短影音"){
+                                } else if (page === "短影音") {
                                     navigate("/reels/home");
                                 }
                             }}>

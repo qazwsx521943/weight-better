@@ -30,8 +30,13 @@ router.get(
         failureRedirect: "/login/failed",
     }),
     (req, res) => {
-        const userToken = jwt.sign({ username: req.user.username, id: req.user.id }, process.env.PASSPORT_SECRET);
-        res.redirect("http://localhost:3000/login?token=" + userToken);
+        const userToken = jwt.sign(
+            { username: req.user.username, id: req.user.id, profile_image: req.user.profile_image },
+            process.env.PASSPORT_SECRET
+        );
+        console.log("req", req.user);
+        console.log("token", userToken);
+        res.redirect("http://localhost:3000/login/success?token=" + userToken);
         // return res.json({
         //     token: "JWT " + userToken,
         //     username: req.user.username,

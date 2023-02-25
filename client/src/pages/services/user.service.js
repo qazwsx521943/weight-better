@@ -34,13 +34,6 @@ class UserService {
         );
     }
 
-    userUnfollow(following_username, follower_id) {
-        return axios.post(`${process.env.REACT_APP_API_KEY}/user/unfollow`, {
-            follower_id: follower_id,
-            following_username: following_username,
-        });
-    }
-
     userDelFan(follower_username, following_id) {
         return axios.post(`${process.env.REACT_APP_API_KEY}/user/deletefan`, {
             follower_username: follower_username,

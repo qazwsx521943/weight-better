@@ -56,7 +56,8 @@ const Login = () => {
     const googleLogin = async () => {
         AuthService.googleLogin().then((res) => {
             let token = params.get("token");
-            // console.log(token);
+            console.log(token);
+            // console.log(res.data);
         });
     };
 

@@ -26,27 +26,12 @@ const userRegister = async (req, res) => {
 // 撈取已登入會員的資料
 const userProfile = async (req, res) => {
     //  /user/:username
-    console.log("id", req.user);
+    // console.log("id", req.user);
     const username = req.params.username;
 
     const sql = "SELECT * FROM `users` WHERE `username`= ?";
     const [user] = await db.execute(sql, [username]);
-    if (!user) return res.json({ error: "找不到使用者" });
-    // 找到使用者追蹤的人
-    // const sql2 =
-    //     "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.following_id = users.id WHERE follower_id = ?";
-    // const [following] = await db.execute(sql2, [user[0].id]);
-
-    // 找粉絲
-    // const sql3 =
-    //     "SELECT followers.*,users.username FROM `followers` JOIN `users` ON followers.follower_id = users.id WHERE following_id = ?";
-    // const [followedBy] = await db.execute(sql3, [user[0].id]);
-
-    // const followingUser = following;
-    // const followedByUser = followedBy;
-
-    // 整理傳回前端的array
-    // user.push(followingUser, followedByUser);
+    if (!user) return res.json({ error: "no user found!" });
 
     res.json(user[0]);
 };
@@ -126,6 +111,8 @@ const userFollowing = async (req, res) => {
     const [following] = await db.execute(sql2, [user[0].id]);
     res.send(following);
 };
+
+// REVIEW
 const userFollowers = async (req, res) => {
     const username = req.params.username;
 
@@ -148,6 +135,96 @@ const userSetAvatar = async (req, res) => {
     res.send(req.file.path);
 };
 
+const userChangePassword = async (req, res) => {
+    const user_id = req.user.id;
+    const { currentPassword, changePassword } = req.body;
+    try {
+        const sql = "SELECT * FROM `users` WHERE id = ?";
+        const [user] = await db.execute(sql, [user_id]);
+        console.log("current User:", user[0]);
+
+        const match = await bcrypt.compare(currentPassword, user[0].password);
+        console.log(match);
+        if (!match) {
+            return res.json({ error: "當前密碼有誤" });
+        }
+
+        if (currentPassword === changePassword) {
+            return res.json({ error: "新密碼不可與舊密碼相同！" });
+        }
+
+        const hash = await bcrypt.hash(changePassword, 10);
+        const sql2 = "UPDATE `users` SET password = ? WHERE id = ?";
+        await db.execute(sql2, [hash, user_id]);
+    } catch (err) {
+        res.json({ error: err });
+    }
+
+    res.json({ success: "密碼更改成功！" });
+};
+
+const userAddress = async (req, res) => {
+    const user_id = req.user.id;
+    const sql = "SELECT * FROM `address` WHERE user_id = ?";
+    const [addressList] = await db.execute(sql, [user_id]);
+
+    res.json({ addressList: addressList });
+};
+
+const userAddAddress = async (req, res) => {
+    const user_id = req.user.id;
+    const { recipient, country, township, address_line } = req.body;
+    // console.log(user_id, recipient, country, township, address_line);
+    try {
+        const sql = "INSERT INTO `address` SET user_id = ?,recipient = ?, country = ?, township = ?, address_line = ?";
+        await db.execute(sql, [user_id, recipient, country, township, address_line]);
+    } catch (err) {
+        return res.json({ error: err });
+    }
+
+    res.json({ success: "新增成功！" });
+};
+const userUpdateAddress = async (req, res) => {
+    const user_id = req.user.id;
+    const { id, recipient, country, township, address_line } = req.body;
+    console.log(id);
+    try {
+        const sql = "UPDATE `address` SET recipient = ?, country = ?, township = ?, address_line = ? WHERE id = ?";
+        await db.execute(sql, [recipient, country, township, address_line, id]);
+    } catch (err) {
+        return res.json({ error: err });
+    }
+
+    res.json({ success: "修改成功！" });
+};
+
+const userDeleteAddress = async (req, res) => {
+    const { id } = req.body;
+    console.log(req.body);
+    console.log(id);
+    try {
+        const sql = "DELETE FROM `address` WHERE id = ?";
+        await db.execute(sql, [id]);
+    } catch (err) {
+        res.json({ error: err });
+    }
+
+    res.json({ success: "刪除成功！" });
+};
+
+const userSearch = async (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+    try {
+        const sql = `SELECT * FROM users WHERE username LIKE '${username}%'`;
+        const [users] = await db.execute(sql);
+        console.log(users);
+        res.json(users);
+    } catch (err) {
+        res.json({ error: err });
+    }
+};
+
 module.exports = {
     userRegister,
     userUpdate,
@@ -159,4 +236,10 @@ module.exports = {
     userSetAvatar,
     userFollowing,
     userFollowers,
+    userChangePassword,
+    userAddAddress,
+    userUpdateAddress,
+    userAddress,
+    userDeleteAddress,
+    userSearch,
 };

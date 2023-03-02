@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 
+const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -22,7 +23,7 @@ const userRouter = require("./routes/user");
 const products = require("./routes/products");
 // const courseRouter = require("./routes/course");
 // --[建立blogs路由]
-const blogRouter = require("./routes/blogs"); 
+const blogRouter = require("./routes/blogs");
 
 // middlewares
 app.use(bodyParser.json());
@@ -36,6 +37,7 @@ app.use(
         cookie: { secure: false },
     })
 );
+app.use(helmet());
 
 app.use(passport.initialize());
 app.use(passport.session());

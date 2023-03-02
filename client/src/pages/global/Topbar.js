@@ -1,5 +1,20 @@
 import React, { useContext, useState } from "react";
-import { Box, IconButton, Typography, Button, Avatar, Menu, MenuItem, styled, Toolbar, AppBar, Badge } from "@mui/material";
+import {
+    Box,
+    IconButton,
+    Typography,
+    Button,
+    Avatar,
+    Menu,
+    MenuItem,
+    styled,
+    Toolbar,
+    AppBar,
+    Badge,
+    MenuList,
+    Divider,
+    ListItemText,
+} from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -13,6 +28,7 @@ import { useAuth } from "../../hooks/AuthContext";
 
 import logo from "@/assets/WB3.png";
 import UserService from "../services/user.service";
+import axios from "axios";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: "flex",
@@ -30,6 +46,7 @@ const Nav = styled(Box)(({ theme }) => ({
 
 const Search = styled("div")(({ theme }) => ({
     display: "none",
+    position: "relative",
     backgroundColor: theme.palette.neutral.light,
     padding: "0px 5px",
     borderRadius: theme.shape.borderRadius,
@@ -65,7 +82,7 @@ const pages = {
 const Topbar = () => {
     const auth = useAuth();
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState([]);
     const navigate = useNavigate();
     const handleLogout = () => {
         setOpen(false);
@@ -74,11 +91,15 @@ const Topbar = () => {
         window.alert("登出成功！回到登入頁");
         navigate("/");
         auth.userLogout();
-        // setCurrentUser(null);
     };
     const inputChange = (e, newValue) => {
-        console.log(search);
-        setSearch(newValue);
+        setSearch((p) => []);
+        axios.get(`${process.env.REACT_APP_API_KEY}/user/search/${e.target.value}`).then((res) => {
+            setSearch(res.data);
+            console.log(res.data);
+        });
+
+        // setSearch(newValue);
     };
 
     const searchUser = (e) => {
@@ -120,7 +141,20 @@ const Topbar = () => {
                     ))}
                 </Nav>
                 <Search>
-                    <InputBase size="small" placeholder="Search..." onChange={inputChange} onKeyDown={searchUser} />
+                    <InputBase size="small" placeholder="搜尋用戶..." onChange={inputChange} onKeyDown={searchUser} />
+                    <MenuList style={{ position: "absolute", top: "100%", zIndex: "10", background: "white" }}>
+                        {search.length > 0 &&
+                            search.map((value, i) => (
+                                <MenuItem
+                                    key={i}
+                                    onClick={() => {
+                                        navigate(`${value.username}`);
+                                        setSearch([]);
+                                    }}>
+                                    <ListItemText>{value.username}</ListItemText>
+                                </MenuItem>
+                            ))}
+                    </MenuList>
                 </Search>
                 <Icons>
                     <IconButton type="button">

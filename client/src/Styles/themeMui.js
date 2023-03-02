@@ -3,16 +3,19 @@ const theme = createTheme({
     palette: {
         // palette values for dark mode
         primary: {
+            dark: "#5b6cbf",
             main: "#6677C8",
             light: "#6677C880",
             contrastText: "#2F2D3F",
         },
         teal: {
+            dark: "#1fa5a2",
             main: "#1BB6B2",
             light: "#1BB6B280",
-            contrastText: "#2F2D3F",
+            contrastText: "#FFFFFF",
         },
         pink: {
+            dark: "#fb7f8c",
             main: "#FFA5AE",
             light: "#FFA5AE80",
             contrastText: "#2F2D3F",
@@ -42,11 +45,11 @@ const theme = createTheme({
         fontSize: 16,
         h1: {
             fontFamily: ["Inter", "sans-serif"].join(","),
-            fontSize: 50,
+            fontSize: 40,
         },
         h2: {
             fontFamily: ["Inter", "sans-serif"].join(","),
-            fontSize: 32,
+            fontSize: 28,
         },
         h3: {
             fontFamily: ["Inter", "sans-serif"].join(","),

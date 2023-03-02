@@ -69,13 +69,13 @@ function FeaturedPost(props) {
         <Grid item xs={12} sm={6} lg={3} sx={{ maxWidth: "320px" }}>
             <CardActionArea
                 component="a"
-                href="#"
+                href={`/blogpost/${post.id}`}
                 sx={{ ...actionAreaStyles[actionAreaStyle] }}
             >
                 <Card sx={{ ...cardStyles[cardStyle] }}>
                     <CardMedia
                         component="img"
-                        sx={{ ...mediaStyles[mediaStyle] }}
+                        sx={{ ...mediaStyles[mediaStyle] ,objectFit: "cover" }}
                         image={post.image}
                         alt={post.imageLabel}
                     />

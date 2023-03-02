@@ -7,24 +7,16 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "./Header";
-import MainFeaturedPost from "./MainFeaturedPost";
-import FeaturedPost from "./FeaturedPost";
-import Main from "./Main";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
-import post1 from "./blog-post.1.md";
-import post2 from "./blog-post.2.md";
-import post3 from "./blog-post.3.md";
+import Header from "../../Components/Header";
+import MainFeaturedPost from "../../Components/MainFeaturedPost";
+import FeaturedPost from "../../Components/FeaturedPost";
+import Main from "../../Main";
+import Sidebar from "../../Sidebar";
+import Footer from "../../Components/Footer";
+import post1 from "../../blog-post.1.md";
+import post2 from "../../blog-post.2.md";
+import post3 from "../../blog-post.3.md";
 import { Divider, Typography } from "@mui/material";
-
-const sections = [
-    { title: "最新文章", url: "#" },
-    { title: "健身鍛鍊", url: "#" },
-    { title: "居家運動", url: "#" },
-    { title: "健康飲食", url: "#" },
-    { title: "養生保健", url: "#" },
-];
 
 // const mainFeaturedPost = {
 //     title: "原來運動可以不用這麼辛苦？",
@@ -60,7 +52,7 @@ const sidebar = {
     ],
 };
 
-export default function Blog() {
+export default function HomePage() {
     const [posts, setPosts] = React.useState([]);
     React.useEffect(() => {
         fetch("http://localhost:8080/blogs")
@@ -70,7 +62,7 @@ export default function Blog() {
 
     return (
         <>
-            <Header title="Blog" sections={sections} />
+            <Header title="Blog" />
             {posts.slice(6, 7).map((post) => (
                 <MainFeaturedPost post={post} />
             ))}

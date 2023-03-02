@@ -29,10 +29,13 @@ import ProductDetails from "./pages/shop/ProductDetails";
 import Products from "./pages/shop/components/Products";
 
 //**? 部落格 */
-import Blog from "./pages/blog/Blog";
+import HomePage from "./pages/blog/Pages/Home/HomePage";
+import Articles from "./pages/blog/Pages/Articles/Articles";
+import WriteBlog from "./pages/blog/Pages/WriteBlog/WriteBlog";
+import BlogPost from "./pages/blog/Pages/Post/BlogPost";
 
 //**? 客製化菜單 */
-import Menu from "./pages/menu";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -90,7 +93,12 @@ function App() {
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route path="shop" element={<Products />}></Route>
 
-                            <Route path="/blog" element={<Blog />}></Route>
+                            {/*SECTION 部落格 */}
+                            <Route path="/HomePage" element={<HomePage />}></Route>
+                            <Route path="/WriteBlog" element={<WriteBlog />}></Route>
+                            <Route path="/BlogPost/:id" element={<BlogPost />} ></Route>
+                            <Route path="/Articles/:id" element={<Articles />} ></Route>
+
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 
                             <Route path="/menu" element={<Menu />}></Route>

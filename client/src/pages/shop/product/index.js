@@ -3,11 +3,10 @@ import * as Mui from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Products from "../components/Products";
-import BasicSelect from "../components/Input/select";
 import styled from "styled-components";
 import Categories from "../components/Categories";
-
-
+import { useLocation } from "react-router-dom";
+// import ShopSelect from "../components/Input/ShopSelect";
 
 const Container =styled.div`
 ${'' /* padding:50px 0px; */}
@@ -52,23 +51,39 @@ align-items:center;
 
 const Shop = () => {
 
-   
+    const location = useLocation();
+    const cate =location.pathname.split("/")[2]
+    const [filters,setFilters] = useState({});
+    const [sort,setSort] = useState("newest");
+    const [cid, setcid] = useState('')
+    
+    const {cateId} = useParams()
+
+    console.log('cateId1', cateId)
 
     return (
-        <div>
+        <div key={window.location.pathname}>
         
         <Container>
             <Categories/>
         <SearchContainer>
-                <Search placeholder=" Search"/>
-            {/* <BasicSelect fontSize={'16px'} style={{justifyContent:"right",}}/> */}
+            <Search placeholder=" Search"/>
             <Filter>
-            <BasicSelect fontSize={'16px'} style={{}}/>
-        </Filter>
+            <select onChange={(e)=>setSort(e.targrt.value)} style={{backgroundColor:"#eee", borderRadius:"5px",width:"200px",height:"30px",marginRight:"10px"}}>
+                <option value="newest">最新</option>
+                <option value="asc">價錢由高至低</option>
+                <option value="desc">價錢由低至高</option>
+            </select>
+            <select onChange={(e)=>setFilters(e.targrt.value)} style={{backgroundColor:"#eee", borderRadius:"5px",width:"200px",height:"30px"}}>
+                <option value="500">500元以下</option>
+                <option value="1000">500~1000元</option>
+                <option value="1500">1000~1500元</option>
+            </select>
+            </Filter>
         </SearchContainer>
         
             <Wrapper>
-                <Products/>
+                <Products cateId={cateId} sort={sort} filters={filters}/>
             </Wrapper>
         </Container>
         </div>

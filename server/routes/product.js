@@ -11,6 +11,7 @@ router.get('/getProduct', async (req, res) => {
 
     const sql = "SELECT * FROM `product_2` WHERE 1"
     const [rows] = await db.query(sql)
+    console.log(rows)
 
     return res.json(rows)
 })
@@ -24,15 +25,16 @@ router.get('/getProduct/:pid', async (req, res) => {
 
     return res.json(rows)
 })
-// --[拿特定類別的產品資料]
-// router.get('/getProduct/:category', async (req, res) => {
-//     const pid = req.params.category
 
-//     const sql = "SELECT * FROM `product_2` WHERE `category`=?"
-//     const [rows] = await db.query(sql, [category])
+//--[拿特定類別的產品資料]
+router.get('/getProductbycate/:pcategory', async (req, res) => {
+    const pcategory = req.params.pcategory
 
-//     return res.json(rows)
-// })
+    const sql = "SELECT * FROM `product_2` WHERE `category_id`=?"
+    const [rows] = await db.query(sql, [pcategory])
+
+    return res.json(rows)
+})
 
 
 

@@ -14,10 +14,10 @@ const Container = styled.div `
     align-item:center;
     justify-align:center;
     ${'' /* min-width: 280px; */}
-    width: 300px;
+    width: 500px;
     ${'' /* max-width:310px; */}
     ${'' /* max-height:414px; */}
-    height:414px;
+    height:600px;
     ${'' /* min-height:330px; */}
     border-radius: 15px;
     box-shadow: 5px 5px 10px grey;

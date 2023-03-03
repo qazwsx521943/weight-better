@@ -32,7 +32,7 @@ import Products from "./pages/shop/components/Products";
 import Blog from "./pages/blog/Blog";
 
 //**? 客製化菜單 */
-import Menu from "./pages/menu";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -49,6 +49,7 @@ import LoginSuccess from "./pages/authentication/LoginSuccess";
 import { useEffect } from "react";
 import Billing from "./pages/user/Settings/Billing/Billing";
 import Account from "./pages/user/Settings/Account/Account";
+import Cart from "./pages/user/cart";
 // import Menu from "./pages/menu";
 
 function App() {
@@ -79,13 +80,15 @@ function App() {
                                 <Route path="reels" element={<Reels />} />
                                 <Route path="favorites" element={<Favorites />} />
                                 <Route path="orders" element={<OrderList />} />
+                                {/* <Route path="cart" element={<Cart />} /> */}
                             </Route>
                             {/*SECTION 商城 */}
                             <Route path="/shop">
                                 <Route path="" element={<Shop />} />
+                                <Route path=":cateId" element={<Shop />} />
                                 <Route path="productdetails/:pid" element={<ProductDetails />} />
-                                {/* <Route path="productdetails/:category" element={<ProductDetails />} /> */}
-                                <Route path=":id" element={<ProductDetails />} />
+                                {/* <Route path=":id" element={<ProductDetails />} /> */}
+                                <Route path="cart" element={<Cart />} />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route path="shop" element={<Products />}></Route>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {product_card} from './product_data'
 import Product from './Product'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 const Container = styled.div`
@@ -18,15 +18,22 @@ const Container = styled.div`
 `
 
 
-const Products = () => {
+const Products = ({cateId,sort,filters}) => {
   const [products, setProducts] = useState([])
+  // const [categoryId, setCategoryId] = useState('')
+  // const [categoryId, setCategoryId] = useState('')
 
+  console.log('cateId2', cateId)
+
+
+  console.log(sort,filters)
   useEffect(() => {
+    console.log('effect')
     getProducts()
   }, [])
 
   const getProducts = () => {
-    const url = `http://localhost:8080/product/getProduct`
+    const url = cateId? `http://localhost:8080/product/getProductbycate/${cateId}` : `http://localhost:8080/product/getProduct`
     fetch(url, {
       method: 'get'
     })

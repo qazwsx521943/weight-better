@@ -14,6 +14,8 @@ import { useAuth } from "../../hooks/AuthContext";
 import logo from "@/assets/WB3.png";
 import UserService from "../services/user.service";
 
+// import {useSelector} from "react-redux"
+
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: "flex",
     justifyContent: "space-between",
@@ -87,6 +89,9 @@ const Topbar = () => {
         }
     };
 
+    // const cart = useSelector(state=>state.cart)
+    // console.log(cart)
+
     return (
         // 在註冊與登入頁面不顯示 Navbar
         // <div className={`${location.pathname === "/login" || `${location.pathname}` === "/register" ? "hidden" : ""}`}>
@@ -135,9 +140,9 @@ const Topbar = () => {
                     )}
                     {auth.currentUser && (
                         <IconButton>
-                            <Badge badgeContent={4} color="pink">
+                            <Link to={`/Shop/Cart`}><Badge badgeContent={4} color="pink">
                                 <ShoppingCartIcon />
-                            </Badge>
+                            </Badge></Link>
                         </IconButton>
                     )}
                     {auth.currentUser ? (

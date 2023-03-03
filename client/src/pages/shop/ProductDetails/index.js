@@ -2,17 +2,18 @@ import React, { useEffect ,useState} from 'react'
 import styled from 'styled-components'
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import BasicSelect from '../components/Input/select';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 // import Categories from '../components/Categories';
 
 const Container = styled.div`
 margin:50px 100px;
 `
 const Wrapper = styled.div`
-
+  ${'' /* border:dotted 1px #aaa; */}
   display:flex;
   align-items:center;
   justify-content:center;
@@ -24,12 +25,15 @@ const ImageContainer = styled.div`
 `
 const ImageDetailContainer = styled.div`
   display:flex;
+  
 `
 const ImageDetail =styled.img`
   width:100px;
   height:100px;
   margin:20px;
   object-fit:contain;
+  border:solid 1px #ccc;
+
 
 
 &:hover{
@@ -39,6 +43,7 @@ const ImageDetail =styled.img`
 `
 const Image = styled.img`
   ${'' /* width:400px; */}
+
   &:hover{
     transform:scale(1.1);
   }
@@ -58,6 +63,8 @@ const Desc = styled.p`
 `
 const InfoContainer = styled.div`
   ${'' /* position:relative; */}
+  border:dashed 3px #ccc;
+  border-radius:12px;
   flex:1;
   padding:40px 100px;
 `
@@ -95,12 +102,25 @@ const SeeMore = styled.div`
   top:0px;
 `
 
+const QuantitySession = styled.div`
+display:flex;
+margin:20px;
+`
+
+const MyNumber = styled.div`
+padding:0px 10px;
+height:30px;
+margin:0px 20px;
+border-radius:5px;
+border:solid 1px #aaa;
+`
+
 
 
 const ProductDetails = () => {
 
   const [productDetail,setProductDetail]= useState([])
-
+  const [quantity,setQuantity] =useState(1)
 
   const {pid} = useParams()
 
@@ -118,6 +138,19 @@ const ProductDetails = () => {
       console.log(url,rData)
       setProductDetail(rData)
     })
+
+  }
+
+  const handleClick =()=>{
+    // axios.pos
+  }
+  const handleQuantity = (type)=>{
+    if(type === "dec"){
+      quantity >1 && setQuantity(quantity - 1)
+    }else{
+      setQuantity(quantity + 1)
+
+    }
 
   }
 
@@ -139,25 +172,28 @@ const ProductDetails = () => {
         </ImageContainer>
         <InfoContainer>
         
-          <Title>{product.name}</Title>
+          <Title>{product.name}<AutoAwesomeIcon style={{color:"orange",fontSize:"60px",margin:"0px 0px 0px 20px"}}/></Title>
       
           <Price>${product.unit_price}</Price>
           <Icon>
             <StarIcon/><StarIcon/><StarIcon/><StarIcon/><StarOutlineIcon/>
           </Icon>
-          <hr/>
-          <h4>尺寸</h4>
-          <BasicSelect/>
-          <h4>顏色</h4>
-          <BasicSelect/>
-          <h4>顏色</h4>
-          <BasicSelect/>
+          <hr style={{margin:"20px",}}/>
+          {/* <h4>尺寸</h4>
+      
+          <h4>顏色</h4> */}
+          
           <h4>數量</h4>
-          <AddToCartButton>Add To Cart</AddToCartButton>
-          <Desc>產品資訊
+          <QuantitySession>
+            <RemoveIcon fontSize={'small'} onClick={()=>handleQuantity("dec") }/>
+              <MyNumber>{quantity}</MyNumber>
+            <AddIcon  fontSize={'small'} onClick={()=>handleQuantity("inc") }/>
+            <AddToCartButton onClick={handleClick} style={{margin:"50px"}}>Add To Cart</AddToCartButton>
+          </QuantitySession>
+          <Desc style={{margin:""}}>產品資訊
           <SeeMore>
-            <AddIcon fontSize={'small'}/>
-            <RemoveIcon fontSize={'small'}/>
+            {/* <AddIcon fontSize={'small'}/>
+            <RemoveIcon fontSize={'small'}/> */}
           </SeeMore>
           
           <br/>

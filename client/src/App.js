@@ -47,6 +47,7 @@ import TestButton from "./pages/test_button/TestButton";
 import RegisterForm from "./pages/authentication/forms/RegisterForm";
 import LoginSuccess from "./pages/authentication/LoginSuccess";
 import { useEffect } from "react";
+import Cart from "./pages/user/cart";
 import Billing from "./pages/user/Settings/billing/Billing";
 import Account from "./pages/user/Settings/account/Account";
 import UpdatePassword from "./pages/user/Settings/updatePassword/UpdatePassword";

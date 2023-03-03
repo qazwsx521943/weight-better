@@ -9,17 +9,17 @@ function PersonalPlan() {
 
     var settings = {
         dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 3
     };
     return (
         <div className='allContain'>
             <div>
                 <h2>choose your meal</h2>
                 <Slider {...settings}>
-                    {[1, 2, 3, 4].map((item, index) => {
+                    {[1, 2, 3, 4, 5, 6,].map((item, index) => {
                         return <div key={index}>{item}</div>
                     })}
                 </Slider>

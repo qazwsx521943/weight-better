@@ -21,11 +21,9 @@
     color: #fff;
     transition: .3s;
     opacity: .4;
-}
-
-.closeBtn:hover{
-    background-color: theme('colors.maingrey');
-    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nextBtn, .prevBtn{
@@ -38,6 +36,9 @@
     transition: .3s;
     opacity: .4;
     transform: translate(0, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nextBtn{

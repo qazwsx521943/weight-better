@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
 import Test2 from './Test2'
 import Test3 from './Test3'
 import { Outlet } from 'react-router-dom'
+import CircleButton from '@/components/Buttons/CircleButton'
 
 // Render a YouTube video player
 
@@ -28,15 +29,37 @@ function Test() {
   //   }
   // }, [played])
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const fd = new FormData(document.form1)
+
+    const url = 'http://localhost:8080/story/upload-video-try'
+    fetch(url, {
+      method: 'post',
+      body: fd,
+    })
+  }
+
   return (
     <div>
-      <p>Test1</p>
+      <form name="form1">
+        <input type="file" name="story" />
+        <input type="text" name="title" style={{ backgroundColor: '#aaa' }} />
+        <input
+          type="text"
+          name="hashtags"
+          style={{ backgroundColor: '#aaa' }}
+        />
+        <button onClick={handleSubmit}>submit</button>
+      </form>
+      {/* <p>Test1</p>
+      <CircleButton>aaaaa</CircleButton>
       <Routes>
         <Route path="test2" element={<Test2></Test2>}></Route>
         <Route path="test3" element={<Test3></Test3>}></Route>
       </Routes>
 
-      <Outlet></Outlet>
+      <Outlet></Outlet> */}
 
       {/* <button
         style={{ backgroundColor: 'salmon' }}

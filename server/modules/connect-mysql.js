@@ -8,8 +8,8 @@ const pool = mysql.createPool({
     waitForConnections: true, // 忙碌時是否允許等待
     connectionLimit: 5, // 最大連線數
     queueLimit: 0, // 允許排隊人數，0: 不限
-    // port: 3307,
-    port: 3308,
+    port: 3307,
+    // port: 3308,
 });
 
 module.exports = pool.promise();

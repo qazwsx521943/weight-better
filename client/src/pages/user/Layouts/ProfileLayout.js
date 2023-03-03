@@ -3,17 +3,12 @@ import { styled } from "@mui/material/styles";
 import { Button, Container, Typography, useMediaQuery, Stack, Box, AppBar } from "@mui/material";
 import { Outlet, useSearchParams, useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import LeftBar from "../components/LeftBar";
-import RightBar from "../components/RightBar";
 import { useState, useEffect } from "react";
 import UserService from "@/pages/services/user.service";
 import { useAuth } from "@/hooks/AuthContext";
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Reels from "../reels";
-import Profile from "../profile";
-import Favorites from "../favorites/Favorites";
-import OrderList from "../orderList";
 
 const tabs = [
     { title: "基本資料", value: "profile" },
@@ -31,13 +26,14 @@ const ProfileLayout = () => {
     const [hasUser, setHasUser] = useState();
     // tab selection
     const userParams = params.username;
+    const [selectedTab, setSelectedTab] = useState();
+    const currentLocation = location.pathname.split("/")[2] || "profile";
     useEffect(() => {
         UserService.userProfile(userParams).then((res) => {
             res.data.error ? setHasUser(false) : setHasUser(true);
         });
-    }, []);
-    const currentLocation = location.pathname.split("/")[2] || "profile";
-    const [selectedTab, setSelectedTab] = useState(currentLocation);
+        setSelectedTab(currentLocation);
+    }, [userParams]);
     const handleChange = (e, newValue) => {
         setSelectedTab(newValue);
         if (newValue === "profile") {

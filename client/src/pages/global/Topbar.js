@@ -1,9 +1,22 @@
 import React, { useContext, useState } from "react";
-import { Box, IconButton, Typography, Button, Avatar, Menu, MenuItem, styled, Toolbar, AppBar, Badge } from "@mui/material";
+import {
+    Box,
+    IconButton,
+    Typography,
+    Button,
+    Avatar,
+    Menu,
+    MenuItem,
+    styled,
+    Toolbar,
+    AppBar,
+    Badge,
+    MenuList,
+    ListItemText,
+} from "@mui/material";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AuthService from "../services/auth.service";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
@@ -12,7 +25,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "../../hooks/AuthContext";
 
 import logo from "@/assets/WB3.png";
-import UserService from "../services/user.service";
+import axios from "axios";
 
 // import {useSelector} from "react-redux"
 
@@ -32,8 +45,8 @@ const Nav = styled(Box)(({ theme }) => ({
 
 const Search = styled("div")(({ theme }) => ({
     display: "none",
+    position: "relative",
     backgroundColor: theme.palette.neutral.light,
-    padding: "0px 5px",
     borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up("md")]: {
         display: "flex",
@@ -67,7 +80,7 @@ const pages = {
 const Topbar = () => {
     const auth = useAuth();
     const [open, setOpen] = useState(false);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState([]);
     const navigate = useNavigate();
     const handleLogout = () => {
         setOpen(false);
@@ -76,17 +89,15 @@ const Topbar = () => {
         window.alert("登出成功！回到登入頁");
         navigate("/");
         auth.userLogout();
-        // setCurrentUser(null);
     };
     const inputChange = (e, newValue) => {
-        console.log(search);
-        setSearch(newValue);
-    };
+        setSearch((p) => []);
+        axios.get(`${process.env.REACT_APP_API_KEY}/user/search/${e.target.value}`).then((res) => {
+            setSearch(res.data);
+            // console.log(res.data);
+        });
 
-    const searchUser = (e) => {
-        if (e.key === "Enter") {
-            navigate(`/${search}`);
-        }
+        // setSearch(newValue);
     };
 
     // const cart = useSelector(state=>state.cart)
@@ -116,7 +127,7 @@ const Topbar = () => {
                                     navigate("/shop");
                                 } else if (page === "菜單") {
                                     navigate("/menu");
-                                } else if (page === "短影音"){
+                                } else if (page === "短影音") {
                                     navigate("/reels/home");
                                 }
                             }}>
@@ -125,7 +136,28 @@ const Topbar = () => {
                     ))}
                 </Nav>
                 <Search>
-                    <InputBase size="small" placeholder="Search..." onChange={inputChange} onKeyDown={searchUser} />
+                    <InputBase size="small" placeholder="搜尋用戶..." onChange={inputChange} sx={{ marginX: "10px" }} />
+                    {search.length > 0 && (
+                        <MenuList
+                            sx={{
+                                position: "absolute",
+                                top: "100%",
+                                zIndex: "10",
+                                width: "100%",
+                                backgroundColor: `${search.length < 0 ? "transparent" : "neutral.light"}`,
+                            }}>
+                            {search.map((value, i) => (
+                                <MenuItem
+                                    key={i}
+                                    onClick={() => {
+                                        navigate(`${value.username}`);
+                                        setSearch([]);
+                                    }}>
+                                    <ListItemText sx={{ fontSize: "5px" }}>{value.username}</ListItemText>
+                                </MenuItem>
+                            ))}
+                        </MenuList>
+                    )}
                 </Search>
                 <Icons>
                     <IconButton type="button">
@@ -194,16 +226,16 @@ const Topbar = () => {
                         setOpen(false);
                         navigate(`/${auth.currentUser.username}`);
                     }}>
-                    Profile
+                    個人檔案
                 </MenuItem>
                 <MenuItem
                     onClick={(e) => {
                         setOpen(false);
                         navigate(`/settings`);
                     }}>
-                    My account
+                    帳號資訊
                 </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>登出</MenuItem>
             </Menu>
         </AppBar>
         // </div>

@@ -4,27 +4,27 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
-import AuthService from "../../services/auth.service";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import PaymentIcon from "@mui/icons-material/Payment";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import BusinessIcon from "@mui/icons-material/Business";
+import { useNavigate } from "react-router-dom";
 
 // component
 import AvatarProfile from "../components/avatar/AvatarProfile";
 
-export default function SettingList({ user }) {
-    const [open, setOpen] = useState(true);
-    // console.log(user);
-    const handleClick = () => {
-        setOpen(!open);
-    };
+const settings = [
+    { title: "帳號", icon: <AdminPanelSettingsIcon />, link: "" },
+    { title: "付款資訊", icon: <PaymentIcon /> },
+    { title: "密碼安全", icon: <VpnKeyIcon />, link: "updatepassword" },
+    { title: "訂閱資訊", icon: <SubscriptionsIcon />, link: "billing" },
+    { title: "我的地址", icon: <BusinessIcon />, link: "address" },
+];
 
+export default function SettingList({ user }) {
+    // console.log(user);
+    const navigate = useNavigate();
     return (
         <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
@@ -36,35 +36,12 @@ export default function SettingList({ user }) {
                 </ListSubheader>
             }>
             <br />
-            <ListItemButton>
-                <ListItemIcon>
-                    <AdminPanelSettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="帳號" />
-            </ListItemButton>
-            <ListItemButton>
-                <ListItemIcon>
-                    <PaymentIcon />
-                </ListItemIcon>
-                <ListItemText primary="付款資訊" />
-            </ListItemButton>
-            <ListItemButton onClick={handleClick}>
-                <ListItemIcon>
-                    <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="訂閱資訊" />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary="Starred" />
-                    </ListItemButton>
-                </List>
-            </Collapse>
+            {settings.map((item, i) => (
+                <ListItemButton key={i} onClick={() => navigate(item.link)}>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primaryTypographyProps={{ fontSize: 16 }} primary={item.title} />
+                </ListItemButton>
+            ))}
         </List>
     );
 }

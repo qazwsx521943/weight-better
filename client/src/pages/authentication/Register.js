@@ -1,7 +1,9 @@
 import React from "react";
+import { Typography } from "@mui/material";
+// components
 import AuthWrapper from "./AuthWrapper";
 import RegisterForm from "./forms/RegisterForm";
-import Typography from "@mui/material/Typography";
+// hooks
 import { useAuth } from "@/hooks/AuthContext";
 import { Navigate } from "react-router-dom";
 
@@ -13,9 +15,9 @@ const Register = () => {
     }
     return (
         <AuthWrapper>
-            <Typography variant="h3" fontWeight={500} color="initial" marginY={3}>
+            {/* <Typography variant="h3" fontWeight={500} color="initial" marginY={3}>
                 註冊
-            </Typography>
+            </Typography> */}
             <RegisterForm />
         </AuthWrapper>
     );

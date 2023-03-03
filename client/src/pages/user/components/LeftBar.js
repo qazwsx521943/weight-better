@@ -58,11 +58,16 @@ const LeftBar = () => {
     // FIXME error handling ?
     useEffect(() => {
         UserService.userProfile(usernameParams).then((res) => {
+            if (res.data.error) {
+                throw new Error("查無此用戶");
+            }
             setUser(res.data);
         });
+
         UserService.userFollowing(usernameParams).then((res) => {
             setFollowing(res.data);
         });
+
         UserService.userFollowers(usernameParams).then((res) => {
             setFollowers(res.data);
             setFollowStatus(res.data.filter((fan) => fan.follower_id === decodedToken.id).length === 1 ? true : false);

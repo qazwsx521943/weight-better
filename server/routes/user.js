@@ -43,4 +43,21 @@ router.post("/deletefan", userController.userDelFan);
 // 上傳大頭貼至cloudinary test OK
 router.post("/upload/avatar/:username", upload.single("image"), userController.userSetAvatar);
 
+router.post("/update/password", passport.authenticate("jwt", { session: false }), userController.userChangePassword);
+
+// 取得會員地址陣列
+router.get("/get/address", passport.authenticate("jwt", { session: false }), userController.userAddress);
+
+// 新增收件地址
+router.post("/add/address", passport.authenticate("jwt", { session: false }), userController.userAddAddress);
+
+// 修改收件地址
+router.put("/update/address", passport.authenticate("jwt", { session: false }), userController.userUpdateAddress);
+
+// 刪除收件地址
+router.delete("/delete/address", userController.userDeleteAddress);
+
+// 模糊搜尋使用者
+router.get("/search/:username", userController.userSearch);
+
 module.exports = router;

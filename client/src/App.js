@@ -47,9 +47,10 @@ import TestButton from "./pages/test_button/TestButton";
 import RegisterForm from "./pages/authentication/forms/RegisterForm";
 import LoginSuccess from "./pages/authentication/LoginSuccess";
 import { useEffect } from "react";
-import Billing from "./pages/user/Settings/Billing/Billing";
-import Account from "./pages/user/Settings/Account/Account";
-import Cart from "./pages/user/cart";
+import Billing from "./pages/user/Settings/billing/Billing";
+import Account from "./pages/user/Settings/account/Account";
+import UpdatePassword from "./pages/user/Settings/updatePassword/UpdatePassword";
+import Address from "./pages/user/Settings/address/Address";
 // import Menu from "./pages/menu";
 
 function App() {
@@ -66,8 +67,10 @@ function App() {
                             <Route path="login/success" element={<LoginSuccess />} />
                             <Route path="register" element={<Register />} />
                             <Route path="settings" element={<Settings />}>
+                                <Route index element={<Account />} />
                                 <Route path="billing" element={<Billing />} />
-                                <Route path="account" element={<Account />} />
+                                <Route path="updatepassword" element={<UpdatePassword />} />
+                                <Route path="address" element={<Address />} />
                             </Route>
                             <Route
                                 path="/:username"

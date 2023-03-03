@@ -24,10 +24,6 @@ const tablist = [
     { name: "state", label: "會員等級", icon: <MilitaryTechIcon size="small" />, disabled: true },
 ];
 
-// const StyledInput = styled(Input)(({ theme }) => {
-//     margin:"dense"
-// });
-
 function Profile() {
     const { currentUser } = useAuth();
     const params = useParams();
@@ -42,17 +38,6 @@ function Profile() {
             setProfileData(res.data);
         });
     }, [usernameParams]);
-
-    // const [formData, setFormData] = useState({
-    //     nickname: "",
-    //     gender: "",
-    //     weight: "",
-    //     height: "",
-    //     interest: "",
-    //     education: "",
-    //     occupation: "",
-    //     introduction: "",
-    // });
 
     // change ProfileData
     const inputChange = (e) => {
@@ -70,23 +55,6 @@ function Profile() {
             UserService.updateUser(currentUser.id, { email, fullname, interest, introduction }).then((res) => {});
         }
     };
-    // save profile changes
-    // FIXME
-    // const submitProfile = async (e) => {
-    //     e.preventDefault();
-    //     console.log(formData);
-    //     try {
-    //         const response = await fetch("http://localhost:8080/user/profile_submit", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(formData),
-    //         });
-    //         const data = await response.json();
-    //         console.log("Success: ", data);
-    //     } catch (error) {
-    //         console.error("Error: ", error);
-    //     }
-    // };
 
     return (
         <Box display={"flex"} flexDirection="column" justifyContent="center" m={"20px"}>
@@ -136,13 +104,3 @@ function Profile() {
 }
 
 export default Profile;
-
-{
-    /* <TealButton
-    sx={{ marginX: { xs: 2, sm: "auto" } }}
-    onClick={handleSubmit}
-    // endIcon={editStatus ? <SaveIcon /> : <ModeEditIcon />}
->
-    {editStatus ? "儲存" : "編輯"}
-</TealButton>; */
-}

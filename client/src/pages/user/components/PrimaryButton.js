@@ -4,9 +4,9 @@ export const PrimaryButton = styled(Button)(({ theme }) => ({
     color: "white",
     backgroundColor: theme.palette.primary.main,
     "&:hover": {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.primary.dark,
     },
     "&:disabled": {
-        backgroundColor: theme.palette.teal.light,
+        backgroundColor: theme.palette.primary.light,
     },
 }));

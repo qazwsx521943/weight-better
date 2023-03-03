@@ -51,9 +51,12 @@ function HomeStory() {
   }
 
   return (
-    <div className="wrapper d-flex flex-column align-items-center">
-      <div className={`${styles.searchSection} container py-3 mx-5`}>
-        <div className="row d-flex justify-end">
+    <div
+      className="wrapper d-flex flex-column align-items-center"
+      style={{ overflowY: 'scroll' }}
+    >
+      <div className={`${styles.searchSection} container py-3`}>
+        <div className="row d-flex justify-center">
           <div className={`${styles.searchBox} col-3`}>
             <input
               type="text"
@@ -67,8 +70,14 @@ function HomeStory() {
           </div>
         </div>
       </div>
-      <div className={`.container py-3 mx-5`}>
-        <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+      <div
+        className={`container py-3`}
+        style={{ boxSizing: 'border-box', maxWidth: '1200px' }}
+      >
+        <div
+          className="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-4 m-0"
+          style={{ boxSizing: 'border-box', width: '100%' }}
+        >
           {videos.map((video) => (
             <VideoCard
               key={video.story_id}
@@ -91,6 +100,7 @@ function HomeStory() {
           setPlayingStoryIdx={setPlayingStoryIdx}
           videosCount={videosCount}
           uid={uid}
+          renderVideos={renderVideos}
         ></ModalPlayer>
       )}
     </div>

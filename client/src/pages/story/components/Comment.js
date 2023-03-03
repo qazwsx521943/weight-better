@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styles from '../styleModules/Comment.module.css'
 import 'animate.css'
 
+import AskDeleteComment from './AskDeleteComment'
+
 function Comment({ className, sid, uid, openAlert, setOpenAlert }) {
   const [comments, setComments] = useState([])
   const [inputComment, setInputComment] = useState('')
@@ -182,7 +184,16 @@ function Comment({ className, sid, uid, openAlert, setOpenAlert }) {
           </div>
         </div>
       </div>
-      <div
+      <AskDeleteComment
+        showCheckDelete={showCheckDelete}
+        modalAnimate={modalAnimate}
+        setModalAnimate={setModalAnimate}
+        deletingComment={deletingComment}
+        setShowCheckDelete={setShowCheckDelete}
+        deleteComment={deleteComment}
+        styles={styles}
+      />
+      {/* <div
         className={`modal fade ${showCheckDelete ? 'show' : 'd-none'}`}
         tabIndex="-1"
         style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
@@ -235,7 +246,7 @@ function Comment({ className, sid, uid, openAlert, setOpenAlert }) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

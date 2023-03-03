@@ -13,3 +13,25 @@
     bottom: 0;
     color: #fff;
 }
+
+.hide{
+    display: none;
+}
+
+.imgBox{
+    /* opacity: .3; */
+}
+
+.opacityLow{
+    opacity: .5;
+}
+
+.deleteBtn{
+    transition: .2s;
+    color: theme('colors.main');
+}
+
+.deleteBtn:hover{
+    transform: scale(1.2);
+}
+

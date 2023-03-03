@@ -71,6 +71,7 @@ function CollectStoryList({ uid }) {
           setPlayingStoryIdx={setPlayingStoryIdx}
           videosCount={videosCount}
           uid={uid}
+          renderVideos={renderCollectStory}
         ></ModalPlayer>
       )}
     </>

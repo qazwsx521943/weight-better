@@ -20,19 +20,23 @@ function CircleButton(props) {
 
   return (
     <>
-    {type === 'contained'? 
-      <Box
+      {type === 'contained' ? (
+        <Box
           className={styles.BtnCircle}
           sx={{
             backgroundColor: bgColor,
             color: fontColor,
             fontSize: fontSize + 'px',
             borderRadius: '100px',
-            width: size + 'px',
+            width: { xs: '100px', md: '300px', lg: '600px' },
             height: size + 'px',
+
             // boxShadow: '1px 1px 3px #555',
           }}
-        >{text}</Box> : 
+        >
+          {text}
+        </Box>
+      ) : (
         <Box
           id="btnO"
           className={styles.BtnCircle}
@@ -46,9 +50,10 @@ function CircleButton(props) {
             borderWidth: '3px',
             borderColor: borderColor,
           }}
-        >{text}</Box>
-      }
-      
+        >
+          {text}
+        </Box>
+      )}
     </>
   )
 }

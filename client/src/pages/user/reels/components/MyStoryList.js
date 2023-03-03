@@ -1,24 +1,45 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
+import styles from '../styles/MyStoryList.module.css'
+
 import VideoCard from '@/pages/story/components/VideoCard'
 import ModalPlayer from '@/pages/story/ModalPlayer'
+import AddRoundedIcon from '@mui/icons-material/AddRounded'
+import ModalUpload from './ModalUpload'
+import AskDeleteStory from './AskDeleteStory'
 
-function MyStoryList({ uid }) {
+function MyStoryList({
+  uid,
+  storyUser,
+  showModalUpload,
+  setShowModalUpload,
+  editMode,
+  setEditMode,
+  setOpenSnackBar,
+  setSnackBarMsg,
+}) {
   const [myStoryList, setMyStoryList] = useState([])
-
   const [videosCount, setVideosCount] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [playingStoryId, setPlayingStoryId] = useState('')
   const [playingStoryIdx, setPlayingStoryIdx] = useState(0)
+
+  const [showCheckDelete, setShowCheckDelete] = useState(false)
+  const [deletingStory, setDeletingStory] = useState({
+    id: '',
+    title: '',
+  })
 
   useEffect(() => {
     renderMyStory()
   }, [])
 
   const renderMyStory = () => {
+    // if (!storyUser.id) return
+
     const url = `http://localhost:8080/story/my-videos`
-    const data = { userId: uid }
+    const data = { userId: storyUser.id }
 
     fetch(url, {
       method: 'post',
@@ -46,8 +67,23 @@ function MyStoryList({ uid }) {
 
   return (
     <>
-      <div className="container pt-3" style={{ boxSizing: 'border-box' }}>
+      <div
+        className="container pt-3 flex-1"
+        style={{ boxSizing: 'border-box', position: 'relative' }}
+      >
         <div className="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3">
+          {/* {uid === storyUser.id ? (
+            <button
+              className={styles.btnUpload}
+              onClick={() => {
+                setShowModalUpload(true)
+              }}
+            >
+              <AddRoundedIcon></AddRoundedIcon>
+            </button>
+          ) : (
+            false
+          )} */}
           {myStoryList.map((video) => (
             <VideoCard
               key={video.story_id}
@@ -55,6 +91,11 @@ function MyStoryList({ uid }) {
               textSize={'text-h8 md:text-h7 lg:text-h6 xl:text-h6'}
               iconSize={'text-h7 md:text-h6 lg:text-h5 xl:text-h5'}
               handleShowModal={handleShowModal}
+              editMode={editMode}
+              setEditMode={setEditMode}
+              showCheckDelete={showCheckDelete}
+              setShowCheckDelete={setShowCheckDelete}
+              setDeletingStory={setDeletingStory}
             ></VideoCard>
           ))}
         </div>
@@ -70,7 +111,26 @@ function MyStoryList({ uid }) {
           setPlayingStoryIdx={setPlayingStoryIdx}
           videosCount={videosCount}
           uid={uid}
+          renderVideos={renderMyStory}
         ></ModalPlayer>
+      )}
+      {showModalUpload && (
+        <ModalUpload
+          showModalUpload={showModalUpload}
+          setShowModalUpload={setShowModalUpload}
+          uid={uid}
+          renderMyStory={renderMyStory}
+          setOpenSnackBar={setOpenSnackBar}
+          setSnackBarMsg={setSnackBarMsg}
+        />
+      )}
+      {showCheckDelete && (
+        <AskDeleteStory
+          showCheckDelete={showCheckDelete}
+          setShowCheckDelete={setShowCheckDelete}
+          deletingStory={deletingStory}
+          renderMyStory={renderMyStory}
+        />
       )}
     </>
   )

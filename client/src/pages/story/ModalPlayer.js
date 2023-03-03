@@ -6,9 +6,14 @@ import styles from './styleModules/Player.module.css'
 import { Alert, Fade } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded'
+import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded'
 
 import Comment from './components/Comment'
 // import { useAuth } from '@/hooks/AuthContext'
+
+let timer
 
 function ModalPlayer(props) {
   // const { currentUser } = useAuth()
@@ -22,6 +27,7 @@ function ModalPlayer(props) {
     videosCount,
     videos,
     uid,
+    renderVideos,
   } = props
 
   const [videoData, setVideoData] = useState({})
@@ -39,18 +45,11 @@ function ModalPlayer(props) {
     renderStory()
   }, [sid])
 
-  // --[開啟或關閉 player]
-  const showOrCloseModal = () => {
-    clearInterval(timer)
-    setShowModal(!showModal)
-  }
-
   // --[播放時開始監控影片進度]
-  let timer
   const handlePlay = (e) => {
     const video = e.currentTarget
     timer = setInterval(() => {
-      console.log('check progress')
+      console.log('check progress timer', timer)
       const currentTime = video.currentTime
       const duration = video.duration
 
@@ -64,6 +63,14 @@ function ModalPlayer(props) {
   // --[暫停時暫停監控影片進度]
   const handlePause = (e) => {
     clearInterval(timer)
+  }
+
+  // --[開啟或關閉 player]
+  const showOrCloseModal = () => {
+    console.log('close timer', timer)
+    clearInterval(timer)
+    setShowModal(!showModal)
+    renderVideos()
   }
 
   // --[取得影片資料清單]
@@ -176,7 +183,7 @@ function ModalPlayer(props) {
       .then((r) => r.json())
       .then((rData) => {
         console.log(url, rData)
-        setLiked(rData.liked)
+        // setLiked(rData.liked)
         renderLike()
       })
   }
@@ -196,7 +203,7 @@ function ModalPlayer(props) {
   const goPrevStory = () => {
     clearInterval(timer)
     if (sidx > 0) {
-      console.log(sidx - 1)
+      // console.log(sidx - 1)
       const prevStoryId = videos[sidx - 1].story_id
       setPlayingStoryIdx(sidx - 1)
       setPlayingStoryId(prevStoryId)
@@ -207,7 +214,7 @@ function ModalPlayer(props) {
   const goNextStory = () => {
     clearInterval(timer)
     if (sidx < videosCount - 1) {
-      console.log(sidx + 1)
+      // console.log(sidx + 1)
       const nextStoryId = videos[sidx + 1].story_id
       setPlayingStoryIdx(sidx + 1)
       setPlayingStoryId(nextStoryId)
@@ -279,25 +286,25 @@ function ModalPlayer(props) {
                     type="button"
                     onClick={showOrCloseModal}
                   >
-                    <i className="fa-solid fa-xmark"></i>
+                    <CloseRoundedIcon fontSize="small"></CloseRoundedIcon>
                   </button>
                   <button
                     className={styles.nextBtn}
                     type="button"
                     onClick={goNextStory}
                   >
-                    <i className="fa-solid fa-forward-step"></i>
+                    <SkipNextRoundedIcon fontSize="small"></SkipNextRoundedIcon>
                   </button>
 
                   <div
-                    className="storyView col-7 p-0 h-100"
+                    className="storyView col-7 p-0 h-100 bg-black"
                     style={{ position: 'relative' }}
                   >
                     <video
                       controls
                       muted
                       autoPlay
-                      className="bg-black h-100"
+                      className="bg-black h-100 mx-auto"
                       src={`http://localhost:8080/story/video/${sid}/get`}
                       type="video/mp4"
                       onPlay={handlePlay}
@@ -308,7 +315,7 @@ function ModalPlayer(props) {
                       type="button"
                       onClick={goPrevStory}
                     >
-                      <i className="fa-solid fa-backward-step"></i>
+                      <SkipPreviousRoundedIcon fontSize="small"></SkipPreviousRoundedIcon>
                     </button>
                   </div>
                   <div className="storyInfo col-5 d-flex flex-column h-100 border-none pl-4 pr-14">

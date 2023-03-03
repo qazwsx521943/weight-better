@@ -8,6 +8,7 @@ import GoalCard from '../GoalCard';
 import TestResult from '../TestResult';
 import jwt_decode from "jwt-decode";
 import AuthService from '../../../services/auth.service'
+import './styles.css'
 
 
 function CardStep() {
@@ -26,10 +27,13 @@ function CardStep() {
     dietType:'',
     active:'',
     goal:'',
+    bmr_val:'',
+    goal_val:'',
   })
 
 
   const handleNext = () => {
+    console.log(userData)
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep => activeStep + 1)
     } else {
@@ -73,6 +77,7 @@ function CardStep() {
 
   return (
     <Container sx={{ my: 4 }}>
+      <Box sx={{ height: '75vh' }}>
       <Stepper
         alternativeLabel
         nonLinear
@@ -89,7 +94,7 @@ function CardStep() {
           </Step>
         ))}
       </Stepper>
-      <Box>
+      <Box sx={{ height: '55vh'}}>
         {{
           0:<BmiCard userData={userData} setUserData={setUserData} />,
           1:<BmrCard  userData={userData} setUserData={setUserData}/>,
@@ -111,17 +116,20 @@ function CardStep() {
         </Button>
         <Button
           disabled={checkDisabled()}
-          onClick={handleNext}
+          onClick={() => {
+            handleNext()
+            submitUserData()}}
         >
-          Next
+          Finish
         </Button>
-        {activeStep===2?         
+        {/* {activeStep===2?         
         <Button
           disabled={checkDisabled()}
           onClick={submitUserData}
-        >Finish</Button> : false}
+        >Finish</Button> : false} */}
 
       </Stack>
+      </Box>
     </Container>
   )
 }

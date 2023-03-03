@@ -9,16 +9,21 @@ const images = [
     url: '/ImageMenu/goal1.jpg',
     title: '減脂',
     width: '33%',
+    value: '1',
   },
   {
     url: '/ImageMenu/goal2.jpg',
     title: '維持正常體態',
     width: '33%',
+    value: '2',
+
   },
   {
     url: '/ImageMenu/goal3.jpg',
     title: '增肌',
     width: '33%',
+    value: '3',
+
   },
 ];
 

@@ -22,8 +22,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
   }
   .listItem-wrap footer p:first-child span {
     color: rgba(0, 0, 0, 0.26);
     font-weight: 600;
+    
+  }
+
+  .listItem-wrap #footer2 {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
   }

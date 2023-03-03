@@ -6,7 +6,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import InsightsSharpIcon from '@mui/icons-material/InsightsSharp';
 import CardStep from '../CardStep';
 import MenuPlan from '../MenuPlan';
-import GoalCard from '../GoalCard';
+import PersonalPlan from '../PersonalPlan'
 
 
 // import GoalCard from '../GoalCard';
@@ -26,7 +26,7 @@ function TopNav() {
         {{
             0:<CardStep/>,
             1:<MenuPlan/>,
-            2:<GoalCard/>,
+            2:<PersonalPlan/>,
             
         }[value]}
             <Paper

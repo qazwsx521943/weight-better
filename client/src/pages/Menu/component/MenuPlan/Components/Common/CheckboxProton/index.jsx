@@ -12,10 +12,6 @@ import { FormControlLabel , Box } from '@mui/material';
     // console.log('L11 ',id)
     return (
       <div>
-
-
-
-
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
       <FormGroup>
         <FormControlLabel

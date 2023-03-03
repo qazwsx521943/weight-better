@@ -3,26 +3,14 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
+import jwt_decode from "jwt-decode";
+import AuthService from '../../../services/auth.service'
+
 
 // console.log(__dirname)
 
-const images = [
-  {
-    url: '/ImageMenu/Bmr01.jpg',
-    title: '幾乎不運動',
-    width: '33%',
-  },
-  {
-    url: '/ImageMenu/Bmr02.jpg',
-    title: '每週運動3-5天',
-    width: '33%',
-  },
-  {
-    url: '/ImageMenu/Bmr03.jpg',
-    title: '每週運動6-7天',
-    width: '33%',
-  },
-];
+
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -90,7 +78,80 @@ const ImageMarked = styled('span')(({ theme }) => ({
 
 
 
-function BmrCard() {
+
+const handleSubmit = (event)=>{
+
+  
+  event.preventDefault()
+ 
+
+  const fd = new FormData (event.target)
+  console.log(fd)
+  
+}
+
+
+
+function BmrCard({userData,setUserData}) {
+ 
+
+  const images = [
+    {
+      url: '/ImageMenu/Bmr01.jpg',
+      title: '幾乎不運動',
+      width: '33%',
+      name: '1.2',
+      // name: 'never',
+      // value: userData.bmr_val,
+    },
+    {
+      url: '/ImageMenu/Bmr02.jpg',
+      title: '每週運動3-5天',
+      width: '33%',
+      name: '1.55',
+
+      // name: 'often',
+      // value: userData.bmr_val,
+
+  
+    },
+    {
+      url: '/ImageMenu/Bmr03.jpg',
+      title: '每週運動6-7天',
+      width: '33%',
+      name: '1.72',
+      // name: 'always',
+      // value: userData.bmr_val,
+
+  
+    },
+  ];
+
+  const submitUserData = () => {
+
+    console.log(userData)
+    const decodedToken = jwt_decode(AuthService.getCurrentUser().token)
+    const uid = decodedToken.id
+    const url = `http://localhost:8080/menu/addUserData/${uid}`
+
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify(userData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(r=>r.json())
+    .then(rData => {
+      console.log(url, rData)
+    })
+
+  }
+
+  const handleClick = (value) => {
+    setUserData({...userData, bmr_val: value})
+  }
+
   return (
     <div>
     <Box>
@@ -110,6 +171,8 @@ function BmrCard() {
           style={{
             width: image.width,
           }}
+          onSubmit={handleSubmit}
+          onClick= {() => {handleClick(image.name)}}
         >
           {/* <ImageSrc src={require('./Image/01.jpg')} /> */}
           <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />

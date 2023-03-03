@@ -82,6 +82,7 @@ function BlogPost() {
                     width: "100%",
                     height: "100vh",
                     objectFit: "cover",
+                    marginBottom: "30px", 
                 }}
             />
             <Grid container spacing={2}>
@@ -89,7 +90,6 @@ function BlogPost() {
                 <Grid item xs={12} md={6}>
                     <Paper>
                         <Typography
-                            m={3}
                             variant="h4"
                             align="center"
                             gutterBottom
@@ -97,7 +97,6 @@ function BlogPost() {
                             {title}
                         </Typography>
                         <Typography
-                            m={3}
                             variant="subtitle1"
                             align="center"
                             gutterBottom
@@ -147,7 +146,7 @@ function BlogPost() {
                             {relatedPosts.map((post) => (
                                 <StyledListItem
                                     component="a"
-                                    href={`/BlogPost/${post.id}`}
+                                    href={`/blog/BlogPost/${post.id}`}
                                 >
                                     <img
                                         src={post.image}

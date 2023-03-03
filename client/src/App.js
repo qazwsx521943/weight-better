@@ -30,7 +30,7 @@ import Products from "./pages/shop/components/Products";
 
 //**? 部落格 */
 import HomePage from "./pages/blog/Pages/Home/HomePage";
-import Articles from "./pages/blog/Pages/Articles/Articles";
+import CategoryPage from "./pages/blog/Pages/CategoryPage/CategoryPage";
 import WriteBlog from "./pages/blog/Pages/WriteBlog/WriteBlog";
 import BlogPost from "./pages/blog/Pages/Post/BlogPost";
 
@@ -94,11 +94,12 @@ function App() {
                             <Route path="shop" element={<Products />}></Route>
 
                             {/*SECTION 部落格 */}
-                            <Route path="/HomePage" element={<HomePage />}></Route>
-                            <Route path="/WriteBlog" element={<WriteBlog />}></Route>
-                            <Route path="/BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="/Articles/:id" element={<Articles />} ></Route>
-
+                            <Route path="/blog">
+                            <Route path="" element={<HomePage />}></Route>
+                            <Route path="WriteBlog" element={<WriteBlog />}></Route>
+                            <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
+                            <Route path="CategoryPage/:id" element={<CategoryPage />} ></Route>
+                            </Route>
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 
                             <Route path="/menu" element={<Menu />}></Route>

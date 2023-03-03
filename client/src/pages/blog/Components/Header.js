@@ -5,11 +5,11 @@ import Link from "@mui/material/Link";
 import { Link as RouterLink } from 'react-router-dom';
 
 const sections = [
-  { title: "最新文章", url: "/articles/latest" },
-  { title: "健身鍛鍊", url: "/articles/fitness" },
-  { title: "居家運動", url: "/articles/home-workouts" },
-  { title: "健康飲食", url: "/articles/healthy-eating" },
-  { title: "養生保健", url: "/articles/health-wellness" },
+  { title: "最新文章", url: "/blog/CategoryPage/latest" },
+  { title: "健身鍛鍊", url: "/blog/CategoryPage/fitness" },
+  { title: "居家運動", url: "/blog/CategoryPage/home-workouts" },
+  { title: "健康飲食", url: "/blog/CategoryPage/healthy-eating" },
+  { title: "養生保健", url: "/blog/CategoryPage/health-wellness" },
 ];
 
 function Header(props) {
@@ -48,7 +48,7 @@ function Header(props) {
                     color="inherit"
                     noWrap
                     variant="body2"
-                    href="/WriteBlog"
+                    href="/blog/WriteBlog"
                     sx={{
                         p: 1,
                         flexShrink: 0,

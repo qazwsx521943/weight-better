@@ -2,7 +2,7 @@ import React from 'react'
 import { Slider ,Box} from '@mui/material'
 
 
-function SilderProton({ value, changedPrice}) {
+function SilderProton({ value, changedPrice ,id}) {
   return (
     <Box sx={{ width: 100 }}>
     <div >
@@ -10,8 +10,8 @@ function SilderProton({ value, changedPrice}) {
       value={value}
       onChange={changedPrice}
       valueLabelDisplay='on'
-      min={1000}
-      max={5000}
+      min={1}
+      max={200}
       
     />
   </div>

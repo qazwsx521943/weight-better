@@ -10,16 +10,16 @@ import EmptyView from '../../Components/Common/EmptyView'
 function Home() {
   const [selectedCategory,setSelectedCategory] = useState(null);
   const [selectedRating,setSelectedRating] = useState(null);
-  const [selectedPrice,setSelectedPrice] = useState([1000,5000]);
+  const [selectedPrice,setSelectedPrice] = useState([1,1000]);
   const [list, setList] = useState(dataList);
   const [searchInput, setSearchInput] = useState('');
   const [resultsFound, setResultsFound] = useState('');
 
 
   const [cuisines, setCuisines] = useState([
-    { id: 1, checked: false, label: 'American' },
-    { id: 2, checked: false, label: 'Chinese' },
-    { id: 3, checked: false, label: 'Italian' },
+    { id: 1, checked: false, label: 'breakfast' },
+    { id: 2, checked: false, label: 'lunch' },
+    { id: 3, checked: false, label: 'dinner' },
   ]);
 
 
@@ -82,13 +82,13 @@ function Home() {
 
     //Price Filter
 
-    // const minPrice = selectedPrice[0];
-    // const maxPrice = selectedPrice[1];
+    const minPrice = selectedPrice[0];
+    const maxPrice = selectedPrice[1];
 
 
-    // updatedList = updatedList.filter(
-    //   (item)=> item.price >= minPrice && item.Price <= maxPrice
-    // );
+    updatedList = updatedList.filter(
+      (item)=> item.calories >= minPrice && item.calories <= maxPrice
+    );
 
 
     
@@ -123,7 +123,7 @@ function Home() {
         <div className='home_panel-wrap'>
           {/* side Panels */}
           <FileterPanel 
-          selectedCategory={selectedCategory}
+            selectedCategory={selectedCategory}
             selectCategory={handleSelectCategory}
             selectedRating={selectedRating}
             selectedPrice={selectedPrice}

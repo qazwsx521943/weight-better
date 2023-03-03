@@ -15,7 +15,8 @@ const FilterListToggle =({options,value,selectToggle})=> {
     
     >
       {options.map(({ label, id, value }) => (
-        <ToggleButton  key={id} value={value}>
+        <ToggleButton  
+        key={id} value={value}>
           {label}
         </ToggleButton>
       ))}

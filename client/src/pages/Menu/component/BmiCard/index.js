@@ -64,7 +64,6 @@ function BmiCard({ userData, setUserData}) {
     // })
     // .catch((error)=>console.error(error))
 
-
     
   }
 
@@ -86,7 +85,7 @@ function BmiCard({ userData, setUserData}) {
             <MenuItem value="vegetarian">素食者</MenuItem>
           </Select>
         </FormControl>
-          <TextField mt="2" label="年齡" name='age' value={userData.age} onChange={(event)=>{
+          <TextField mt="1" label="年齡" name='age' value={userData.age} onChange={(event)=>{
             setUserData({...userData, age: event.currentTarget.value})
             }}/> 
           <TextField mt="2" label="身高" name='height' value={userData.height} onChange={(event)=>{

@@ -5,57 +5,69 @@ import CheckboxProton from '../../Common/CheckboxProton'
 import FilterListToggle from '../../Common/FilterListToggle'
 import SliderProton from '../../Common/SliderProton'
 import './styles.css'
+import { Box } from '@mui/material';
+
 
 
 function FileterPanel(
-{  selectedCategory, 
-  selectToggle,
-  selectedRating,
-  selectRating,
-  cuisines,
-  changeChecked,
-  changedPrice,
-  selectedPrice,
-}
-  
-  ) {
+  { selectedCategory,
+    selectToggle,
+    selectedRating,
+    selectRating,
+    cuisines,
+    changeChecked,
+    changePrice,
+    selectedPrice,
+  }
+
+) {
   return (
     <div>
       {/* Category 素食 一般*/}
       <div className='input-group'>
-        <p className='label'>Category</p>
+        <p className='label'>種類</p>
+        <Box  sx={{pl:'1.6rem'  }} >
         <FilterListToggle
           options={categoryList}
           value={selectedCategory}
           selectToggle={selectToggle}
-          
         />
+        </Box>
       </div>
 
       {/* Cusines  減脂 正常 增肌*/}
       <div className='input-group'>
-      <p className='label'>Cuisine</p>
-      {/* <CheckboxProton/> */}
-      {cuisines.map((cuisine) => (
-        <CheckboxProton
-          key={cuisine.id}
-          id={cuisine.id}
-          // cuisine={cuisine.label}
-          checked={cuisine.checked}
-          label={cuisine.label}
-          changeChecked={changeChecked}
-        />
-      ))}
+        <p className='label'>時段</p>
+        {/* <CheckboxProton/> */}
+        <Box sx={{pl:'0.3rem'  }}>
+          {cuisines.map((cuisine) => (
+            <CheckboxProton
+              key={cuisine.id}
+              id={cuisine.id}
+              // cuisine={cuisine.label}
+              checked={cuisine.checked}
+              label={cuisine.label}
+              changeChecked={changeChecked}
+            />
+          ))}
+        </Box>
 
       </div>
 
 
       {/* Price Range (Calories) */}
       <div className='input-group'>
-      <p className='label-range'>Cuisine</p>
-      <SliderProton value={selectedPrice} changedPrice={changedPrice} />
-
+        <p className='label-range'>卡路里</p>
+        <Box  sx={{pl:'1rem'  }}>
+          <SliderProton 
+         
+          value={selectedPrice} 
+          changedPrice={changePrice} 
+          
+          />
+        </Box>
       </div>
+   
       {/* Star Rating */}
       <div className='input-group'>
         <p className='label'>Star Rating</p>

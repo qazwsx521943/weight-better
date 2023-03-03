@@ -129,6 +129,8 @@ const Topbar = () => {
                                     navigate("/menu");
                                 } else if (page === "短影音") {
                                     navigate("/reels/home");
+                                } else if (page === "部落格") {
+                                    navigate("/blog");
                                 }
                             }}>
                             {page}

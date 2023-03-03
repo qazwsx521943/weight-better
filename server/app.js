@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 
-const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -37,7 +36,6 @@ app.use(
         cookie: { secure: false },
     })
 );
-app.use(helmet());
 
 app.use(passport.initialize());
 app.use(passport.session());

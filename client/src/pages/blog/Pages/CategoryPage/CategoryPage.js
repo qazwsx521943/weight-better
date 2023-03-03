@@ -12,12 +12,12 @@ function CategoryPage(props) {
   
     useEffect(() => {
       axios
-        .get(`http://localhost:8080/blogs/${category}`)
+        .get(`http://localhost:8080/blogs/post/${"fitness"}`)
         .then((response) => setPosts(response.data))
         .catch((error) => console.error(error));
   
       axios
-        .get(`http://localhost:8080/blogs/${category}/random`)
+        .get(`http://localhost:8080/blogs/${"fitness"}/random`)
         .then((response) => setRandomPost(response.data))
         .catch((error) => console.error(error));
     }, [category]);

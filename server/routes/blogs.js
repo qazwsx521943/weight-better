@@ -42,7 +42,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 // 抓取特定類別的文章的路由
-router.get("/:category", async (req, res) => {
+router.get("/post/:category", async (req, res) => {
     const { category } = req.params;
 
     try {

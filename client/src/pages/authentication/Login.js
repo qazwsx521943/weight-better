@@ -7,29 +7,19 @@ import AuthService from "@/pages/services/auth.service";
 import ArrowButton from "./ArrowButton/ArrowButton";
 import { useAuth } from "../../hooks/AuthContext";
 import axios from "axios";
-import { signInWithGoogle } from "../../Firebase";
 
 const Login = () => {
-    // const fetchAuthUser = async () => {
-    //     const response = await axios.get(process.env.REACT_APP_API_KEY + "/auth/user", { withCredentials: true }).catch((err) => {
-    //         console.log("沒有權限");
-    //     });
-    //     if (response) {
-    //         userLogin(response.data);
-    //     }
-    // };
     let [params] = useSearchParams();
     const navigate = useNavigate();
     const { currentUser, userLogin } = useAuth();
     const [message, setMessage] = useState();
     const [open, setOpen] = useState(false);
-    // 登入state存
+
     const [loginData, setLoginData] = useState({
         username: "",
         password: "",
     });
 
-    // 變更即存檔
     const inputChange = (e) => {
         setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
@@ -66,13 +56,8 @@ const Login = () => {
     }
     return (
         <>
-            <Collapse in={open}>
-                <Alert severity="success" color="teal">
-                    成功登入！
-                </Alert>
-            </Collapse>
             <AuthWrapper>
-                <Typography variant="h2" color="initial" fontWeight="500">
+                <Typography variant="h2" color="initial" fontWeight="500" marginY={3}>
                     登入
                 </Typography>
                 <TextField
@@ -109,14 +94,14 @@ const Login = () => {
                 </Stack>
 
                 <ArrowButton onClick={loginAuth} />
-                <div className="flex flex-row">
-                    <Link to="/register" className="text-gray">
-                        建立帳號？
+                <div className="flex flex-col mt-5">
+                    <Link to="/register" className="text-gray font-semibold">
+                        <p className="text-xs">建立帳號？</p>
                     </Link>
                     <Divider orientation="vertical" />
-                    <Link to="/forgot" className="text-gray">
+                    {/* <Link to="/forgot" className="text-gray font-semibold text-xs">
                         找回密碼？
-                    </Link>
+                    </Link> */}
                 </div>
             </AuthWrapper>
         </>

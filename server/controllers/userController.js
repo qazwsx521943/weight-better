@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const userRegister = async (req, res) => {
     //  /user/register
     let { password, username, birth_date, fullname, email } = req.body;
+    console.log(req.body.password);
     // Joi 驗證
     let { error } = registerValidation({ password, username, email });
     if (error) return res.status(400).send(error.details[0].message);
@@ -13,7 +14,8 @@ const userRegister = async (req, res) => {
     // email驗證
     const emailExist = await db.execute("SELECT COUNT(*) FROM `users` WHERE `email` = ?", [email]);
     if (emailExist > 0) return res.status(400).send("此信箱已經註冊過囉！");
-    console.log("emailOK!");
+    const usernameExist = await db.execute("SELECT COUNT(*) FROM `users` WHERE `username` = ?", [username]);
+    if (usernameExist > 0) return res.status(400).send("使用者名稱已有人使用！");
     // 存入ＤＢ
     const sql = "INSERT INTO `users` SET username = ?, password = ?, birth_date = ?, fullname = ?, email = ?";
 

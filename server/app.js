@@ -54,13 +54,6 @@ app.use("/menu", require("./routes/menu"));
 app.use("/blogs", blogRouter);
 // app.use("/products", products);
 app.use("/product", require("./routes/product"));
-// app.use(
-//     "/course",
-//     passport.authenticate("jwt", { session: false }),
-//     courseRouter
-// );
-
-// app.use("/user", passport.authenticate("jwt",{session:false}),userRouter);
 
 app.listen(8080, () => {
     console.log(`server run on port ${8080}`);

@@ -2,10 +2,10 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth.service";
-import Form from "../../login/components/Form";
 import Title from "./Title";
-import ArrowButton from "../ArrowButton/ArrowButton";
 import Logo from "@/assets/WB3.png";
+import ArrowButton from "../ArrowButton/ArrowButton";
+import Form from "../../login/components/Form";
 
 const Register = () => {
     const navigate = useNavigate();

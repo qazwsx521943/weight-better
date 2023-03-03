@@ -15,6 +15,13 @@ const DefaultBox = styled(Box)(({ theme }) => ({
     borderColor: theme.palette.teal.main,
 }));
 
+const AddressWrapper = styled(Box)(({ theme }) => ({
+    width: "100%",
+    boxShadow: "3px 3px 3px gray",
+    borderBottom: "1px solid gray",
+    borderRadius: "8px",
+}));
+
 function AddressBlock({ recipient, country, addressLine, township, defaultSelect, addressId, setAddressList }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -26,8 +33,8 @@ function AddressBlock({ recipient, country, addressLine, township, defaultSelect
         });
     };
     return (
-        <Box width={"100%"} borderBottom="1px solid gray" paddingBottom={2}>
-            <Stack justifyContent="space-between" direction={"row"} marginX={5}>
+        <AddressWrapper>
+            <Stack justifyContent="space-between" direction={"row"} marginX={5} marginY={2}>
                 <FlexColBox sx={{ alignItems: "flex-start" }}>
                     <Typography fontWeight={"600"} variant="h5" color="black.main">
                         {recipient}
@@ -68,7 +75,7 @@ function AddressBlock({ recipient, country, addressLine, township, defaultSelect
             <AddressModal open={open} handleClose={handleClose}>
                 <AddressForm handleClose={handleClose} type="edit" addressId={addressId} setAddressList={setAddressList}></AddressForm>
             </AddressModal>
-        </Box>
+        </AddressWrapper>
     );
 }
 

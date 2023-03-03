@@ -57,6 +57,7 @@ router.put("/update/address", passport.authenticate("jwt", { session: false }), 
 // 刪除收件地址
 router.delete("/delete/address", userController.userDeleteAddress);
 
+// 模糊搜尋使用者
 router.get("/search/:username", userController.userSearch);
 
 module.exports = router;

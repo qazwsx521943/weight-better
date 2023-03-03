@@ -9,13 +9,13 @@ const ArrowButton = (props) => {
             color={props.color || "primary"}
             sx={{
                 mx: 1, // ✔️ this shortcut is specific to the `sx` prop,
-                my: 4,
+                mt: 4,
                 width: 75,
                 height: 75,
-                borderRadius: 8,
+                borderRadius: 6,
             }}
             onClick={props.onClick}>
-            <ArrowForwardIcon />
+            <ArrowForwardIcon color="white" />
         </Button>
     );
 };

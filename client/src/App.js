@@ -19,6 +19,7 @@ import Profile from "./pages/user/profile";
 import Settings from "./pages/user/Settings";
 import Favorites from "./pages/user/favorites/Favorites";
 import OrderList from "./pages/user/orderList";
+import HistoryOrders from "./pages/user/Settings/historyOrders/HistoryOrders";
 
 //**? 商品 */
 import Shop from "./pages/shop/product";
@@ -75,6 +76,7 @@ function App() {
                                 <Route path="billing" element={<Billing />} />
                                 <Route path="updatepassword" element={<UpdatePassword />} />
                                 <Route path="address" element={<Address />} />
+                                <Route path="historyorders" element={<HistoryOrders />} />
                             </Route>
                             <Route
                                 path="/:username"
@@ -102,10 +104,10 @@ function App() {
 
                             {/*SECTION 部落格 */}
                             <Route path="/blog">
-                            <Route path="" element={<HomePage />}></Route>
-                            <Route path="WriteBlog" element={<WriteBlog />}></Route>
-                            <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="CategoryPage/:id" element={<CategoryPage />} ></Route>
+                                <Route path="" element={<HomePage />}></Route>
+                                <Route path="WriteBlog" element={<WriteBlog />}></Route>
+                                <Route path="BlogPost/:id" element={<BlogPost />}></Route>
+                                <Route path="CategoryPage/:id" element={<CategoryPage />}></Route>
                             </Route>
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 

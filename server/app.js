@@ -40,7 +40,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 // resolution for CORS
-
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // routes middleware

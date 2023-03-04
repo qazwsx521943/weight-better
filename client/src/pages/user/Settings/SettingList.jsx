@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,37 +8,53 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import BusinessIcon from "@mui/icons-material/Business";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 // component
 import AvatarProfile from "../components/avatar/AvatarProfile";
+import { fontWeight } from "@mui/system";
 
 const settings = [
     { title: "帳號", icon: <AdminPanelSettingsIcon />, link: "" },
-    { title: "付款資訊", icon: <PaymentIcon /> },
-    { title: "密碼安全", icon: <VpnKeyIcon />, link: "updatepassword" },
     { title: "訂閱資訊", icon: <SubscriptionsIcon />, link: "billing" },
+    { title: "歷史訂單", icon: <ListAltIcon />, link: "historyorders" },
+    { title: "密碼安全", icon: <VpnKeyIcon />, link: "updatepassword" },
     { title: "我的地址", icon: <BusinessIcon />, link: "address" },
+    { title: "付款資訊", icon: <PaymentIcon /> },
 ];
 
-export default function SettingList({ user }) {
-    // console.log(user);
+export default function SettingList({ user, selectedTab, setSelectedTab }) {
     const navigate = useNavigate();
     return (
         <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
             component="nav"
-            aria-labelledby="nested-list-subheader"
+            aria-labelledby="settings-list-subheader"
             subheader={
-                <ListSubheader component="div" id="nested-list-subheader">
+                <ListSubheader component="div" id="settings-list-subheader">
                     <AvatarProfile user={user} />
                 </ListSubheader>
             }>
             <br />
             {settings.map((item, i) => (
-                <ListItemButton key={i} onClick={() => navigate(item.link)}>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primaryTypographyProps={{ fontSize: 16 }} primary={item.title} />
+                <ListItemButton
+                    key={i}
+                    onClick={() => {
+                        navigate(item.link);
+                        setSelectedTab(i);
+                    }}
+                    selected={selectedTab === i ? true : false}
+                    sx={{
+                        "&.Mui-selected": {
+                            color: "primary.main",
+                        },
+                    }}>
+                    <ListItemIcon sx={{ color: `${selectedTab === i ? "primary.main" : ""}` }}>{item.icon}</ListItemIcon>
+                    <ListItemText
+                        primaryTypographyProps={{ fontSize: 16, fontWeight: `${selectedTab === i ? "700" : "400"}` }}
+                        primary={item.title}
+                    />
                 </ListItemButton>
             ))}
         </List>

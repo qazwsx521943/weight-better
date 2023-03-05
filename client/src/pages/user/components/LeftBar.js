@@ -103,8 +103,6 @@ const LeftBar = () => {
         setFollowers(followers.filter((fan) => fan.username !== username));
     };
 
-    // const checkFollowStatus = followers.filter((fan) => fan.follower_id === currentUser.id).length;
-    // console.log(checkFollowStatus);
     return (
         <Box flex={1} p={2}>
             {decodedToken.username !== usernameParams && (

@@ -6,7 +6,7 @@ class AuthService {
         return axios.post(process.env.REACT_APP_API_KEY + "/auth/login", loginData);
     }
     googleLogin() {
-        window.open(process.env.REACT_APP_API_KEY + "/auth/google");
+        window.location.assign(process.env.REACT_APP_API_KEY + "/auth/google");
         // return axios.post(process.env.REACT_APP_API_KEY + "/auth/google/login", loginData);
     }
 

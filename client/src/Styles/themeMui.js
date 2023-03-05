@@ -39,6 +39,7 @@ const theme = createTheme({
         white: {
             main: "#FFFFFF",
         },
+        gray: { main: "#91989F" },
     },
     typography: {
         fontFamily: ["Inter", "sans-serif"].join(","),

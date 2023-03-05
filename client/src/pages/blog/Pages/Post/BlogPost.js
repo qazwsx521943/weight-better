@@ -44,14 +44,14 @@ function BlogPost() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/blogs/${id}`)
+            .get(`http://localhost:8080/blogs/post/${id}`)
             .then((response) => setBlog(response.data))
             .catch((error) => console.error(error));
     }, [id]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/blogs`)
+            .get(`http://localhost:8080/blogs/post`)
             .then((response) => {
                 const randomPosts = response.data
                     .sort(() => 0.5 - Math.random())

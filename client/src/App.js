@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes ,BrowserRouter} from "react-router-dom";
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "./hooks/AuthContext";
@@ -105,7 +105,7 @@ function App() {
                             <Route path="" element={<HomePage />}></Route>
                             <Route path="WriteBlog" element={<WriteBlog />}></Route>
                             <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="CategoryPage/:id" element={<CategoryPage />} ></Route>
+                            <Route path="CategoryPage/:category" element={<CategoryPage />} />
                             </Route>
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 

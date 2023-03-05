@@ -5,22 +5,8 @@ import { countries, townships, postcodes } from "../addressData";
 import { PrimaryButton } from "@/pages/user/components/PrimaryButton";
 import { TealButton, PinkButton } from "@/pages/user/components/TealButton";
 import UserService from "@/pages/services/user.service";
+import { textInput } from "@/Styles/inputMui";
 
-const AddressInput = styled(InputBase)(({ theme }) => ({
-    "label + &": {
-        marginTop: theme.spacing(3),
-    },
-    "& .MuiInputBase-input": {
-        borderRadius: 4,
-        position: "relative",
-        backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
-        border: "1px solid primary",
-        fontSize: 16,
-        width: "auto",
-        padding: "10px 12px",
-        transition: theme.transitions.create(["border-color", "background-color", "box-shadow"]),
-    },
-}));
 function AddressForm({ type, handleClose, setAddressList, addressId }) {
     const [recipient, setRecipient] = useState("");
     const [countryIndex, setCountryIndex] = useState(-1);
@@ -89,15 +75,25 @@ function AddressForm({ type, handleClose, setAddressList, addressId }) {
 
     return (
         <Box>
-            <Stack spacing={3}>
-                <FormControl>
-                    <InputLabel id="recipient">收件者</InputLabel>
-                    <InputBase value={recipient} name="recipient" onChange={handleRecipientChange} />
-                </FormControl>
+            <Stack spacing={3} mt={5}>
+                <TextField
+                    label="收件人"
+                    sx={{ ...textInput }}
+                    size="small"
+                    value={recipient}
+                    onChange={handleRecipientChange}
+                    name="recipient"
+                />
                 <Stack direction={"row"}>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="country">城市</InputLabel>
-                        <Select labelId="country" id="country" value={countryIndex} onChange={handleCountryChange} label="城市">
+                        <Select
+                            labelId="country"
+                            id="country"
+                            value={countryIndex}
+                            onChange={handleCountryChange}
+                            label="城市"
+                            MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}>
                             <MenuItem value={-1}>
                                 <em>請選擇城市</em>
                             </MenuItem>
@@ -110,7 +106,13 @@ function AddressForm({ type, handleClose, setAddressList, addressId }) {
                     </FormControl>
                     <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                         <InputLabel id="township">區域</InputLabel>
-                        <Select labelId="township" id="township" value={townshipIndex} onChange={handleTownshipChange} label="區域">
+                        <Select
+                            labelId="township"
+                            id="township"
+                            value={townshipIndex}
+                            onChange={handleTownshipChange}
+                            label="區域"
+                            MenuProps={{ PaperProps: { sx: { maxHeight: 200 } } }}>
                             <MenuItem value={-1}>
                                 <em>請選擇區域</em>
                             </MenuItem>
@@ -123,11 +125,15 @@ function AddressForm({ type, handleClose, setAddressList, addressId }) {
                         </Select>
                     </FormControl>
                 </Stack>
-                <FormControl>
-                    <InputLabel id="addressLine">街道,巷弄,門號,樓層</InputLabel>
-                    <InputBase value={addressLine} name="addressLine" onChange={handleDetailChange} />
-                </FormControl>
-                <Stack direction={"row"} spacing={4}>
+                <TextField
+                    label="街道,巷弄,門號,樓層"
+                    sx={{ ...textInput, width: "300px" }}
+                    size="small"
+                    value={addressLine}
+                    onChange={handleDetailChange}
+                    name="addressLine"
+                />
+                <Stack direction={"row"} spacing={4} justifyContent="center">
                     <PinkButton onClick={handleClose}>取消</PinkButton>
                     <TealButton onClick={handleSubmit}>{type === "add" ? "新增" : "儲存"}</TealButton>
                 </Stack>

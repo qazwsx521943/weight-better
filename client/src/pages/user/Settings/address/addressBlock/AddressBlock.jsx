@@ -1,25 +1,26 @@
 import { useState } from "react";
-import { Box, Typography, Stack, Tooltip, IconButton, Divider } from "@mui/material";
+import { Box, Typography, Stack, Tooltip, IconButton, Chip } from "@mui/material";
 import FlexColBox from "@/components/FlexBox/FlexColBox";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import { styled } from "@mui/material/styles";
 import AddressModal from "../addressModal/AddressModal";
 import AddressForm from "../addressForm/AddressForm";
 import UserService from "@/pages/services/user.service";
 
-const DefaultBox = styled(Box)(({ theme }) => ({
-    border: "1px solid ",
-    padding: "5px",
-    borderRadius: "8px",
-    borderColor: theme.palette.teal.main,
-}));
+// const DefaultBox = styled(Box)(({ theme }) => ({
+//     border: "1px solid ",
+//     padding: "5px",
+//     borderRadius: "8px",
+//     borderColor: theme.palette.teal.main,
+// }));
 
 const AddressWrapper = styled(Box)(({ theme }) => ({
     width: "100%",
     boxShadow: "3px 3px 3px gray",
     borderBottom: "1px solid gray",
     borderRadius: "8px",
+    position: "relative",
 }));
 
 function AddressBlock({ recipient, country, addressLine, township, defaultSelect, addressId, setAddressList }) {
@@ -29,7 +30,7 @@ function AddressBlock({ recipient, country, addressLine, township, defaultSelect
     const handleDelete = () => {
         UserService.userDeleteAddress(addressId).then((res) => {
             setAddressList((p) => p.filter((address) => address.id !== addressId));
-            console.log(res.data);
+            // console.log(res.data);
         });
     };
     return (
@@ -53,23 +54,22 @@ function AddressBlock({ recipient, country, addressLine, township, defaultSelect
                     </Typography>
                 </FlexColBox>
                 <FlexColBox>
-                    <Stack direction={"row"}>
-                        <Tooltip title="編輯">
-                            <IconButton size="small" onClick={handleOpen}>
-                                <EditIcon />
-                            </IconButton>
-                        </Tooltip>
+                    <Stack direction={"row"} mb={2}>
+                        <IconButton size="small" onClick={handleOpen}>
+                            {/* <EditIcon /> */}編輯
+                        </IconButton>
                         <Tooltip title="刪除">
-                            <IconButton size="small" onClick={handleDelete}>
-                                <DeleteIcon />
+                            <IconButton size="small" onClick={handleDelete} sx={{ position: "absolute", top: 0, right: 0 }}>
+                                <HighlightOffRoundedIcon />
                             </IconButton>
                         </Tooltip>
                     </Stack>
-                    <DefaultBox>
-                        <Typography variant="h6" color="black">
+                    {/* <DefaultBox> */}
+                    {/* <Typography variant="h6" color="black">
                             設為預設
-                        </Typography>
-                    </DefaultBox>
+                        </Typography> */}
+                    <Chip variant="outlined" color="teal" label="預設地址" />
+                    {/* </DefaultBox> */}
                 </FlexColBox>
             </Stack>
             <AddressModal open={open} handleClose={handleClose}>

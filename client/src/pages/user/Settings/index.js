@@ -15,8 +15,9 @@ const urlToTab = {
 const Settings = () => {
     const location = useLocation();
     const { currentUser } = useAuth();
-    // tab control
+    // selected tab control
     const [selectedTab, setSelectedTab] = useState(0);
+    // url to selected tab control
     const path = useMemo(() => location.pathname.split("/")[2], [location]);
 
     useEffect(() => {

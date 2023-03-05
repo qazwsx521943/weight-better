@@ -13,9 +13,9 @@ import Tab from "@mui/material/Tab";
 const tabs = [
     { title: "基本資料", value: "profile" },
     { title: "我的影片", value: "reels" },
+    { title: "我的文章", value: "blogs" },
     { title: "最愛商品", value: "favorites" },
     { title: "我的菜單", value: "menu" },
-    { title: "歷史訂單", value: "orders" },
 ];
 
 const ProfileLayout = () => {

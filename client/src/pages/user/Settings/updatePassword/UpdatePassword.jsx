@@ -7,6 +7,8 @@ import FlexColBox from "@/components/FlexBox/FlexColBox";
 import UserService from "@/pages/services/user.service";
 import CircleSpinner from "../../components/spinner/CircleSpinner";
 import { initialStates, passwordReducer } from "./updatePasswordReducer";
+
+// useReducer prac
 function UpdatePassword() {
     const [state, dispatch] = useReducer(passwordReducer, initialStates);
 

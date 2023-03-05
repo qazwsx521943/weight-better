@@ -10,10 +10,8 @@ import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import BusinessIcon from "@mui/icons-material/Business";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 // component
 import AvatarProfile from "../components/avatar/AvatarProfile";
-import { fontWeight } from "@mui/system";
 
 const settings = [
     { title: "帳號", icon: <AdminPanelSettingsIcon />, link: "" },

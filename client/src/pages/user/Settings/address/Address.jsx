@@ -15,10 +15,11 @@ function Address() {
         setOpen(false);
     };
     const [addressList, setAddressList] = useState([]);
+
     useEffect(() => {
         UserService.userAddress().then((res) => setAddressList(res.data.addressList));
     }, []);
-    console.log(addressList);
+
     return (
         <FlexColBox>
             <Header title="我的地址" />

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
     Box,
     IconButton,
@@ -78,6 +78,8 @@ const pages = {
 };
 
 const Topbar = () => {
+    const searchRef = useRef("");
+    const timeoutRef = useRef(null);
     const auth = useAuth();
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState([]);
@@ -92,12 +94,14 @@ const Topbar = () => {
     };
     const inputChange = (e, newValue) => {
         setSearch((p) => []);
-        axios.get(`${process.env.REACT_APP_API_KEY}/user/search/${e.target.value}`).then((res) => {
-            setSearch(res.data);
-            // console.log(res.data);
-        });
-
-        // setSearch(newValue);
+        searchRef.current = e.target.value;
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => {
+            axios.get(`${process.env.REACT_APP_API_KEY}/user/search/${searchRef.current}`).then((res) => {
+                setSearch(res.data);
+                // console.log(res.data);
+            });
+        }, 300);
     };
 
     // const cart = useSelector(state=>state.cart)
@@ -174,9 +178,11 @@ const Topbar = () => {
                     )}
                     {auth.currentUser && (
                         <IconButton>
-                            <Link to={`/Shop/Cart`}><Badge badgeContent={4} color="pink">
-                                <ShoppingCartIcon />
-                            </Badge></Link>
+                            <Link to={`/Shop/Cart`}>
+                                <Badge badgeContent={4} color="pink">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </Link>
                         </IconButton>
                     )}
                     {auth.currentUser ? (

@@ -18,7 +18,7 @@ import Reels from "./pages/user/reels";
 import Profile from "./pages/user/profile";
 import Settings from "./pages/user/Settings";
 import Favorites from "./pages/user/favorites/Favorites";
-import OrderList from "./pages/user/orderList";
+import MyBlogs from "./pages/user/blogs";
 import HistoryOrders from "./pages/user/Settings/historyOrders/HistoryOrders";
 
 //**? 商品 */
@@ -88,7 +88,7 @@ function App() {
                                 <Route index element={<Profile />} />
                                 <Route path="reels" element={<Reels />} />
                                 <Route path="favorites" element={<Favorites />} />
-                                <Route path="orders" element={<OrderList />} />
+                                <Route path="blogs" element={<MyBlogs />} />
                                 {/* <Route path="cart" element={<Cart />} /> */}
                             </Route>
                             {/*SECTION 商城 */}

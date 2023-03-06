@@ -8,7 +8,7 @@ export const useLocalStorage = (token, defaultValue) => {
             if (token) {
                 return JSON.parse(token);
             } else {
-                // 沒有則建立一個字定義 token
+                // 沒有則建立一個自己定義token
                 localStorage.setItem(token, JSON.stringify(defaultValue));
                 return defaultValue;
             }
@@ -17,7 +17,7 @@ export const useLocalStorage = (token, defaultValue) => {
         }
     });
 
-    // for setting token in useAuth hook
+    // update setter for JWT token
     const setToken = (newToken) => {
         try {
             localStorage.setItem(token, JSON.stringify(newToken));
@@ -25,6 +25,5 @@ export const useLocalStorage = (token, defaultValue) => {
         setStoredToken(newToken);
     };
 
-    // 類useState return value
     return [storedToken, setToken];
 };

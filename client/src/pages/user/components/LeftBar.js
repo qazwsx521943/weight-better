@@ -8,23 +8,9 @@ import AuthService from "../../services/auth.service";
 import jwt_decode from "jwt-decode";
 
 // components
-import {
-    Box,
-    Stack,
-    Avatar,
-    Typography,
-    Breadcrumbs,
-    IconButton,
-    Snackbar,
-    Alert,
-    FormControlLabel,
-    FormGroup,
-    Switch,
-    Chip,
-} from "@mui/material";
+import { Box, Stack, Avatar, Typography, Breadcrumbs, IconButton, Snackbar, Alert, FormGroup, Chip } from "@mui/material";
 import PopupModal from "./PopupModal";
 import AvatarBar from "./avatar/AvatarBar";
-import { TealButton } from "./TealButton";
 import { PrimaryButton } from "./PrimaryButton";
 // icons
 import EditIcon from "@mui/icons-material/Edit";
@@ -32,7 +18,6 @@ import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { Close } from "@mui/icons-material";
 
 const LeftBar = () => {
     // ANCHOR

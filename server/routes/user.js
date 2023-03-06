@@ -14,6 +14,7 @@ const { storage } = require("../cloudinary");
 const upload = multer({ storage });
 
 // 會員註冊 TODO: 進階驗證留到最後
+router.post("/register/checkusername", userController.usernameCheck);
 router.post("/register", userController.userRegister);
 
 // 更新會員資料 test OK

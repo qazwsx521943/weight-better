@@ -52,20 +52,16 @@ const githubLogin = async (req, res) => {
         });
 };
 
-const githubGetProfile = async (req, res) => {
-    req.get("Authorization");
-    await fetch("https://api.github.com/user", {
-        method: "GET",
-        headers: {
-            Authorization: req.get("Authorization"),
-        },
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            res.json(data);
-        });
+const githubSuccess = async (req, res) => {
+    const userToken = jwt.sign(
+        { username: req.user.username, id: req.user.id, profile_image: req.user.profile_image },
+        process.env.PASSPORT_SECRET
+    );
+    console.log("req", req.user);
+    console.log("token", userToken);
+    res.redirect("http://localhost:3000/login/success?token=" + userToken);
 };
+
 const googleSuccess = async (req, res) => {
     const userToken = jwt.sign(
         { username: req.user.username, id: req.user.id, profile_image: req.user.profile_image },
@@ -76,29 +72,10 @@ const googleSuccess = async (req, res) => {
     res.redirect("http://localhost:3000/login/success?token=" + userToken);
 };
 
-// const googleSuccess = async (req, res) => {
-//     if (req.user) {
-//         res.status(200).json({
-//             error: false,
-//             message: "成功登入",
-//             user: req.user,
-//         });
-//     } else {
-//         res.status(403).json({ error: true, message: "沒有權限" });
-//     }
-// };
-
-const googleFail = async (req, res) => {
-    res.status(401).json({
-        error: true,
-        message: "登入失敗",
-    });
-};
-
 module.exports = {
     localLogin,
     githubLogin,
-    githubGetProfile,
     googleSuccess,
     passwordReset,
+    githubSuccess,
 };

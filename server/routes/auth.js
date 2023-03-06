@@ -11,9 +11,8 @@ router.post("/login", authController.localLogin);
 router.post("/forgot-password", authController.passwordReset);
 
 // TODO: 有空再做 Github Oauth
-router.get("/githubAccessToken", authController.githubLogin);
-
-router.get("/githubUserProfile", authController.githubGetProfile);
+router.get("/github", passport.authenticate("github", { scope: ["user:email"] }));
+router.get("/github/callback", passport.authenticate("github", { failureRedirect: "/login" }), authController.githubSuccess);
 
 // Google Oauth
 router.get(

@@ -3,10 +3,18 @@ const { registerValidation } = require("../validation");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // 會員註冊
+const usernameCheck = async (req, res) => {
+    const username = req.body.username;
+    const usernameExist = await db.execute("SELECT COUNT(*) FROM `users` WHERE `username` = ?", [username]);
+    if (usernameExist > 0) return res.status(400).send("使用者名稱已有人使用！");
+
+    res.json({ success: "使用者名稱可以使用" });
+};
+
 const userRegister = async (req, res) => {
     //  /user/register
     let { password, username, birth_date, fullname, email } = req.body;
-    console.log(req.body.password);
+    console.log(req.body);
     // Joi 驗證
     let { error } = registerValidation({ password, username, email });
     if (error) return res.status(400).send(error.details[0].message);
@@ -244,4 +252,5 @@ module.exports = {
     userAddress,
     userDeleteAddress,
     userSearch,
+    usernameCheck,
 };

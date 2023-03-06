@@ -11,7 +11,7 @@ class AuthService {
     }
 
     githubLogin() {
-        // window.location.assign(`https://github.com/login/oauth/authorize?client_id=654b686d803fdde176eb`);
+        window.location.assign(process.env.REACT_APP_API_KEY + "/auth/github");
     }
 
     logout() {
@@ -19,6 +19,10 @@ class AuthService {
     }
     register(formData) {
         return axios.post(process.env.REACT_APP_API_KEY + "/user/register", formData);
+    }
+
+    checkUsername(username) {
+        return axios.post(process.env.REACT_APP_API_KEY + "/user/register/checkusername", { username: username });
     }
 
     getCurrentUser() {

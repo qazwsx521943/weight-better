@@ -5,10 +5,11 @@ import FeaturedPost from "../../Components/FeaturedPost";
 import axios from "axios";
 import Header from "../../Components/Header";
 import { useParams } from "react-router-dom";
+import RandomPost from "../../Components/RandomPost";
 
 const CATEGORY_MAP = {
-    "latest": "最新文章",
-    "fitness": "健身鍛鍊",
+    latest: "最新文章",
+    fitness: "健身鍛鍊",
     "home-workouts": "居家運動",
     "healthy-eating": "健康飲食",
     "health-wellness": "養生保健",
@@ -60,22 +61,14 @@ function CategoryPage(props) {
                 {categoryText}
             </Typography>
             {randomPost && (
-                <div
-                    style={{
-                        width: "100vw",
-                        height: "100vh",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <FeaturedPost post={randomPost} />
+                <div style={{ margin: "10px 200px" }}>
+                    <RandomPost post={randomPost} />
                 </div>
             )}
-            <Grid container spacing={4}>
+            <Grid container spacing={5} >
                 {posts.map((post) => (
                     <FeaturedPost key={post.id} post={post} />
-                ))}
+                ))} 
             </Grid>
         </>
     );

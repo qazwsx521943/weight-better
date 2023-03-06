@@ -51,7 +51,7 @@ function BlogPost() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/blogs/post`)
+            .get(`http://localhost:8080/blogs/`)
             .then((response) => {
                 const randomPosts = response.data
                     .sort(() => 0.5 - Math.random())
@@ -80,7 +80,7 @@ function BlogPost() {
                 onLoad={() => setImageLoaded(true)}
                 style={{
                     width: "100%",
-                    height: "100vh",
+                    height: "400px",
                     objectFit: "cover",
                     marginBottom: "30px", 
                 }}

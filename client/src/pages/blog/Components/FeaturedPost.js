@@ -88,7 +88,7 @@ function FeaturedPost(props) {
                             {post.date}
                         </Typography> */}
                         <Divider sx={{ borderColor: "transparent", my: 1 }} />
-                        <Typography variant="subtitle2" paragraph>
+                        <Typography variant="subtitle2" paragraph >
                             {post.description}
                         </Typography>
                         <Typography variant="subtitle1" color="primary">

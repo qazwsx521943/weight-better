@@ -1,6 +1,29 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../modules/connect-mysql");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+const app = express();
+
+//存圖片到本地端
+
+app.post("/api/uploadImage", upload.single("upload"), (req, res) => {
+  // req.file contains information about the uploaded image
+  const imagePath = req.file.path;
+  // save the image path to the database
+  // ...
+});
 
 // 抓取所有blogs中的資料
 router.get("/", async (req, res) => {

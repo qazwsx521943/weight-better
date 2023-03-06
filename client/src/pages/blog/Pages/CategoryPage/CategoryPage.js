@@ -8,8 +8,8 @@ import { useParams } from "react-router-dom";
 import RandomPost from "../../Components/RandomPost";
 
 const CATEGORY_MAP = {
-    latest: "最新文章",
-    fitness: "健身鍛鍊",
+    "latest": "最新文章",
+    "fitness": "健身鍛鍊",
     "home-workouts": "居家運動",
     "healthy-eating": "健康飲食",
     "health-wellness": "養生保健",
@@ -25,7 +25,7 @@ function CategoryPage(props) {
             axios
                 .get(`http://localhost:8080/blogs/post/latest`)
                 .then((response) => {
-                    setPosts(response.data);
+                    setPosts(response.data.slice(0,9));
                     const randomIndex = Math.floor(
                         Math.random() * response.data.length
                     );
@@ -65,10 +65,20 @@ function CategoryPage(props) {
                     <RandomPost post={randomPost} />
                 </div>
             )}
-            <Grid container spacing={5} >
+            <Grid container spacing={2} sx={{ padding: '0 230px' }}>
                 {posts.map((post) => (
-                    <FeaturedPost key={post.id} post={post} />
-                ))} 
+                    <Grid item xs={12} sm={6} md={4}>
+                        <FeaturedPost
+                            cardStyle="normalCard"
+                            actionAreaStyle="normalActionArea"
+                            mediaStyle="normalMedia"
+                            contentStyle="normalContent"
+                            currentIndex={0}
+                            key={post.id}
+                            post={post}
+                        />
+                    </Grid>
+                ))}
             </Grid>
         </>
     );

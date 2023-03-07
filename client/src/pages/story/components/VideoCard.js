@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import styles from '../styleModules/VideoCard.module.css'
+import { useNavigate } from 'react-router-dom'
 
 function VideoCard({
   video,
@@ -12,10 +13,12 @@ function VideoCard({
   setShowCheckDelete,
   setDeletingStory,
 }) {
+  const navigate = useNavigate()
+
   return (
     <>
       <div
-        className="col p-3"
+        className="col p-3 m-0"
         style={{ boxSizing: 'border-box' }}
         key={video.story_id}
       >
@@ -67,7 +70,7 @@ function VideoCard({
               alt={video.story_name}
             />
           </div>
-          <div
+          {/* <div
             className={`${styles.storyInfo} card-body d-flex flex-wrap justify-evenly p-1`}
           >
             <div className={`likes ${textSize}`}>
@@ -78,19 +81,22 @@ function VideoCard({
               <i className={`fa-solid fa-play ${iconSize} text-teal`}></i>
               &nbsp;&nbsp;{video.times}
             </div>
-          </div>
+          </div> */}
         </div>
         <div>
           <div
-            className={`storyTitle w-100 h-50 text-mainblack text-center font-bold ${textSize} d-flex align-items-center mt-2`}
+            className={`storyTitle w-100 text-mainblack text-center font-bold ${textSize} d-flex align-items-start mt-2`}
           >
             <div
-              className="imgBox"
+              className="imgBox flex-shrink-0 col-2"
               style={{
                 overflow: 'hidden',
                 borderRadius: '500px',
                 aspectRatio: '1/1',
-                height: '40px',
+                // height: '40px',
+              }}
+              onClick={() => {
+                navigate(`/${video.username}`)
               }}
             >
               <img
@@ -104,15 +110,32 @@ function VideoCard({
               />
             </div>
             <div
-              style={{
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                marginLeft: '15px',
-              }}
-              title={video.story_title}
+              className="left flex-1 text-left"
+              style={{ overflow: 'hidden', marginLeft: '15px' }}
             >
-              {video.story_title}
+              <div
+                style={{
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                }}
+                title={video.story_title}
+              >
+                {video.story_title}
+              </div>
+              <div className={`text-h7 font-medium`}>{video.username}</div>
+              <div
+                className={`${styles.storyInfo} card-body d-flex flex-wrap justify-start mt-1`}
+              >
+                <div className={`likes text-h7`}>
+                  <i className={`fa-solid fa-heart text-h7 text-pink`}></i>
+                  &nbsp;&nbsp;{video.likes_count}
+                </div>
+                <div className={`times text-h7 ml-3`}>
+                  <i className={`fa-solid fa-play text-h7 text-teal`}></i>
+                  &nbsp;&nbsp;{video.times}
+                </div>
+              </div>
             </div>
           </div>
         </div>

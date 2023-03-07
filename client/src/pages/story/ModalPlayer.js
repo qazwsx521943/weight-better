@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // --[style module]
 import styles from './styleModules/Player.module.css'
@@ -27,7 +28,10 @@ function ModalPlayer(props) {
     videosCount,
     videos,
     uid,
+    storyUser,
     renderVideos,
+    setSearchInfo,
+    playingStoryIdInUrl,
   } = props
 
   const [videoData, setVideoData] = useState({})
@@ -38,6 +42,8 @@ function ModalPlayer(props) {
   const [liked, setLiked] = useState(false)
   const [userImage, setUserImage] = useState('user.png')
   const [openAlert, setOpenAlert] = useState({ open: false, text: '' })
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     renderLike()
@@ -201,8 +207,8 @@ function ModalPlayer(props) {
 
   // --[上一個影片]
   const goPrevStory = () => {
-    clearInterval(timer)
     if (sidx > 0) {
+      clearInterval(timer)
       // console.log(sidx - 1)
       const prevStoryId = videos[sidx - 1].story_id
       setPlayingStoryIdx(sidx - 1)
@@ -212,9 +218,9 @@ function ModalPlayer(props) {
 
   // --[下一個影片]
   const goNextStory = () => {
-    clearInterval(timer)
     if (sidx < videosCount - 1) {
-      // console.log(sidx + 1)
+      clearInterval(timer)
+      console.log(sidx + 1)
       const nextStoryId = videos[sidx + 1].story_id
       setPlayingStoryIdx(sidx + 1)
       setPlayingStoryId(nextStoryId)
@@ -244,11 +250,15 @@ function ModalPlayer(props) {
               borderRadius: '0px',
             }}
           >
-            <div className="modal-body h-100 p-0">
-              <div className="container-fluid h-100 p-0">
+            <div className="modal-body p-0">
+              <div className="container-fluid p-0">
                 <div
-                  className="row h-100 w-100 m-0"
-                  style={{ boxSizing: 'border-box', position: 'relative' }}
+                  className={styles.rowContainer + 'row w-100 m-0 d-flex'}
+                  style={{
+                    boxSizing: 'border-box',
+                    position: 'relative',
+                    height: '100vh',
+                  }}
                 >
                   <Fade
                     in={openAlert.open}
@@ -284,7 +294,14 @@ function ModalPlayer(props) {
                   <button
                     className={styles.closeBtn}
                     type="button"
-                    onClick={showOrCloseModal}
+                    onClick={() => {
+                      if (playingStoryIdInUrl) {
+                        clearInterval(timer)
+                        navigate(`/${storyUser.username}/reels`)
+                      } else {
+                        showOrCloseModal()
+                      }
+                    }}
                   >
                     <CloseRoundedIcon fontSize="small"></CloseRoundedIcon>
                   </button>
@@ -297,14 +314,16 @@ function ModalPlayer(props) {
                   </button>
 
                   <div
-                    className="storyView col-7 p-0 h-100 bg-black"
+                    className={
+                      styles.storyView + ' col-md-7 col-12 p-0 bg-black'
+                    }
                     style={{ position: 'relative' }}
                   >
                     <video
                       controls
                       muted
                       autoPlay
-                      className="bg-black h-100 mx-auto"
+                      className={styles.video + ' bg-black mx-auto'}
                       src={`http://localhost:8080/story/video/${sid}/get`}
                       type="video/mp4"
                       onPlay={handlePlay}
@@ -318,13 +337,25 @@ function ModalPlayer(props) {
                       <SkipPreviousRoundedIcon fontSize="small"></SkipPreviousRoundedIcon>
                     </button>
                   </div>
-                  <div className="storyInfo col-5 d-flex flex-column h-100 border-none pl-4 pr-14">
+                  <div
+                    className={
+                      styles.storyInfo +
+                      ' col-md-5 col-12 d-flex flex-column border-none pl-4 pr-14'
+                    }
+                  >
                     <div
                       className="infoDetail d-flex flex-column border-solid border-black border-opacity-25"
                       style={{ borderBottomWidth: '1px' }}
                     >
                       <div className="userInfo container-fluid d-flex px-0 py-4">
-                        <div className={styles.imgBox + ' col-2 mr-4'}>
+                        <div
+                          className={styles.imgBox + ' col-md-2 col-1 mr-4'}
+                          onClick={() => {
+                            clearInterval(timer)
+                            navigate(`/${videoData.username}`)
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        >
                           <img
                             src={`${
                               userImage || '/ImagesStory/users/user.png'
@@ -343,7 +374,7 @@ function ModalPlayer(props) {
                         </div>
                       </div>
 
-                      <div className="storyTitle font-bold lg:text-h2 md:text-h3 text-h4 pt-4 pb-2">
+                      <div className="storyTitle font-bold lg:text-h2 md:text-h3 text-h4 pt-md-4 pt-2 pb-2">
                         {videoData.story_title}
                       </div>
                       <div className="storyTags d-flex flex-wrap">
@@ -351,14 +382,25 @@ function ModalPlayer(props) {
                           return (
                             <div
                               key={el.tag_id}
-                              className="storyTag font-bold lg:text-h5 md:text-h6 text-h7 mr-2"
+                              className={
+                                styles.storyTag +
+                                ' font-bold lg:text-h5 md:text-h6 text-h7 mr-2'
+                              }
+                              onClick={() => {
+                                console.log('close timer', timer)
+                                clearInterval(timer)
+                                setShowModal(!showModal)
+                                navigate(
+                                  `/reels/home/search=${el.tag_name}/${el.tag_id}`
+                                )
+                              }}
                             >
                               #{el.tag_name}
                             </div>
                           )
                         })}
                       </div>
-                      <div className="flex-1 d-flex align-items-end py-2 mt-4">
+                      <div className="flex-1 d-flex align-items-end py-2 mt-md-4 mt-2">
                         <div className="likesTimes d-flex">
                           <div
                             className="likes d-flex align-items-center font-bold lg:text-h5 md:text-h6 text-h7 mr-3"
@@ -397,7 +439,7 @@ function ModalPlayer(props) {
                               } text-main`}
                             ></i>
                             &nbsp;&nbsp;{collected ? '已收藏 !' : '收藏'}
-                            {/* {openAlert.text} */}
+                            {/* {sidx} */}
                           </div>
                         </div>
                       </div>

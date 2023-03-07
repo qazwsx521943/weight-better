@@ -89,7 +89,7 @@ function App() {
                                     </AuthRequired>
                                 }>
                                 <Route index element={<Profile />} />
-                                <Route path="reels" element={<Reels />} />
+                                <Route path="reels/:playingStoryIdInUrl?" element={<Reels />} />
                                 <Route path="favorites" element={<Favorites />} />
                                 <Route path="blogs" element={<MyBlogs />} />
                                 {/* <Route path="cart" element={<Cart />} /> */}
@@ -118,6 +118,7 @@ function App() {
                             {/* <Route path="/reels" element={<Reels />}></Route> */}
                             <Route path="/reels">
                                 <Route path="home" element={<HomeStory></HomeStory>}></Route>
+                                <Route path="home/:searchInUrl/:searchHashTagId?" element={<HomeStory></HomeStory>}></Route>
                                 <Route path="player/:sid" element={<Player></Player>}></Route>
                                 <Route path="test-button" element={<TestButton></TestButton>}></Route>
                                 <Route path="test/*" element={<Test></Test>}></Route>

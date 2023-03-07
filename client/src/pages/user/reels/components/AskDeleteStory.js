@@ -7,6 +7,8 @@ function AskDeleteStory({
   setShowCheckDelete,
   deletingStory,
   renderMyStory,
+  setSnackBarMsg,
+  setOpenSnackBar,
 }) {
   const [modalAnimate, setModalAnimate] = useState(false)
 
@@ -37,6 +39,8 @@ function AskDeleteStory({
       .then((rData) => {
         console.log(url, `${sid}\n`, rData.note)
         renderMyStory()
+        setSnackBarMsg('刪除成功 !')
+        setOpenSnackBar(true)
       })
   }
 

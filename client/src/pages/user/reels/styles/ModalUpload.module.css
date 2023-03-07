@@ -57,3 +57,7 @@
     color: #fff;
     opacity: 1;
 }
+
+.storyFile:focus{
+    outline: none;
+}

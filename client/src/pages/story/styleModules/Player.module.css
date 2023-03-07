@@ -24,6 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3000;
 }
 
 .nextBtn, .prevBtn{
@@ -39,6 +40,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3000;
 }
 
 .nextBtn{
@@ -57,4 +59,39 @@
     background-color: theme('colors.maingrey');
     color: #fff;
     opacity: 1;
+}
+
+.storyTag:hover{
+    color: theme('colors.maingrey');
+    cursor: pointer;
+}
+
+.storyView{
+    height: 100%;
+}
+
+.video{
+    height: 100%;
+}
+
+.storyInfo{
+    height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .rowContainer{
+        position: relative;
+    }
+
+    .storyInfo{
+        position: absolute;
+        bottom: 0;
+        height: 50%;
+        background-color: #fff;
+        padding-right: 1rem;
+    }
+
+    .video{
+        height: 50%;
+    }
 }

@@ -10,11 +10,14 @@ import MenuButton from './components/MenuButton'
 import Snackbar from '@mui/material/Snackbar'
 import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 import styles from './styles/index.module.css'
 
 const Reels = () => {
-  const [tab, setTab] = useState('myStory')
+  const [tab, setTab] = useState({ settab: 'myStory', scrollY: 0 })
   const [firstRender, setFirstRender] = useState(true)
   const { username } = useParams()
   const [storyUser, setStoryUser] = useState({})
@@ -28,7 +31,7 @@ const Reels = () => {
     : 0
 
   const handleChange = (e, newTab) => {
-    setTab(newTab)
+    setTab({ settab: newTab, scrollY: window.pageYOffset })
   }
 
   useEffect(() => {
@@ -40,19 +43,27 @@ const Reels = () => {
   }, [])
 
   return (
-    <>
+    <div key={window.location.pathname}>
       <Box
         className={'storyTab d-flex flex-column'}
         style={{ height: 'calc(100% - 48px)' }}
       >
         <Box
-          className={'storyOrCollect'}
+          className={
+            'storyOrCollect container justify-center align-items-center'
+          }
           display={'flex'}
-          sx={{ width: '100%', backgroundColor: 'none', position: 'relative' }}
-          justifyContent={'center'}
+          sx={{
+            width: '100%',
+            backgroundColor: 'none',
+            position: 'relative',
+          }}
         >
           <Tabs
-            value={tab}
+            className={
+              styles.storyOrCollectTab + ' d-md-flex d-none align-items-center'
+            }
+            value={tab.settab}
             onChange={handleChange}
             textColor="primary"
             indicatorColor="primary"
@@ -65,7 +76,45 @@ const Reels = () => {
               false
             )}
           </Tabs>
-          {uid === storyUser.id && tab === 'myStory' ? (
+
+          <Select
+            className={styles.storyOrCollectSelect + ' d-md-none d-block'}
+            value={tab.settab}
+            onChange={(e) => {
+              handleChange(e, e.target.value)
+            }}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+            sx={{
+              fontSize: '1rem',
+              height: { xs: '48px' },
+              '& .MuiSelect-select': {
+                // padding: '5px',
+                height: '48px',
+                fontSize: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                boxSizing: 'border-box',
+              },
+              '& fieldset': {
+                border: 'none',
+                fontSize: '1rem',
+              },
+            }}
+          >
+            <MenuItem value="myStory" sx={{ fontSize: '1rem' }}>
+              我的影片
+            </MenuItem>
+            {uid === storyUser.id ? (
+              <MenuItem value="myCollect" sx={{ fontSize: '1rem' }}>
+                我的收藏
+              </MenuItem>
+            ) : (
+              false
+            )}
+          </Select>
+
+          {uid === storyUser.id && tab.settab === 'myStory' ? (
             <div
               style={{
                 position: 'absolute',
@@ -100,7 +149,7 @@ const Reels = () => {
         {/* {tab==='myStory' && storyUser.id ? <MyStoryList uid={uid} storyUser={storyUser} /> : <CollectStoryList uid={uid} /> } */}
         {firstRender ? (
           false
-        ) : tab === 'myStory' ? (
+        ) : tab.settab === 'myStory' ? (
           <MyStoryList
             uid={uid}
             storyUser={storyUser}
@@ -110,9 +159,10 @@ const Reels = () => {
             setEditMode={setEditMode}
             setOpenSnackBar={setOpenSnackBar}
             setSnackBarMsg={setSnackBarMsg}
+            tab={tab}
           />
         ) : (
-          <CollectStoryList uid={uid} />
+          <CollectStoryList uid={uid} tab={tab} />
         )}
       </Box>
       {openSnackBar && (
@@ -125,7 +175,7 @@ const Reels = () => {
           }}
           message={snackBarMsg}
           key={'bottomright'}
-          // autoHideDuration={3000}
+          autoHideDuration={3000}
           TransitionComponent={Fade}
           sx={{
             '& .MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation6.MuiSnackbarContent-root.css-74qdv3-MuiPaper-root-MuiSnackbarContent-root':
@@ -135,7 +185,7 @@ const Reels = () => {
           }}
         />
       )}
-    </>
+    </div>
   )
 }
 

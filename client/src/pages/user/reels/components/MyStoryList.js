@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState, useEffect } from 'react'
+import { flushSync } from 'react-dom'
 
 import styles from '../styles/MyStoryList.module.css'
 
@@ -8,6 +9,7 @@ import ModalPlayer from '@/pages/story/ModalPlayer'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import ModalUpload from './ModalUpload'
 import AskDeleteStory from './AskDeleteStory'
+import { useParams } from 'react-router-dom'
 
 function MyStoryList({
   uid,
@@ -18,6 +20,7 @@ function MyStoryList({
   setEditMode,
   setOpenSnackBar,
   setSnackBarMsg,
+  tab,
 }) {
   const [myStoryList, setMyStoryList] = useState([])
   const [videosCount, setVideosCount] = useState(0)
@@ -31,9 +34,32 @@ function MyStoryList({
     title: '',
   })
 
+  const { playingStoryIdInUrl } = useParams()
+  const didMount = useRef(false)
+
+  // console.log('my', tab.scrollY)
+  // setTimeout(function () {
+  //   window.scrollTo({
+  //     top: tab.scrollY,
+  //     left: 0,
+  //     // behavior: 'smooth',
+  //   })
+  // }, 200)
+
   useEffect(() => {
     renderMyStory()
   }, [])
+
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+
+    if (+playingStoryIdInUrl) {
+      handleShowModal(null, playingStoryIdInUrl)
+    }
+  }, [myStoryList])
 
   const renderMyStory = () => {
     // if (!storyUser.id) return
@@ -59,7 +85,7 @@ function MyStoryList({
   const handleShowModal = (e, sid) => {
     setShowModal(!showModal)
     const newPlayingStoryIdx = myStoryList.findIndex((el) => {
-      return el.story_id === sid
+      return el.story_id === +sid
     })
     setPlayingStoryId(sid)
     setPlayingStoryIdx(newPlayingStoryIdx)
@@ -111,7 +137,9 @@ function MyStoryList({
           setPlayingStoryIdx={setPlayingStoryIdx}
           videosCount={videosCount}
           uid={uid}
+          storyUser={storyUser}
           renderVideos={renderMyStory}
+          playingStoryIdInUrl={playingStoryIdInUrl}
         ></ModalPlayer>
       )}
       {showModalUpload && (
@@ -130,6 +158,8 @@ function MyStoryList({
           setShowCheckDelete={setShowCheckDelete}
           deletingStory={deletingStory}
           renderMyStory={renderMyStory}
+          setOpenSnackBar={setOpenSnackBar}
+          setSnackBarMsg={setSnackBarMsg}
         />
       )}
     </>

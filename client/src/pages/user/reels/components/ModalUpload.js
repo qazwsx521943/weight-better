@@ -89,7 +89,7 @@ function ModalUpload({
             <div className="modal-header text-h4 px-3 py-2 bg-yellow font-bold">
               <h1 className="modal-title ">上傳影片</h1>
             </div>
-            <div className="modal-body text-h5 px-3 py-3 font-bold">
+            <div className="modal-body text-h6 lg:text-h5 px-3 py-3 font-bold">
               <form name="formUpload" className="d-flex flex-column">
                 <div
                   className="uploadStory d-flex flex-col my-3 "
@@ -98,20 +98,33 @@ function ModalUpload({
                   }}
                 >
                   <div>影片</div>
-                  <div className="d-flex py-2">
+                  <div
+                    className="d-flex py-2"
+                    style={{ boxSizing: 'border-box', height: '56px' }}
+                  >
                     <input
-                      className="storyName flex-1 d-flex flex-col justify-center"
+                      className={
+                        styles.storyFile + ' d-flex flex-col justify-center'
+                      }
                       value={inputStory}
                       placeholder="請選擇影片檔案"
                       onChange={() => {}}
+                      onClick={() => {
+                        document.querySelector('#inputStory').click()
+                      }}
                       readOnly
-                      style={{ cursor: 'default' }}
+                      style={{
+                        cursor: 'default',
+                        minWidth: '0',
+                        flexShrink: '1',
+                        flexGrow: '1',
+                      }}
                     />
 
                     <label
                       htmlFor="inputStory"
                       className={styles.inputfile}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', flexShrink: '0' }}
                       title="選擇影片檔案"
                     >
                       <input
@@ -119,7 +132,11 @@ function ModalUpload({
                         name="story"
                         type="file"
                         accept="video/*"
-                        style={{ display: 'none' }}
+                        style={{
+                          display: 'none',
+                          width: '100%',
+                          aspectRatio: '1/1',
+                        }}
                         onChange={changeStoryFile}
                       />
                       <DriveFolderUploadIcon></DriveFolderUploadIcon>

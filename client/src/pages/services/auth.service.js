@@ -14,6 +14,10 @@ class AuthService {
         window.location.assign(process.env.REACT_APP_API_KEY + "/auth/github");
     }
 
+    facebookLogin() {
+        window.location.assign(process.env.REACT_APP_API_KEY + "/auth/facebook");
+    }
+
     logout() {
         localStorage.removeItem("user");
     }

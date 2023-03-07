@@ -7,6 +7,7 @@ import { Box, Chip, Divider, TextField, Stack, IconButton, InputAdornment } from
 import ArrowButton from "../ArrowButton/ArrowButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { facebook } from "@/assets";
 
 function LoginForm() {
     const navigate = useNavigate();
@@ -58,6 +59,14 @@ function LoginForm() {
             console.log(token);
         });
     };
+
+    const facebookLogin = async () => {
+        AuthService.facebookLogin().then((res) => {
+            let token = params.get("token");
+            console.log(token);
+        });
+    };
+
     return (
         <>
             <TextField
@@ -105,6 +114,9 @@ function LoginForm() {
                 <IconButton aria-label="" onClick={googleLogin}>
                     <img src="/googleSignIn.png" alt="google-Icon" width={"45px"} height="45px" style={{ overflow: "hidden" }} />
                 </IconButton>
+                {/* <IconButton aria-label="" onClick={facebookLogin}>
+                    <img src={facebook} alt="facebook-Icon" width={"45px"} height="45px" style={{ overflow: "hidden" }} />
+                </IconButton> */}
             </Stack>
 
             <ArrowButton onClick={loginAuth} />

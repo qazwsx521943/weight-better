@@ -31,6 +31,13 @@ router.get(
     authController.googleSuccess
 );
 
+// facebook Oauth TODO:有空再做
+router.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
+
+router.get("/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+});
 // router.get("/login/success", authController.googleSuccess);
 
 module.exports = router;

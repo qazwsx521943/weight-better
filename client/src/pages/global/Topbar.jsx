@@ -114,7 +114,7 @@ const Topbar = () => {
             <StyledToolbar p={1.5} bgcolor="primary.main">
                 <Logo sx={{ mr: 2 }}>
                     <Typography alignSelf={"center"} sx={{ "&:hover": { cursor: "pointer" } }}>
-                        <img src={logo} alt="logo" className="h-8" onClick={() => navigate("/")} />
+                        <img src={logo} alt="logo" style={{ height: "32px" }} onClick={() => navigate("/")} />
                     </Typography>
                 </Logo>
                 <Nav sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>

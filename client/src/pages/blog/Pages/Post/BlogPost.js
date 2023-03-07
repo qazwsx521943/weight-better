@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import Header from "../../Components/Header";
+import CommentForm from "../../Components/CommentForm";
 
 const MainVisual = styled("img")(({ loaded }) => ({
     maxHeight: "500px",
@@ -44,14 +45,14 @@ function BlogPost() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/blogs/${id}`)
+            .get(`http://localhost:8080/blogs/post/${id}`)
             .then((response) => setBlog(response.data))
             .catch((error) => console.error(error));
     }, [id]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/blogs`)
+            .get(`http://localhost:8080/blogs/`)
             .then((response) => {
                 const randomPosts = response.data
                     .sort(() => 0.5 - Math.random())
@@ -80,7 +81,7 @@ function BlogPost() {
                 onLoad={() => setImageLoaded(true)}
                 style={{
                     width: "100%",
-                    height: "100vh",
+                    height: "400px",
                     objectFit: "cover",
                     marginBottom: "30px", 
                 }}
@@ -108,6 +109,8 @@ function BlogPost() {
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </Paper>
+
+            <CommentForm />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Paper>

@@ -25,7 +25,7 @@ function Home() {
 
 
   const handleSelectCategory=(event,value)=>
-  !value ? null : selectedCategory(value);
+  !value ? null : setSelectedCategory(value);
 
   const handleSelectRating=(event,value)=>
   !value?null:setSelectedRating(value)
@@ -48,7 +48,7 @@ function Home() {
 
     if(selectedRating){
       updatedList = updatedList.filter(
-        (item) => parseInt(item.rating === parseInt(selectedRating))
+        (item) => parseInt(item.rating) === parseInt(selectedRating)
       );
     }
 

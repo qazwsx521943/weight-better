@@ -95,11 +95,12 @@ const ImageMarked = styled('span')(({ theme }) => ({
 function GoalCard() {
   return (
     <div>
-    <Box sx={{display: 'flex',}}>
-    <Typography id="input-slider" gutterBottom >
-        我的目標
-      </Typography>
-    </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4, radio: '30' }}>
+        <Typography id="input-slider" gutterBottom variant='h3' color="teal.main">
+          我的目標
+        </Typography>
+      </Box>
 
 
 
@@ -133,6 +134,7 @@ function GoalCard() {
           </ImageButton>
         ))}
       </Box>
+      
 
 
 

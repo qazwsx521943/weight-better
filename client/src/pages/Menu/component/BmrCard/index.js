@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import AuthService from '../../../services/auth.service'
+import Typewriter from 'typewriter-effect';
+import { display } from '@mui/system';
 
 
 // console.log(__dirname)
@@ -79,21 +81,21 @@ const ImageMarked = styled('span')(({ theme }) => ({
 
 
 
-const handleSubmit = (event)=>{
+const handleSubmit = (event) => {
 
-  
+
   event.preventDefault()
- 
 
-  const fd = new FormData (event.target)
+
+  const fd = new FormData(event.target)
   console.log(fd)
-  
+
 }
 
 
 
-function BmrCard({userData,setUserData}) {
- 
+function BmrCard({ userData, setUserData }) {
+
 
   const images = [
     {
@@ -113,7 +115,7 @@ function BmrCard({userData,setUserData}) {
       // name: 'often',
       // value: userData.bmr_val,
 
-  
+
     },
     {
       url: '/ImageMenu/Bmr03.jpg',
@@ -123,7 +125,7 @@ function BmrCard({userData,setUserData}) {
       // name: 'always',
       // value: userData.bmr_val,
 
-  
+
     },
   ];
 
@@ -141,64 +143,98 @@ function BmrCard({userData,setUserData}) {
         'Content-Type': 'application/json'
       }
     })
-    .then(r=>r.json())
-    .then(rData => {
-      console.log(url, rData)
-    })
+      .then(r => r.json())
+      .then(rData => {
+        console.log(url, rData)
+      })
 
   }
 
   const handleClick = (value) => {
-    setUserData({...userData, bmr_val: value})
+    setUserData({ ...userData, bmr_val: value })
   }
 
   return (
     <div>
-    <Box>
-    <Box>
-    <Typography id="input-slider" gutterBottom >
-        我的運動量
-      </Typography>
-    </Box>
-    
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-  
-      {images.map((image) => (
-        <ImageButton
-          // value={userData.age}
-          focusRipple
-          key={image.title}
-          style={{
-            width: image.width,
-          }}
-          onSubmit={handleSubmit}
-          onClick= {() => {handleClick(image.name)}}
-        >
-          {/* <ImageSrc src={require('./Image/01.jpg')} /> */}
-          <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: 'relative',
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+      <div>
+
+      </div>
+      <Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4, radio: '30' }}>
+          <Typography id="input-slider" gutterBottom variant='h3' color="teal.main">
+            我的運動量
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
+
+          {images.map((image) => (
+            <ImageButton
+              // value={userData.age}
+              focusRipple
+              key={image.title}
+              style={{
+                width: image.width,
               }}
+              onSubmit={handleSubmit}
+              onClick={() => { handleClick(image.name) }}
             >
-              {image.title}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
-      ))}
-    </Box>
-    </Box>
-    
-    </div>
+              {/* <ImageSrc src={require('./Image/01.jpg')} /> */}
+              <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
+              <ImageBackdrop className="MuiImageBackdrop-root" />
+              <Image>
+                <Typography
+                  component="span"
+                  variant="subtitle1"
+                  color="inherit"
+                  sx={{
+                    position: 'relative',
+                    p: 4,
+                    pt: 2,
+                    pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+                  }}
+                >
+                  {image.title}
+                  <ImageMarked className="MuiImageMarked-root" />
+                </Typography>
+              </Image>
+            </ImageButton>
+          ))}
+        </Box>
+        <div style={{
+          width: ' 80%',
+          position: 'relative',
+          display: 'block',
+          margin: 'auto',
+          padding: '15px'
+        }}>
+          {/* <div style={{ background: 'pink', height: '40%', width: '40%', display: 'flex', justifyContent: 'center' }}> */}
+          <div style={{
+            position: 'absolute',
+            left: '0',
+          }}>
+            <Typewriter
+
+              onInit={(typewriter) => {
+                typewriter.typeString('BMR 指人體在休息狀態下，維持新陳代謝所需的熱量，例如：呼吸、器官運作、體溫維持等，即使整天躺著不動也會消耗的最低熱量。BMR 會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。')
+                  .callFunction(() => {
+                    console.log('String typed out!');
+                  })
+                  .pauseFor(2500)
+                  // .deleteAll()
+                  .callFunction(() => {
+                    console.log('All strings were deleted');
+                  })
+                  .start();
+
+              }}
+            />
+
+          </div>
+        </div>
+      </Box >
+
+    </div >
   )
 }
 

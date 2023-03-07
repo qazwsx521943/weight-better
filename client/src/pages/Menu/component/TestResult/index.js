@@ -11,6 +11,7 @@ import AuthService from '../../../services/auth.service'
 
 
 
+
 function TestResult() {
   const [BMI, setBMI] = useState(0)
   const [BMR, setBMR] = useState(0)
@@ -94,7 +95,7 @@ const getBMRdata = () => {
     <Box  >
     
     <div style={{ display:'flex' , justifyContent: 'center' }}>
-    <Card sx={{ maxWidth: 600 }}>
+    <Card sx={{ maxWidth: 600 , m:2}}>
       <CardContent>
         <Typography variant='h3'  gutterBottom>
           BMI結果
@@ -106,12 +107,7 @@ const getBMRdata = () => {
           describes the heading
         </Typography>
 
-        <Typography variant='h3'>
-          BMR結果
-        </Typography>
-        <Typography variant="h4" component="div">
-          {BMR}
-        </Typography>
+       
       </CardContent>
       {/* <CardActions>
         <Button size="small">Card Button</Button>
@@ -124,7 +120,28 @@ const getBMRdata = () => {
       />
     </Card>
     
-
+    <Card sx={{ maxWidth: 600 ,m:2}}>
+      <CardContent>
+        <Typography variant='h3' gutterBottom>
+          BMR結果
+        </Typography>
+        <Typography variant="h4" component="div">
+          {BMR}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          describes the heading
+        </Typography>
+      </CardContent>
+      {/* <CardActions>
+        <Button size="small">Card Button</Button>
+      </CardActions> */}
+      <CardMedia
+        component="img"
+        sx={{ width: 300}}
+        image="/ImageMenu/Bmr02.jpg"
+        alt="Live from space album cover"
+      />
+    </Card>
     </div>
     </Box>
     

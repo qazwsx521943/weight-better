@@ -12,6 +12,7 @@ import { Box } from '@mui/material';
 function FileterPanel(
   { selectedCategory,
     selectToggle,
+    selectCategory,
     selectedRating,
     selectRating,
     cuisines,
@@ -30,7 +31,7 @@ function FileterPanel(
         <FilterListToggle
           options={categoryList}
           value={selectedCategory}
-          selectToggle={selectToggle}
+          selectToggle={selectCategory}
         />
         </Box>
       </div>

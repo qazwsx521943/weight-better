@@ -5,13 +5,22 @@ import { useState, useEffect } from 'react'
 import VideoCard from '@/pages/story/components/VideoCard'
 import ModalPlayer from '@/pages/story/ModalPlayer'
 
-function CollectStoryList({ uid }) {
+function CollectStoryList({ uid, tab }) {
   const [collectStoryList, setCollectStoryList] = useState([])
 
   const [videosCount, setVideosCount] = useState(0)
   const [showModal, setShowModal] = useState(false)
   const [playingStoryId, setPlayingStoryId] = useState('')
   const [playingStoryIdx, setPlayingStoryIdx] = useState(0)
+
+  // console.log('collect', tab.scrollY)
+  // setTimeout(function () {
+  //   window.scrollTo({
+  //     top: tab.scrollY,
+  //     left: 0,
+  //     // behavior: 'smooth',
+  //   })
+  // }, 200)
 
   useEffect(() => {
     renderCollectStory()

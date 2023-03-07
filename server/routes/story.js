@@ -15,7 +15,41 @@ const router = express.Router()
 
 // --[取得影片清單資料 JOIN `story_like`]
 router.get('/videos', async (req, res) => {
-  const sql = "SELECT a.*, b.story_id AS likes_story_id, COUNT(*) AS likes_count FROM `story_all` AS a LEFT JOIN `story_like` AS b on a.story_id=b.story_id WHERE 1 GROUP BY a.story_id";
+
+  // const keywords = req.params.keywords
+  // const keywordsDecoded = decodeURIComponent(keywords)
+  // const keywordsSplit = keywordsDecoded.split(/[%~!@#$^&*()_+=\\\-`\[\]{}';:".,<>/?\|\s]/)
+  // const keywordsFilter = keywordsSplit.filter((el) => {
+  //   return el !== ''
+  // })
+
+  let where = ' WHERE 1'
+  const search = req.query.search || ''
+  if (search){
+    // --[用 , ' ' ， 分開關鍵字]
+    const searchSplit = search.split(/[,\s，]/) 
+
+    // --[濾除 '']
+    const searchFiltered = searchSplit.filter((el) => {
+      return el !== ''
+    })
+
+    let addWhere = ''
+    searchFiltered.forEach((keyword, idx) => {
+      const keyword_sql = `%${keyword}%`
+      const keyword_sql_esc = db.escape(keyword_sql) // 跳脫 ' 避免導致 SQL 錯誤(避免 SQL injection)
+
+      if (idx !== 0) {
+        addWhere += ' OR '
+      }
+      addWhere += `story_title LIKE ${keyword_sql_esc} OR story_hashtags LIKE ${keyword_sql_esc}`
+    });
+
+    where = ' WHERE ' + addWhere
+  }
+  
+
+  let sql = `SELECT a.*, c.profile_image, c.username , b.story_id AS likes_story_id, COUNT(*) AS likes_count FROM \`story_all\` AS a LEFT JOIN \`story_like\` AS b on a.story_id=b.story_id JOIN \`users\` AS c ON a.user_id=c.id ${where} GROUP BY a.story_id;`
   let [rows] = await db.query(sql);
 
   rows = rows.map(el => {
@@ -24,6 +58,11 @@ router.get('/videos', async (req, res) => {
     }
     return el
   })
+
+  // function shuffleRows(array) {
+  //   array.sort(() => Math.random() - 0.5);
+  // }
+  // shuffleRows(rows)
 
   res.json(rows)
 
@@ -271,13 +310,21 @@ router.post('/video/:sid/collect', async (req, res) => {
 router.post('/my-videos', async (req, res) => {
   const uid = req.body.userId
 
+  // --[取得使用者上傳的影片清單資料]
   const sql = "SELECT a.*, b.story_id as likes_count_check, COUNT(*) AS likes_count FROM `story_all` AS a LEFT JOIN `story_like` AS b ON a.story_id=b.story_id WHERE a.user_id=? GROUP BY a.story_id;"
   let [rows] = await db.query(sql, [uid])
 
+  // --[取得使用者資料]
+  const sql2 = "SELECT username, profile_image FROM `users` WHERE `id`=?;"
+  let [rows2] = await db.query(sql2, [uid])
+  
   rows = rows.map(el => {
     if (el.likes_count_check === null) {
       el.likes_count = 0
     }
+
+    el.username = rows2[0].username
+    el.profile_image = rows2[0].profile_image
     return el
   })
 
@@ -290,7 +337,7 @@ router.post('/collect-videos', async (req, res) => {
   const uid = req.body.userId
 
   // --[`story_collect` JOIN `story_all` JOIN `story_like` ]
-  const sql = "SELECT a.*, b.story_path, b.story_title, b.times, c.story_id AS likes_count_check, COUNT(*) AS likes_count FROM `story_collect` AS a JOIN `story_all` AS b ON a.story_id=b.story_id LEFT JOIN `story_like` AS c ON a.story_id=c.story_id WHERE a.`user_id`=? GROUP BY a.story_id;"
+  const sql = "SELECT a.*, d.username, d.profile_image, b.story_path, b.story_title, b.times, c.story_id AS likes_count_check, COUNT(*) AS likes_count FROM `story_collect` AS a JOIN `story_all` AS b ON a.story_id=b.story_id LEFT JOIN `story_like` AS c ON a.story_id=c.story_id JOIN users AS d ON b.user_id=d.id WHERE a.`user_id`=? GROUP BY a.story_id;"
   let [rows] = await db.query(sql, [uid])
 
   rows = rows.map(el => {
@@ -426,6 +473,24 @@ router.post('/delete-video', async (req, res) => {
   }
 
   return res.json(output)
+})
+
+// --[取得有特定 hashtag 的影片清單]
+router.get('/video/:tid/hashtag', async (req, res) => {
+  
+  const tid = req.params.tid
+
+  const sql = "SELECT a.*, d.username, d.profile_image, b.story_path, b.story_title, b.times, c.story_id AS likes_count_check, COUNT(*) AS likes_count FROM `story_tag_link` AS a JOIN `story_all` AS b ON a.story_id=b.story_id LEFT JOIN `story_like` AS c ON a.story_id=c.story_id JOIN users AS d ON b.user_id=d.id WHERE tag_id=? GROUP BY a.story_id;"
+  let [rows] = await db.query(sql, tid)
+
+  rows = rows.map(el => {
+    if (el.likes_count_check === null) {
+      el.likes_count = 0
+    }
+    return el
+  })
+
+  return res.json(rows)
 })
 
 

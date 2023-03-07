@@ -6,13 +6,13 @@
     transform: scale(1.1);
 }
 
-.storyInfo{
+/* .storyInfo{
     width: 100%;
     background-color: rgba(0, 0, 0, 0.35);
     position: absolute;
     bottom: 0;
     color: #fff;
-}
+} */
 
 .hide{
     display: none;

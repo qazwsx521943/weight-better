@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, FormGroup } from '@mui/material';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, FormGroup, Typography } from '@mui/material';
 // import { width } from '@mui/system';
 // import { styled } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react';
 
 
 // const StyledTextField = styled(TextField)(({theme}) => {
-  
+
 // })
 
 
 
 
-function BmiCard({ userData, setUserData}) {
+function BmiCard({ userData, setUserData }) {
 
   const [type, setType] = useState(0)
   // const [age,setAge] = useState('')
@@ -37,21 +37,21 @@ function BmiCard({ userData, setUserData}) {
 
 
 
-  
-  const handleSubmit = (event)=>{
+
+  const handleSubmit = (event) => {
 
     console.log('123')
     event.preventDefault()
     console.log(type)
 
-    const fd = new FormData (event.target)
+    const fd = new FormData(event.target)
     console.log(fd)
     // console.log(fd.get(type))
 
     // fetch(`/api`,{
     //   method:'POST',
     //   body:fd,
-    
+
     // })
     // .then((response)=>response.json())
     // .then((data)=>{
@@ -64,42 +64,49 @@ function BmiCard({ userData, setUserData}) {
     // })
     // .catch((error)=>console.error(error))
 
-    
+
   }
 
 
   return (
 
     <Box>
- 
+
       <FormGroup onSubmit={handleSubmit}>
-        <FormControl>
+        <FormControl >
           {/* <InputLabel id="type-label">type</InputLabel> */}
-          <InputLabel id="type-label">飲食習慣</InputLabel>
+          <Typography gutterBottom variant='h6' color="teal.main">
+            飲食類型：
+          </Typography>
+          <InputLabel id="type-label"></InputLabel>
           <Select
             labelId="type-label"
             value={userData.dietType}
-            onChange={(event) => {setUserData({...userData, dietType: event.target.value})}}
+            onChange={(event) => { setUserData({ ...userData, dietType: event.target.value }) }}
+            placeholder="在此輸入提示文字"
           >
             <MenuItem value="normal">一般</MenuItem>
             <MenuItem value="vegetarian">素食者</MenuItem>
           </Select>
         </FormControl>
-          <TextField mt="1" label="年齡" name='age' value={userData.age} onChange={(event)=>{
-            setUserData({...userData, age: event.currentTarget.value})
-            }}/> 
-          <TextField mt="2" label="身高" name='height' value={userData.height} onChange={(event)=>{
-            setUserData({...userData, height:event.currentTarget.value})
-          }}/>
-          <TextField mt="2" label="實際體重" name='weight' value={userData.weight} onChange={(event)=>{
-            setUserData({...userData, weight:event.currentTarget.value})
-          }}/>
-          <TextField mt="2" label="目標體重" name='goalWeight' value={userData.goalWeight} onChange={(event)=>{
+        <br />
+        <TextField height='2' mt="5" label="年齡" name='age' value={userData.age} onChange={(event) => {
+          setUserData({ ...userData, age: event.currentTarget.value })
+        }} />
+        <br />
+        <TextField mt="2" label="身高" name='height' value={userData.height} onChange={(event) => {
+          setUserData({ ...userData, height: event.currentTarget.value })
+        }} />
+        <br />
+        <TextField mt="2" label="實際體重" name='weight' value={userData.weight} onChange={(event) => {
+          setUserData({ ...userData, weight: event.currentTarget.value })
+        }} />
+        {/* <TextField mt="2" label="目標體重" name='goalWeight' value={userData.goalWeight} onChange={(event)=>{
             setUserData({...userData, goalWeight:event.currentTarget.value})
-          }}/>
+          }}/> */}
 
-    
-          {/* <Button variant="contained" type="submit">Submit</Button> */}
+
+        {/* <Button variant="contained" type="submit">Submit</Button> */}
 
 
       </FormGroup>
@@ -107,7 +114,7 @@ function BmiCard({ userData, setUserData}) {
 
     </Box>
   )
-  }
+}
 
 export default BmiCard
 

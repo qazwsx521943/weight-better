@@ -6,7 +6,7 @@ import './styles.css'
 function List({list}) {
   return (
     <div className='list-wrap'>
-    {list.map(item=><ListItem key={item.id} item={item}/>)}
+    {list.map(item => <ListItem key={item.id} item={item}/>)}
     
     </div>
   )

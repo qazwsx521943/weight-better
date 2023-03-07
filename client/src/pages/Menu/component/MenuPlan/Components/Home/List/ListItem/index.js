@@ -1,4 +1,4 @@
-import WeightCard from '@/pages/menu/component/WeightCard'
+import WeightCard from '@/pages/Menu/component/WeightCard'
 import React from 'react'
 import './styles.css'
 

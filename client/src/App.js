@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "./hooks/AuthContext";
+import { CartProvider } from "./context/useCart";
 // route import
 
 //**? 不分區router */
@@ -35,7 +36,7 @@ import WriteBlog from "./pages/blog/Pages/WriteBlog/WriteBlog";
 import BlogPost from "./pages/blog/Pages/Post/BlogPost";
 
 //**? 客製化菜單 */
-import Menu from "./pages/menu";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -61,6 +62,8 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <AuthProvider>
+            <CartProvider>
+
                 <div className="app">
                     {/* ⬇︎ same as css reset */}
                     <CssBaseline />
@@ -123,6 +126,7 @@ function App() {
                         </Route>
                     </Routes>
                 </div>
+            </CartProvider>
             </AuthProvider>
         </ThemeProvider>
     );

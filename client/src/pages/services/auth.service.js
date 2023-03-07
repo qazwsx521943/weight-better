@@ -16,6 +16,7 @@ class AuthService {
 
     logout() {
         localStorage.removeItem("user");
+        localStorage.removeItem("cart");
     }
     register(formData) {
         return axios.post(process.env.REACT_APP_API_KEY + "/user/register", formData);

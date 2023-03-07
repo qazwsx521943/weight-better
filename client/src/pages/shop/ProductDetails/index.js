@@ -5,6 +5,10 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useParams } from 'react-router-dom';
+
+import { useCart } from '@/context/useCart';
+
+
 import axios from 'axios';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 // import Categories from '../components/Categories';
@@ -20,7 +24,7 @@ const Wrapper = styled.div`
 
   `
 const ImageContainer = styled.div`
-  flex:1;
+  flex:3;
   
 `
 const ImageDetailContainer = styled.div`
@@ -63,9 +67,11 @@ const Desc = styled.p`
 `
 const InfoContainer = styled.div`
   ${'' /* position:relative; */}
+  min-width:200px;
   border:dashed 3px #ccc;
   border-radius:12px;
-  flex:1;
+  flex:2;
+  
   padding:40px 100px;
 `
 const Icon =styled.div`
@@ -75,6 +81,8 @@ const AddToCartButton= styled.button`
     width: 496px;
     height: 90px;
     margin: 24px;
+
+
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 36px;
     color: #fff;
@@ -117,10 +125,10 @@ border:solid 1px #aaa;
 
 
 
-const ProductDetails = () => {
-
+const ProductDetails = ({id, title, image, price, quantity=0}) => {
+  
   const [productDetail,setProductDetail]= useState([])
-  const [quantity,setQuantity] =useState(1)
+  const [myQuantity,setMyQuantity] =useState(1)
 
   const {pid} = useParams()
 
@@ -136,45 +144,57 @@ const ProductDetails = () => {
     .then(r =>r.json())
     .then(rData=>{
       console.log(url,rData)
-      setProductDetail(rData)
+      setProductDetail(rData[0])
     })
 
   }
 
-  const handleClick =()=>{
-    // axios.pos
-  }
+  // const handleClick =()=>{
+  //   // axios.pos
+  // }
   const handleQuantity = (type)=>{
     if(type === "dec"){
-      quantity >1 && setQuantity(quantity - 1)
+      myQuantity >1 && setMyQuantity(myQuantity - 1)
     }else{
-      setQuantity(quantity + 1)
+      setMyQuantity(myQuantity + 1)
 
     }
 
   }
 
+  const {
+    cart,
+    items,
+    addItem,
+    removeItem,
+    updateItem,
+    clearCart,
+    isInCart,
+    plusOne,
+    minusOne,
+} = useCart()
+
   return (
     <>
     {/* <Categories/> */}
-    {productDetail.map((product)=>(
-    <Container>
+
+    <Container key={productDetail.product_id}>
       <Wrapper>
       
         <ImageContainer>
-          <Image src={product.img_src} />
+          <Image src={productDetail.img_src} />
       
           <ImageDetailContainer>
-            <ImageDetail src={product.img_src2}/>
-            <ImageDetail src={product.img_src3}/>
-            <ImageDetail src={product.img_src4}/>
+            <ImageDetail src={productDetail.img_src2}/>
+            <ImageDetail src={productDetail.img_src3}/>
+            <ImageDetail src={productDetail.img_src4}/>
           </ImageDetailContainer>
         </ImageContainer>
         <InfoContainer>
         
-          <Title>{product.name}<AutoAwesomeIcon style={{color:"orange",fontSize:"60px",margin:"0px 0px 0px 20px"}}/></Title>
+          <Title>{productDetail.name}<AutoAwesomeIcon style={{color:"orange",fontSize:"60px",margin:"0px 0px 0px 20px"}}/></Title>
       
-          <Price>${product.unit_price}</Price>
+          <Price>${productDetail.unit_price}</Price>
           <Icon>
             <StarIcon/><StarIcon/><StarIcon/><StarIcon/><StarOutlineIcon/>
           </Icon>
@@ -185,10 +205,22 @@ const ProductDetails = () => {
           
           <h4>數量</h4>
           <QuantitySession>
-            <RemoveIcon fontSize={'small'} onClick={()=>handleQuantity("dec") }/>
-              <MyNumber>{quantity}</MyNumber>
-            <AddIcon  fontSize={'small'} onClick={()=>handleQuantity("inc") }/>
-            <AddToCartButton onClick={handleClick} style={{margin:"50px"}}>Add To Cart</AddToCartButton>
+            {/* <RemoveIcon fontSize={'small'} onClick={()=>handleQuantity("dec") }/>
+                <MyNumber>{myQuantity}</MyNumber>
+            <AddIcon  fontSize={'small'} onClick={()=>handleQuantity("inc") }/> */}
+
+              <RemoveIcon fontSize={'small'} onClick={()=>{handleQuantity('dec')}}/>
+              <MyNumber>{myQuantity}</MyNumber>
+
+            <AddIcon  fontSize={'small'} onClick={()=> {handleQuantity('inc')}}/>
+            <AddToCartButton onClick={()=>addItem({
+                        id: productDetail.product_id, 
+                        quantity: myQuantity, 
+                        name: productDetail.name, 
+                        price: productDetail.unit_price
+                        ,...productDetail
+                    })} style={{margin:"50px"}}>Add To Cart</AddToCartButton>
+            
           </QuantitySession>
           <Desc style={{margin:""}}>產品資訊
           <SeeMore>
@@ -200,7 +232,7 @@ const ProductDetails = () => {
           <hr/>
           <br/>
           <span>
-          {product.description}
+          {productDetail.description}
           </span>
                 {/* 鍛煉從此無難度，便用於各種訓練強度，強化肌肉、改善線條。已包括指定重量的鐵餅，兩個手杆和相關杆鈴零件延長杆及螺絲。  行李箱滾輪禮盒包裝設計，方便收納設計。 */}
           </Desc>
@@ -209,7 +241,7 @@ const ProductDetails = () => {
       </Wrapper>  
     </Container>
       ))
-      }
+
     
 
     </>

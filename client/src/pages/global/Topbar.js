@@ -26,7 +26,7 @@ import { useAuth } from "../../hooks/AuthContext";
 
 import logo from "@/assets/WB3.png";
 import axios from "axios";
-
+import { useCart } from "@/context/useCart";
 // import {useSelector} from "react-redux"
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -78,6 +78,7 @@ const pages = {
 };
 
 const Topbar = () => {
+const {items} = useCart()
     const auth = useAuth();
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState([]);
@@ -100,8 +101,15 @@ const Topbar = () => {
         // setSearch(newValue);
     };
 
-    // const cart = useSelector(state=>state.cart)
+    const getTotalQuantity = () => {
+        let total = 0
+        items.forEach(item => {
+          total += item.quantity
+        })
+        return total
+      }
     // console.log(cart)
+
 
     return (
         // 在註冊與登入頁面不顯示 Navbar
@@ -174,7 +182,8 @@ const Topbar = () => {
                     )}
                     {auth.currentUser && (
                         <IconButton>
-                            <Link to={`/Shop/Cart`}><Badge badgeContent={4} color="pink">
+                            <Link to={`/Shop/Cart`}><Badge badgeContent={getTotalQuantity() || 0} color="pink">
+                            
                                 <ShoppingCartIcon />
                             </Badge></Link>
                         </IconButton>

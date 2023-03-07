@@ -6,6 +6,9 @@ import Products from "../components/Products";
 import styled from "styled-components";
 import Categories from "../components/Categories";
 import { useLocation } from "react-router-dom";
+
+import { useCart } from "@/context/useCart";
+
 // import ShopSelect from "../components/Input/ShopSelect";
 
 const Container =styled.div`
@@ -51,6 +54,19 @@ align-items:center;
 
 const Shop = () => {
 
+    const {
+        cart,
+        items,
+        addItem,
+        removeItem,
+        updateItem,
+        clearCart,
+        isInCart,
+        plusOne,
+        minusOne,
+    } = useCart()
+
+    
     const location = useLocation();
     const cate =location.pathname.split("/")[2]
     const [filters,setFilters] = useState({});

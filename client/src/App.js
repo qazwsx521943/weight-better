@@ -2,6 +2,7 @@ import { Route, Routes ,BrowserRouter} from "react-router-dom";
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "./hooks/AuthContext";
+import { CartProvider } from "./context/useCart";
 // route import
 
 //**? 不分區router */
@@ -62,6 +63,8 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <AuthProvider>
+            <CartProvider>
+
                 <div className="app">
                     {/* ⬇︎ same as css reset */}
                     <CssBaseline />
@@ -124,6 +127,7 @@ function App() {
                         </Route>
                     </Routes>
                 </div>
+            </CartProvider>
             </AuthProvider>
         </ThemeProvider>
     );

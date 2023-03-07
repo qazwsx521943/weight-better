@@ -121,7 +121,7 @@ const Product = ({item, id, title, image, price}) => {
                 <Icon>
                     <ShoppingCartIcon onClick={()=>addItem({
                         id: item.product_id, 
-                        quantity: 0, 
+                        quantity: 1, 
                         name: item.name, 
                         price: item.unit_price
                         ,...item

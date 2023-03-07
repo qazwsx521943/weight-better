@@ -18,7 +18,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import InputBase from "@mui/material/InputBase";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";

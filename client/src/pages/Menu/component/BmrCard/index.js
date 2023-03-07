@@ -1,18 +1,15 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import ButtonBase from '@mui/material/ButtonBase';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
-import jwt_decode from "jwt-decode";
-import AuthService from '../../../services/auth.service'
-import Typewriter from 'typewriter-effect';
-import { display } from '@mui/system';
-
+import * as React from 'react'
+import { styled } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import ButtonBase from '@mui/material/ButtonBase'
+import Typography from '@mui/material/Typography'
+import { useEffect, useState } from 'react'
+import jwt_decode from 'jwt-decode'
+import AuthService from '../../../../services/auth.service'
+import Typewriter from 'typewriter-effect'
+import { display } from '@mui/system'
 
 // console.log(__dirname)
-
-
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -33,7 +30,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
       border: '4px solid currentColor',
     },
   },
-}));
+}))
 
 const ImageSrc = styled('span')({
   position: 'absolute',
@@ -43,7 +40,7 @@ const ImageSrc = styled('span')({
   bottom: 0,
   backgroundSize: 'cover',
   backgroundPosition: 'center 40%',
-});
+})
 
 const Image = styled('span')(({ theme }) => ({
   position: 'absolute',
@@ -55,7 +52,7 @@ const Image = styled('span')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   color: theme.palette.common.white,
-}));
+}))
 
 const ImageBackdrop = styled('span')(({ theme }) => ({
   position: 'absolute',
@@ -66,7 +63,7 @@ const ImageBackdrop = styled('span')(({ theme }) => ({
   backgroundColor: theme.palette.common.black,
   opacity: 0.4,
   transition: theme.transitions.create('opacity'),
-}));
+}))
 
 const ImageMarked = styled('span')(({ theme }) => ({
   height: 3,
@@ -76,27 +73,16 @@ const ImageMarked = styled('span')(({ theme }) => ({
   bottom: -2,
   left: 'calc(50% - 9px)',
   transition: theme.transitions.create('opacity'),
-}));
-
-
-
+}))
 
 const handleSubmit = (event) => {
-
-
   event.preventDefault()
-
 
   const fd = new FormData(event.target)
   console.log(fd)
-
 }
 
-
-
 function BmrCard({ userData, setUserData }) {
-
-
   const images = [
     {
       url: '/ImageMenu/Bmr01.jpg',
@@ -114,8 +100,6 @@ function BmrCard({ userData, setUserData }) {
 
       // name: 'often',
       // value: userData.bmr_val,
-
-
     },
     {
       url: '/ImageMenu/Bmr03.jpg',
@@ -124,13 +108,10 @@ function BmrCard({ userData, setUserData }) {
       name: '1.72',
       // name: 'always',
       // value: userData.bmr_val,
-
-
     },
-  ];
+  ]
 
   const submitUserData = () => {
-
     console.log(userData)
     const decodedToken = jwt_decode(AuthService.getCurrentUser().token)
     const uid = decodedToken.id
@@ -140,14 +121,13 @@ function BmrCard({ userData, setUserData }) {
       method: 'post',
       body: JSON.stringify(userData),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
-      .then(r => r.json())
-      .then(rData => {
+      .then((r) => r.json())
+      .then((rData) => {
         console.log(url, rData)
       })
-
   }
 
   const handleClick = (value) => {
@@ -156,18 +136,34 @@ function BmrCard({ userData, setUserData }) {
 
   return (
     <div>
-      <div>
-
-      </div>
+      <div></div>
       <Box>
-        <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4, radio: '30' }}>
-          <Typography id="input-slider" gutterBottom variant='h3' color="teal.main">
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: 4,
+            radio: '30',
+          }}
+        >
+          <Typography
+            id="input-slider"
+            gutterBottom
+            variant="h3"
+            color="teal.main"
+          >
             我的運動量
           </Typography>
         </Box>
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%' }}>
-
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            minWidth: 300,
+            width: '100%',
+          }}
+        >
           {images.map((image) => (
             <ImageButton
               // value={userData.age}
@@ -177,7 +173,9 @@ function BmrCard({ userData, setUserData }) {
                 width: image.width,
               }}
               onSubmit={handleSubmit}
-              onClick={() => { handleClick(image.name) }}
+              onClick={() => {
+                handleClick(image.name)
+              }}
             >
               {/* <ImageSrc src={require('./Image/01.jpg')} /> */}
               <ImageSrc style={{ backgroundImage: `url(${image.url})` }} />
@@ -201,40 +199,43 @@ function BmrCard({ userData, setUserData }) {
             </ImageButton>
           ))}
         </Box>
-        <div style={{
-          width: ' 80%',
-          position: 'relative',
-          display: 'block',
-          margin: 'auto',
-          padding: '15px'
-        }}>
+        <div
+          style={{
+            width: ' 80%',
+            position: 'relative',
+            display: 'block',
+            margin: 'auto',
+            padding: '15px',
+          }}
+        >
           {/* <div style={{ background: 'pink', height: '40%', width: '40%', display: 'flex', justifyContent: 'center' }}> */}
-          <div style={{
-            position: 'absolute',
-            left: '0',
-          }}>
+          <div
+            style={{
+              position: 'absolute',
+              left: '0',
+            }}
+          >
             <Typewriter
-
               onInit={(typewriter) => {
-                typewriter.typeString('BMR 指人體在休息狀態下，維持新陳代謝所需的熱量，例如：呼吸、器官運作、體溫維持等，即使整天躺著不動也會消耗的最低熱量。BMR 會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。')
+                typewriter
+                  .typeString(
+                    'BMR 指人體在休息狀態下，維持新陳代謝所需的熱量，例如：呼吸、器官運作、體溫維持等，即使整天躺著不動也會消耗的最低熱量。BMR 會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。'
+                  )
                   .callFunction(() => {
-                    console.log('String typed out!');
+                    console.log('String typed out!')
                   })
                   .pauseFor(2500)
                   // .deleteAll()
                   .callFunction(() => {
-                    console.log('All strings were deleted');
+                    console.log('All strings were deleted')
                   })
-                  .start();
-
+                  .start()
               }}
             />
-
           </div>
         </div>
-      </Box >
-
-    </div >
+      </Box>
+    </div>
   )
 }
 

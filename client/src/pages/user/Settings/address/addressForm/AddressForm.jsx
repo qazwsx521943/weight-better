@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { countries, townships, postcodes } from "../addressData";
 import { PrimaryButton } from "@/pages/user/components/PrimaryButton";
 import { TealButton, PinkButton } from "@/pages/user/components/TealButton";
-import UserService from "@/pages/services/user.service";
+import UserService from "@/services/user.service";
 import { textInput } from "@/Styles/inputMui";
 
 function AddressForm({ type, handleClose, setAddressList, addressId }) {

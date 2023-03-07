@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import MyStoryList from './components/MyStoryList'
 import CollectStoryList from './components/CollectStoryList'
-import UserService from '@/pages/services/user.service'
+import UserService from '@/services/user.service'
 import { useParams } from 'react-router-dom'
 import MenuButton from './components/MenuButton'
 import Snackbar from '@mui/material/Snackbar'

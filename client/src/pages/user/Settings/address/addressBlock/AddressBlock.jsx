@@ -6,7 +6,7 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import { styled } from "@mui/material/styles";
 import AddressModal from "../addressModal/AddressModal";
 import AddressForm from "../addressForm/AddressForm";
-import UserService from "@/pages/services/user.service";
+import UserService from "@/services/user.service";
 
 // const DefaultBox = styled(Box)(({ theme }) => ({
 //     border: "1px solid ",

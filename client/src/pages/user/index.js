@@ -7,7 +7,7 @@ import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
 import ProfileContent from "./components/ProfileContent";
 import { useState, useEffect } from "react";
-import UserService from "../services/user.service";
+import UserService from "../../services/user.service";
 import { useAuth } from "../../hooks/AuthContext";
 const User = () => {
     const { currentUser } = useAuth();

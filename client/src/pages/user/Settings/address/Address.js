@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import FlexColBox from "@/components/FlexBox/FlexColBox";
 import AddressModal from "./addressModal/AddressModal";
 import AddressForm from "./addressForm/AddressForm";
-import UserService from "@/pages/services/user.service";
+import UserService from "@/services/user.service";
 
 function Address() {
     const [open, setOpen] = useState(false);

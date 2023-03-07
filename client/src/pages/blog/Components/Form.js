@@ -16,6 +16,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
 import Editor from "./Editor";
 import Typography from "@mui/material/Typography";
+import { Grid } from "@material-ui/core";
 
 const theme = createTheme({
     palette: {
@@ -65,8 +66,11 @@ function Form() {
     const [image, setImage] = useState("");
     const [imageLabel, setImageLabel] = useState("");
     const [newPost, setNewPost] = useState(null);
+    const [category, setCategory] = useState("");
 
-    const snackbarRef = useRef(null);
+    function handleCategoryChange(event) {
+        setCategory(event.target.value);
+    }
 
     function handleTitleChange(event) {
         setTitle(event.target.value);
@@ -81,9 +85,9 @@ function Form() {
         setContent(data);
     }
 
-    function handleImageChange(event) {
-        setImage(event.target.value);
-    }
+    // function handleImageChange(event) {
+    //     setImage(event.target.value);
+    // }
 
     function handleImageLabelChange(event) {
         setImageLabel(event.target.value);
@@ -92,24 +96,30 @@ function Form() {
     function handleSubmit(event) {
         event.preventDefault();
 
+        //向後端發送post請求
         axios
             .post("http://localhost:8080/blogs", {
+                //提交表單中的各項
                 title,
                 description,
                 content,
                 image,
                 imageLabel,
+                category,
             })
             .then((response) => {
-                // setSuccessMessage("文章發布成功！");
-                // snackbarRef.current.click();
-                setNewPost(response.data.id);
+                //設定成功發布訊息
+                setSuccessMessage("文章發布成功！");
+                //設置新post id
+                setTimeout(() => {
+                    setNewPost(response.data.id);
+                }, 1000);
             });
     }
 
     useEffect(() => {
         if (newPost) {
-            navigate(`/BlogPost/${newPost}`);
+            navigate(`/blog/BlogPost/${newPost}`);
         }
     }, [newPost]);
 
@@ -117,15 +127,47 @@ function Form() {
         <ThemeProvider theme={theme}>
             <body className={classes.body}>
                 <form className={classes.form} onSubmit={handleSubmit}>
-                    <TextField
-                        label="Title"
-                        value={title}
-                        onChange={handleTitleChange}
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        color="primary"
-                    />
+                    <Grid container spacing={0} alignItems="flex-end" sx={{m:0 ,p:0}}>
+                        <Grid item xs={3}>
+                            <FormControl
+                                fullWidth
+                                margin="normal"
+                                variant="outlined"
+                                className={classes.formControl}
+                            >
+                                <InputLabel id="category-select-label">
+                                    Category
+                                </InputLabel>
+                                <Select
+                                    labelId="category-select-label"
+                                    id="category-select"
+                                    value={category}
+                                    onChange={handleCategoryChange}
+                                    label="Category"
+                                    color="primary"
+                                >
+                                    <MenuItem value="健身運動">
+                                        健身運動
+                                    </MenuItem>
+                                    <MenuItem value="養生保健">
+                                        養生保健
+                                    </MenuItem>
+                                    {/* Add more categories here */}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <TextField
+                                label="Title"
+                                value={title}
+                                onChange={handleTitleChange}
+                                fullWidth
+                                margin="normal"
+                                variant="outlined"
+                                color="primary"
+                            />
+                        </Grid>
+                    </Grid>
                     <TextField
                         label="Description"
                         value={description}
@@ -155,7 +197,7 @@ function Form() {
                             <MenuItem value="image3">Image 3</MenuItem>
                         </Select>
                     </FormControl> */}
-                    <TextField
+                    {/* <TextField
                         label="Image Label"
                         value={imageLabel}
                         onChange={handleImageLabelChange}
@@ -163,22 +205,23 @@ function Form() {
                         margin="normal"
                         variant="outlined"
                         color="primary"
-                    />
+                    /> */}
                     <Editor
                         className={classes.editor}
                         onChange={handleEditorChange}
+                        // style={{ minHeight: "600px" }}
                         config={{
                             extraPlugins: "image2",
                             ckfinder: {
                                 uploadUrl: "/api/uploadImage",
                             },
                             image: {
-                                // 设置默认的图片大小
+                                // 設置圖片大小
                                 styles: {
                                     "max-width": "100%",
                                     "max-height": "500px",
                                 },
-                                // 配置图片预览
+                                // 圖片預覽
                                 previewImage: true,
                             },
                         }}
@@ -194,15 +237,21 @@ function Form() {
                         Submit
                     </Button>
                     <Snackbar
+                        //控制snackbar是否顯示
                         open={Boolean(successMessage)}
+                        //自動消失時間
                         autoHideDuration={1500}
+                        //關閉時的
                         onClose={() => setSuccessMessage("")}
+                        //設置位置
                         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                        ref={snackbarRef}
                     >
                         <MuiAlert
+                            //訊息類型
                             severity="success"
+                            //關閉的
                             onClose={() => setSuccessMessage("")}
+                            //設定訊息樣式
                             style={{ fontSize: "18px" }}
                         >
                             <Typography variant="h3">

@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import Header from "../../Components/Header";
+import CommentForm from "../../Components/CommentForm";
 
 const MainVisual = styled("img")(({ loaded }) => ({
     maxHeight: "500px",
@@ -108,6 +109,8 @@ function BlogPost() {
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </Paper>
+
+            <CommentForm />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Paper>

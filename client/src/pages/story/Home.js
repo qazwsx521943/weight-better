@@ -28,7 +28,7 @@ function HomeStory() {
 
   useEffect(() => {
     renderVideos() // 取得影片清單
-  }, [searchInUrl])
+  }, [searchInUrl, searchHashTagId])
 
   const uid = JSON.parse(localStorage.getItem('user'))
     ? JSON.parse(localStorage.getItem('user')).id

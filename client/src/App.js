@@ -14,12 +14,12 @@ import AuthRequired from "./pages/authentication/RequireAuth";
 import Layout from "./pages/global/Layout";
 
 //**? 會員 */
-import ProfileLayout from "./pages/user/Layouts/ProfileLayout";
+import ProfileLayout from "./pages/user/social/Layouts/ProfileLayout";
 import Reels from "./pages/user/reels";
-import Profile from "./pages/user/profile";
+import Profile from "./pages/user/social/profile";
 import Settings from "./pages/user/Settings";
-import Favorites from "./pages/user/favorites/Favorites";
-import MyBlogs from "./pages/user/blogs";
+import Favorites from "./pages/user/social/favorites/Favorites";
+import MyBlogs from "./pages/user/social/blogs";
 import HistoryOrders from "./pages/user/Settings/historyOrders/HistoryOrders";
 
 //**? 商品 */
@@ -52,7 +52,7 @@ import TestButton from "./pages/test_button/TestButton";
 import RegisterForm from "./pages/authentication/forms/RegisterForm";
 import LoginSuccess from "./pages/authentication/LoginSuccess";
 import { useEffect } from "react";
-import Cart from "./pages/user/cart";
+import Cart from "./pages/user/social/cart";
 import Billing from "./pages/user/Settings/billing/Billing";
 import Account from "./pages/user/Settings/account/Account";
 import UpdatePassword from "./pages/user/Settings/updatePassword/UpdatePassword";

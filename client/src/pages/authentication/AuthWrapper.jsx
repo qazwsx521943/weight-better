@@ -9,7 +9,7 @@ const AuthWrapper = ({ children }) => {
         <Box
             sx={{
                 minHeight: "100vh",
-                backgroundImage: `url(${background})`,
+                backgroundImage: `url(${'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1776&q=80'})`,
                 // backgroundColor: "purple",
                 backgroundSize: "cover",
                 backgroundPosition: "center",

@@ -13,6 +13,36 @@ dayjs.extend(customParseFormat)
 
 const router = express.Router()
 
+router.get('/test-search', (req, res) => {
+
+  let where = ' WHERE 1'
+  const search = req.query.search || ''
+  if (search){
+    // --[用 , ' ' ， 分開關鍵字]
+    const searchSplit = search.split(/[,\s，]/) 
+
+    // --[濾除 '']
+    const searchFiltered = searchSplit.filter((el) => {
+      return el !== ''
+    })
+
+    let addWhere = ''
+    searchFiltered.forEach((keyword, idx) => {
+      const keyword_sql = `%${keyword}%`
+      const keyword_sql_esc = db.escape(keyword_sql) // 跳脫特殊字元避免導致 SQL 錯誤(避免 SQL injection)
+
+      if (idx !== 0) {
+        addWhere += ' OR '
+      }
+      addWhere += `story_title LIKE ${keyword_sql_esc} OR story_hashtags LIKE ${keyword_sql_esc}` // 改成自己的資料表名稱
+    });
+
+    where = ' WHERE ' + addWhere
+  }
+
+  return res.json({search, where})
+})
+
 // --[取得影片清單資料 JOIN `story_like`]
 router.get('/videos', async (req, res) => {
 

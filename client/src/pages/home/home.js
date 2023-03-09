@@ -3,7 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthContext";
 import AuthService from "../../services/auth.service";
+
+// --[分區]
 import FirstPage from "./component/FirstPage/FirstPage";
+import HomeStory from "./component/story/HomeStory";
 
 
 const Home = () => {
@@ -33,8 +36,10 @@ const Home = () => {
     }, []);
 
     return (
-    <div>
+    <div className="HomeWrapper">
         <FirstPage/>
+        <HomeStory></HomeStory>
+        <div style={{ height: 'calc(100vh)', backgroundColor: 'lightblue' }}></div>
     </div>
     )
 };

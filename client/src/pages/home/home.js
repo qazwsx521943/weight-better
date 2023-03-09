@@ -7,6 +7,7 @@ import AuthService from "../../services/auth.service";
 // --[分區]
 import FirstPage from "./component/FirstPage/FirstPage";
 import HomeStory from "./component/story/HomeStory";
+import MenuPage from "./component/MenuPage/MenuPage";
 
 
 const Home = () => {
@@ -39,7 +40,7 @@ const Home = () => {
     <div className="HomeWrapper">
         <FirstPage/>
         <HomeStory></HomeStory>
-        <div style={{ height: 'calc(100vh)', backgroundColor: 'lightblue' }}></div>
+        <MenuPage/>
     </div>
     )
 };

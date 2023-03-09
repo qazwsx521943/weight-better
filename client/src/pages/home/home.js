@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../../hooks/AuthContext";
 import AuthService from "../../services/auth.service";
 import FirstPage from "./component/FirstPage/FirstPage";
+import MenuPage from "./component/MenuPage/MenuPage";
 
 
 const Home = () => {
@@ -35,6 +36,7 @@ const Home = () => {
     return (
     <div>
         <FirstPage/>
+        <MenuPage/>
     </div>
     )
 };

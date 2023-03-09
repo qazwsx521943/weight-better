@@ -12,7 +12,7 @@ import {
   Button,
   Paper,
 } from '@mui/material'
-import { TealButton } from '../components/TealButton'
+import { TealButton } from '../../components/TealButton'
 // icons
 import EmailIcon from '@mui/icons-material/Email'
 import UserService from '@/services/user.service'

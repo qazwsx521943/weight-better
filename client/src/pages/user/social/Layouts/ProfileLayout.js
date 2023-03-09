@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Stack, Box } from "@mui/material";
 import { Outlet, useNavigate, useParams, useLocation } from "react-router-dom";
-import LeftBar from "../components/LeftBar";
+import LeftBar from "../../components/LeftBar";
 import { useState, useEffect } from "react";
 
 import Tabs from "@mui/material/Tabs";

@@ -98,6 +98,37 @@ router.get('/videos', async (req, res) => {
 
 });
 
+// --[取得影片清單資料 random]
+function pickNumbers(num ,arr){
+	let autoPicks = [];
+	let numLeft = arr.length;
+
+	for (i = 0; i < num; i++){
+		let ranIdx = Math.floor( Math.random() * numLeft);
+
+		// pick an unrepeated number from 1 to 49--
+		autoPicks.push(arr[ranIdx] + 1);
+
+		arr[ranIdx] = arr[arr.length - 1 - i];
+
+		numLeft -=1
+	}
+
+	return autoPicks;
+}
+
+router.get('/videos-random', async (req, res) => {
+  
+  // let vList = [7,12,14,19,28,32,34,35,37,38,40,44,45,46,47,48,49,51,52,54,56,114,116,125,222,236,256,287]
+  // const randomvList = pickNumbers(5, vList).join(',')
+  // console.log(randomvList)
+
+  let sql = `SELECT * FROM story_all ORDER BY RAND() LIMIT 7;`
+  let [rows] = await db.query(sql);
+
+  res.json(rows)
+});
+
 // --[取得單一影片資料]
 router.get('/video/:sid/data', async (req, res) => {
   const sid = parseInt(req.params.sid, 10);

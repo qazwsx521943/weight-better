@@ -16,15 +16,6 @@ const upload = multer({ storage: storage });
 
 const app = express();
 
-//存圖片到本地端
-
-app.post("/api/uploadImage", upload.single("upload"), (req, res) => {
-  // req.file contains information about the uploaded image
-  const imagePath = req.file.path;
-  // save the image path to the database
-  // ...
-});
-
 // 抓取所有blogs中的資料
 router.get("/", async (req, res) => {
     let [blogs] = await db.query("SELECT * FROM `blogs` WHERE 1");
@@ -37,7 +28,7 @@ router.post("/", async (req, res) => {
     try {
         const [result] = await db.query(
             "INSERT INTO `blogs` (`title`, `description`, `content`, `image`, `imageLabel`, `date`) VALUES (?, ?, ?, ?, ?, NOW())",
-            [title, description, content, image, imageLabel]
+            [title, description, JSON.stringify(content), image, imageLabel]
         );
         res.json({ id: result.insertId });
     } catch (error) {

@@ -19,13 +19,18 @@ const Container = styled.div`
 const Wrapper = styled.div`
   ${'' /* padding: 20px; */}
   margin:auto;
-  width:1650px;
+  width:1300px;
   display: flex;
   flex-wrap: wrap;
-  justify-content:center;
+  ${'' /* justify-content:center; */}
   align-items:center;
-  justify-content: left;
+  ${'' /* justify-content: left; */}
+  justify-content: space-between;
   animation: fadeIn 2s ;
+  &:after {
+    content: "";
+    flex: 0 0 calc(20% - 20px);
+  }
 
 `
 const Products = ({uid, cateId, sort, filters, productList, setProductList, favProductList, setFavProductList, getFavProducts}) => {

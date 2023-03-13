@@ -7,108 +7,106 @@ import ClickButton from '../ClickButton'
 
 const Container = styled.div`
   height: calc(100vh - 64px);
-  ${'' /* display:flex;
-  flex-direction:column; */}
+  ${
+    '' /* display:flex;
+  flex-direction:column; */
+  }
   position:relative;
   ${'' /* display:flex; */}
   ${'' /* background-color:lavender; */}
 `
-const ImgSession=styled.div`
-  width:15%;
+const ImgSession = styled.div`
+  width: 15%;
 `
-const Img1=styled.img`
-  width:10%;
-  position:absolute;
-  left:20px;
-  bottom:20px;
+const Img1 = styled.img`
+  width: 10%;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
   animation: fadeInOut 8s infinite;
 
-
-@keyframes fadeInOut {
+  @keyframes fadeInOut {
     0% {
-    opacity: 0
+      opacity: 0;
     }
     50% {
-    opacity: 1
+      opacity: 1;
     }
     100% {
-    opacity: 0
+      opacity: 0;
     }
-
-}
+  }
 `
-const Img2=styled.img`
-  width:5%;
-  position:absolute;
-  left:200px;
-  bottom:20px;
+const Img2 = styled.img`
+  width: 5%;
+  position: absolute;
+  left: 200px;
+  bottom: 20px;
   animation: fadeInOut 10s infinite;
 
-
-@keyframes fadeInOut {
+  @keyframes fadeInOut {
     0% {
-    opacity: 0
+      opacity: 0;
     }
     50% {
-    opacity: 1
+      opacity: 1;
     }
     100% {
-    opacity: 0
+      opacity: 0;
     }
-
-}
+  }
 `
-const Img3=styled.img`
-  width:5%;
-  position:absolute;
-  right:20px;
-  top:30px;
+const Img3 = styled.img`
+  width: 5%;
+  position: absolute;
+  right: 20px;
+  top: 30px;
   ${'' /* transform: rotate(45deg); */}
-  
 `
-const Img4=styled.img`
-  width:5%;
-  position:absolute;
-  right:150px;
-  top:30px;   animation: fadeInOut 10s infinite;
+const Img4 = styled.img`
+  width: 5%;
+  position: absolute;
+  right: 150px;
+  top: 30px;
+  animation: fadeInOut 10s infinite;
 
-
-@keyframes fadeInOut {
+  @keyframes fadeInOut {
     0% {
-    opacity: 0
+      opacity: 0;
     }
     50% {
-    opacity: 1
+      opacity: 1;
     }
     100% {
-    opacity: 0
+      opacity: 0;
     }
-
-}
+  }
 `
-const ButtonBox=styled.div`
-  ${'' /* display:flex;
-  place-content:center; */}
+const ButtonBox = styled.div`
+  ${
+    '' /* display:flex;
+  place-content:center; */
+  }
   position:absolute;
-  right:53%;
-  top:80%;
+  right: 53%;
+  top: 90%;
 `
 
 const HomeShop = () => {
   return (
     <Container>
-    <Title/>
-      <ShopCards/>
+      <Title />
+      <ShopCards />
       {/* <Button1/> */}
-    <ImgSession>
-      <Img1 src="HomeImgs\121.png"/>
-      <Img2 src="HomeImgs\未命名-3.png"/>
-      <Img3 src="HomeImgs\未命名-1.png"/>
-      <Img4 src="HomeImgs\未命名-2.png"/>
-      <ButtonBox>
-        <ClickButton/>
-      </ButtonBox>
-    </ImgSession>
+      <ImgSession>
+        <Img1 src="HomeImgs\121.png" />
+        <Img2 src="HomeImgs\未命名-3.png" />
+        <Img3 src="HomeImgs\未命名-1.png" />
+        <Img4 src="HomeImgs\未命名-2.png" />
+        <ButtonBox>
+          <ClickButton />
+        </ButtonBox>
+      </ImgSession>
     </Container>
   )
 }

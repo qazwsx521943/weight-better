@@ -18,7 +18,7 @@ const Container = styled.div `
     align-item:center;
     justify-align:center;
     ${'' /* min-width: 280px; */}
-    width: 310px;
+    width: 18%;
     ${'' /* max-width:310px; */}
     ${'' /* max-height:414px; */}
     height:414px;

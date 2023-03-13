@@ -17,6 +17,7 @@ const Total = () => {
     isInCart,
     plusOne,
     minusOne} = useCart()
+
   const getTotal = () => {
     let totalQuantity = 0
     let totalPrice = 0

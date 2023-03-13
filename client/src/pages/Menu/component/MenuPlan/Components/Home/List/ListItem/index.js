@@ -40,6 +40,11 @@ function ListItem(props) {
           </p>
         </div>
       </footer>
+      <footer>
+        {/* <div className='btn'>
+          <button>選擇</button>
+        </div> */}
+      </footer>
     </div>
   )
 }

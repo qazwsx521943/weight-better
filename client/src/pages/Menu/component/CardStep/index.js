@@ -106,6 +106,7 @@ function CardStep() {
             color="inherit"
             disabled={!activeStep}
             onClick={() => setActiveStep((activeStep) => activeStep - 1)}
+            style={{color:'black'}}
           >
             Back
           </Button>
@@ -115,6 +116,7 @@ function CardStep() {
               handleNext()
               submitUserData()
             }}
+            style={{color:'black'}}
           >
             Finish
           </Button>

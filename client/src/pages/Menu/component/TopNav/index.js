@@ -4,6 +4,7 @@ import { BottomNavigation,BottomNavigationAction, Box, Paper } from '@mui/materi
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsightsSharpIcon from '@mui/icons-material/InsightsSharp';
+import SearchIcon from '@mui/icons-material/Search';
 import CardStep from '../CardStep';
 import MenuPlan from '../MenuPlan';
 import PersonalPlan from '../PersonalPlan'
@@ -25,8 +26,9 @@ function TopNav() {
         {/* topNav Item */}
         {{
             0:<CardStep/>,
-            1:<MenuPlan/>,
-            2:<PersonalPlan/>,
+            1:<PersonalPlan/>,
+            2:<MenuPlan/>,
+          
             
         }[value]}
             <Paper
@@ -39,9 +41,9 @@ function TopNav() {
                     onChange={(e,newValue)=>setValue(newValue)}
                     >
 
-                    <BottomNavigationAction label='CreatPlan' icon={<ModeEditIcon />}/>
-                    <BottomNavigationAction label='MenuPlan' icon={<DescriptionIcon />}/>
-                    <BottomNavigationAction label='Analyze' icon={<InsightsSharpIcon />}/>
+                    <BottomNavigationAction label='Plan' icon={<ModeEditIcon />}/>
+                    <BottomNavigationAction label='Menu' icon={<DescriptionIcon />}/>
+                    <BottomNavigationAction label='Search' icon={<SearchIcon/>}/>
                    
                     </BottomNavigation>
                 </Paper>

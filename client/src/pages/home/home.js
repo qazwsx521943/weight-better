@@ -3,8 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../hooks/AuthContext";
 import AuthService from "../../services/auth.service";
-import FirstPage from "./component/FirstPage/FirstPage";
 
+// --[分區]
+
+import MenuPage from "./component/MenuPage/MenuPage";
+
+// --[分區]
+import FirstPage from "./component/FirstPage/FirstPage";
+import HomeStory from "./component/story/HomeStory";
+import HomeShop from "./component/Shop/HomeShop";
 
 const Home = () => {
     const { userLogin } = useAuth();
@@ -33,8 +40,11 @@ const Home = () => {
     }, []);
 
     return (
-    <div>
+    <div className="HomeWrapper">
         <FirstPage/>
+        <HomeStory/>
+        <MenuPage/>
+        <HomeShop></HomeShop>
     </div>
     )
 };

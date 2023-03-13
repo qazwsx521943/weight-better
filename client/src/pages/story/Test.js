@@ -29,20 +29,33 @@ function Test() {
   //   }
   // }, [played])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const fd = new FormData(document.form1)
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   const fd = new FormData(document.form1)
 
-    const url = 'http://localhost:8080/story/upload-video-try'
-    fetch(url, {
-      method: 'post',
-      body: fd,
-    })
+  //   const url = 'http://localhost:8080/story/upload-video-try'
+  //   fetch(url, {
+  //     method: 'post',
+  //     body: fd,
+  //   })
+  // }
+
+  const handleSubmit2 = () => {
+    const search = '健身,居家' // 要搜尋的關鍵字
+    const usp = new URLSearchParams()
+    usp.set('search', search)
+    const url = `http://localhost:8080/story/test-search?${usp.toString()}` // 改成自己的路由
+    fetch(url)
+      .then((r) => r.json())
+      .then((rData) => {
+        console.log(url, rData)
+      })
   }
 
   return (
     <div>
-      <form name="form1">
+      <button onClick={handleSubmit2}>click</button>
+      {/* <form name="form1">
         <input type="file" name="story" />
         <input type="text" name="title" style={{ backgroundColor: '#aaa' }} />
         <input
@@ -51,7 +64,7 @@ function Test() {
           style={{ backgroundColor: '#aaa' }}
         />
         <button onClick={handleSubmit}>submit</button>
-      </form>
+      </form> */}
       {/* <p>Test1</p>
       <CircleButton>aaaaa</CircleButton>
       <Routes>

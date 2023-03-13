@@ -2,9 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '@/context/useCart';
+
+import { useState } from 'react';
 
     
 const Container = styled.div `
@@ -40,6 +43,13 @@ const Circle = styled.div `
     border-radius:50%;
     background-color:white; */}
 `
+// const ImageSession = styled.div `
+//     ${'' /* height:100%; */}
+//     display:flex;
+//     justify-align:center;
+//     align-items:center;
+//     ${'' /* cursor:pointer; */}
+// `
 const Image = styled.img `
     height:65%;
     object-fit:contain;
@@ -47,9 +57,6 @@ const Image = styled.img `
     justify-align:center;
     align-items:center;
     cursor:pointer;
-    
-    
-
 `
 const Info = styled.div `
     padding:5px 0px;
@@ -61,6 +68,24 @@ const Info = styled.div `
 
 `
 const Icon = styled.div `
+    width:40px;    
+    height:40px;
+    margin-right:5px;
+    margin:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+
+    &:hover {
+        transform:scale(1.1);
+        background-color: #1BB6B2;
+        
+    }
+    
+`
+const Icon2 = styled.div `
     width:40px;    
     height:40px;
     margin-right:5px;
@@ -88,7 +113,10 @@ const ProductInfo = styled.h2`
 
 
 
-const Product = ({item, id, title, image, price}) => {
+
+const Product = ({uid, item, favProductList, setFavProductList, getFavProducts}) => {
+
+
     const navigate = useNavigate();
     const gotoDetail = (pid) => {
         console.log('click')
@@ -110,16 +138,32 @@ const Product = ({item, id, title, image, price}) => {
         minusOne,
     } = useCart()
 
-    
+    const addOrCancelFav = () => {
+
+        if (uid){
+            const url = `http://localhost:8080/product/product-fav-add/${uid}/${item.product_id}`
+            fetch(url)
+            .then(r=>r.json())
+            .then(rData => {
+                console.log(url, rData)
+                getFavProducts()
+            })
+        } else {
+            alert('先登入才能收藏')
+        }
+    }
+
     return (
         <Container >
             <Circle />
+            {/* <ImageSession> */}
             <Image src={item.img_src} onClick={() => {gotoDetail(item.product_id)}}/>
+            {/* </ImageSession> */}
             <ProductInfo onClick={() => {gotoDetail(item.product_id)}}>{item.name}</ProductInfo>
             <ProductInfo>${item.unit_price}</ProductInfo>
             <Info>
                 <Icon>
-                    <ShoppingCartIcon onClick={()=>addItem({
+                    <ShoppingCartIcon style={{color:"#2F2D3F"} } onClick={()=>addItem({
                         id: item.product_id, 
                         quantity: 1, 
                         name: item.name, 
@@ -127,11 +171,11 @@ const Product = ({item, id, title, image, price}) => {
                         ,...item
                     })} />
                 </Icon>
+                <Icon2 onClick={addOrCancelFav}>
+                    {favProductList.includes(item.product_id)? <FavoriteIcon style={{color:"#2F2D3F"} }/> : <FavoriteBorderIcon style={{color:"#2F2D3F"} }/>}
+                </Icon2>
                 <Icon>
-                    <FavoriteBorderIcon/>
-                </Icon>
-                <Icon>
-                    <SearchIcon onClick={() => {gotoDetail(item.product_id)}}/>
+                    <SearchIcon style={{color:"#2F2D3F"} } onClick={() => {gotoDetail(item.product_id)}}/>
                 </Icon>
             </Info>
         </Container>

@@ -25,6 +25,7 @@ import HistoryOrders from "./pages/user/Settings/historyOrders/HistoryOrders";
 //**? 商品 */
 import Shop from "./pages/shop/product";
 import ProductDetails from "./pages/shop/ProductDetails";
+import MyCheckOut from "./pages/shop/MyCheckOut";
 
 //**? 商品 */
 // import MainContent from "./pages/shop/product/mainConent";
@@ -35,9 +36,10 @@ import HomePage from "./pages/blog/Pages/Home/HomePage";
 import CategoryPage from "./pages/blog/Pages/CategoryPage/CategoryPage";
 import WriteBlog from "./pages/blog/Pages/WriteBlog/WriteBlog";
 import BlogPost from "./pages/blog/Pages/Post/BlogPost";
+import HomeDesign from "./pages/blog/Pages/HomeDesign/HomeDesign";
 
 //**? 客製化菜單 */
-import Menu from "./pages/menu";
+import Menu from "./pages/Menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";
@@ -101,6 +103,7 @@ function App() {
                                 <Route path="productdetails/:pid" element={<ProductDetails />} />
                                 {/* <Route path=":id" element={<ProductDetails />} /> */}
                                 <Route path="cart" element={<Cart />} />
+                                <Route path="mycheckout" element={<MyCheckOut />} />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route path="shop" element={<Products />}></Route>
@@ -109,8 +112,10 @@ function App() {
                             <Route path="" element={<HomePage />}></Route>
                             <Route path="WriteBlog" element={<WriteBlog />}></Route>
                             <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="CategoryPage/:category" element={<CategoryPage />} />
+                            <Route path="CategoryPage/:category" element={<CategoryPage />} ></Route>
+                            <Route path="HomeDesign" element={<HomeDesign />}></Route>
                             </Route>
+
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 
                             <Route path="/menu" element={<Menu />}></Route>

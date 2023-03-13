@@ -25,16 +25,19 @@ const Wrapper = styled.div`
   `
 const ImageContainer = styled.div`
   flex:3;
+  ${'' /* width:400px; */}
+
   
 `
 const ImageDetailContainer = styled.div`
   display:flex;
   
+  
 `
 const ImageDetail =styled.img`
   width:100px;
   height:100px;
-  margin:20px;
+  margin:60px 20px;
   object-fit:contain;
   border:solid 1px #ccc;
 
@@ -46,7 +49,7 @@ const ImageDetail =styled.img`
 }
 `
 const Image = styled.img`
-  ${'' /* width:400px; */}
+  width:600px;
 
   &:hover{
     transform:scale(1.1);
@@ -128,6 +131,7 @@ border:solid 1px #aaa;
 const ProductDetails = ({id, title, image, price, quantity=0}) => {
   
   const [productDetail,setProductDetail]= useState([])
+  const [selectImg,setSelectImg]= useState('')
   const [myQuantity,setMyQuantity] =useState(1)
 
   const {pid} = useParams()
@@ -145,13 +149,12 @@ const ProductDetails = ({id, title, image, price, quantity=0}) => {
     .then(rData=>{
       console.log(url,rData)
       setProductDetail(rData[0])
+      setSelectImg(rData[0].img_src)
     })
 
   }
 
-  // const handleClick =()=>{
-  //   // axios.pos
-  // }
+
   const handleQuantity = (type)=>{
     if(type === "dec"){
       myQuantity >1 && setMyQuantity(myQuantity - 1)
@@ -182,12 +185,16 @@ const ProductDetails = ({id, title, image, price, quantity=0}) => {
       <Wrapper>
       
         <ImageContainer>
-          <Image src={productDetail.img_src} />
+          {/* <Image src={productDetail.img_src} /> */}
+          <Image src={selectImg} />
       
           <ImageDetailContainer>
-            <ImageDetail src={productDetail.img_src2}/>
+            {/* <ImageDetail src={productDetail.img_src2}/>
             <ImageDetail src={productDetail.img_src3}/>
-            <ImageDetail src={productDetail.img_src4}/>
+            <ImageDetail src={productDetail.img_src4}/> */}
+            <ImageDetail src={productDetail.img_src2} onClick={(e)=>setSelectImg(productDetail.img_src2)}/>
+            <ImageDetail src={productDetail.img_src3} onClick={(e)=>setSelectImg(productDetail.img_src3)}/>
+            <ImageDetail src={productDetail.img_src4} onClick={(e)=>setSelectImg(productDetail.img_src4)} />
           </ImageDetailContainer>
         </ImageContainer>
         <InfoContainer>

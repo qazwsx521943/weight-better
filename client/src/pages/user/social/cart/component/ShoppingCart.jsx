@@ -47,7 +47,6 @@ function ShoppingCartItem({url ,id, image, title, price, color, size, quantity})
         plusOne,
         minusOne,
     } = useCart()
-
     console.log({url ,id, image, title, price, quantity})
 
 

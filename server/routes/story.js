@@ -98,6 +98,40 @@ router.get('/videos', async (req, res) => {
 
 });
 
+// --[取得影片清單資料 random]
+function pickNumbers(num ,arr){
+	let autoPicks = [];
+	let numLeft = arr.length;
+
+	for (i = 0; i < num; i++){
+		let ranIdx = Math.floor( Math.random() * numLeft);
+
+		// pick an unrepeated number from 1 to 49--
+		autoPicks.push(arr[ranIdx] + 1);
+
+		arr[ranIdx] = arr[arr.length - 1 - i];
+
+		numLeft -=1
+	}
+
+	return autoPicks;
+}
+
+router.get('/videos-random', async (req, res) => {
+  
+  // let vList = [7,12,14,19,28,32,34,35,37,38,40,44,45,46,47,48,49,51,52,54,56,114,116,125,222,236,256,287]
+  // const randomvList = pickNumbers(5, vList).join(',')
+  // console.log(randomvList)
+
+  // let sql = `SELECT * FROM story_all ORDER BY RAND() LIMIT 7;`
+
+  let sql = `SELECT a.*, b.profile_image FROM story_all AS a JOIN users AS b ON a.user_id=b.id WHERE story_id IN (19, 37, 47, 256, 54, 44, 15);`
+
+  let [rows] = await db.query(sql);
+
+  res.json(rows)
+});
+
 // --[取得單一影片資料]
 router.get('/video/:sid/data', async (req, res) => {
   const sid = parseInt(req.params.sid, 10);
@@ -123,9 +157,10 @@ router.get('/video/:sid/get', async (req, res) => {
   const spath = rows[0].story_path
 
   const path = __dirname + `/../assets/${spath}.mp4`;
-  const stat = fs.statSync(path);
+  const stat = fs.statSync(path); // read the file to get the file size
   const fileSize = stat.size;
-  const range = req.headers.range;
+
+  const range = req.headers.range; // browser send a range in req, let the server know whick chunk of the video to send to client
 
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
@@ -134,7 +169,7 @@ router.get('/video/:sid/get', async (req, res) => {
         ? parseInt(parts[1], 10)
         : fileSize-1;
     const chunksize = (end-start) + 1;
-    const file = fs.createReadStream(path, {start, end});
+    const file = fs.createReadStream(path, {start, end}); // open up a file/stream and read the data present in it
     const head = {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
         'Accept-Ranges': 'bytes',
@@ -142,7 +177,7 @@ router.get('/video/:sid/get', async (req, res) => {
         'Content-Type': 'video/mp4',
     };
     res.writeHead(206, head);
-    file.pipe(res);
+    file.pipe(res); // put video chunk into res
   } else {
       const head = {
           'Content-Length': fileSize,
@@ -151,6 +186,8 @@ router.get('/video/:sid/get', async (req, res) => {
       res.writeHead(200, head);
       fs.createReadStream(path).pipe(res);
   }
+
+  // the browser will keep making requests until it has fetched all chunks of the video.
 })
 
 // --[取得單一影片的縮圖]

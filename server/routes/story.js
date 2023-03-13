@@ -123,7 +123,10 @@ router.get('/videos-random', async (req, res) => {
   // const randomvList = pickNumbers(5, vList).join(',')
   // console.log(randomvList)
 
-  let sql = `SELECT * FROM story_all ORDER BY RAND() LIMIT 7;`
+  // let sql = `SELECT * FROM story_all ORDER BY RAND() LIMIT 7;`
+
+  let sql = `SELECT a.*, b.profile_image FROM story_all AS a JOIN users AS b ON a.user_id=b.id WHERE story_id IN (19, 37, 47, 256, 54, 44, 15);`
+
   let [rows] = await db.query(sql);
 
   res.json(rows)
@@ -154,9 +157,10 @@ router.get('/video/:sid/get', async (req, res) => {
   const spath = rows[0].story_path
 
   const path = __dirname + `/../assets/${spath}.mp4`;
-  const stat = fs.statSync(path);
+  const stat = fs.statSync(path); // read the file to get the file size
   const fileSize = stat.size;
-  const range = req.headers.range;
+
+  const range = req.headers.range; // browser send a range in req, let the server know whick chunk of the video to send to client
 
   if (range) {
     const parts = range.replace(/bytes=/, "").split("-");
@@ -165,7 +169,7 @@ router.get('/video/:sid/get', async (req, res) => {
         ? parseInt(parts[1], 10)
         : fileSize-1;
     const chunksize = (end-start) + 1;
-    const file = fs.createReadStream(path, {start, end});
+    const file = fs.createReadStream(path, {start, end}); // open up a file/stream and read the data present in it
     const head = {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
         'Accept-Ranges': 'bytes',
@@ -173,7 +177,7 @@ router.get('/video/:sid/get', async (req, res) => {
         'Content-Type': 'video/mp4',
     };
     res.writeHead(206, head);
-    file.pipe(res);
+    file.pipe(res); // put video chunk into res
   } else {
       const head = {
           'Content-Length': fileSize,
@@ -182,6 +186,8 @@ router.get('/video/:sid/get', async (req, res) => {
       res.writeHead(200, head);
       fs.createReadStream(path).pipe(res);
   }
+
+  // the browser will keep making requests until it has fetched all chunks of the video.
 })
 
 // --[取得單一影片的縮圖]

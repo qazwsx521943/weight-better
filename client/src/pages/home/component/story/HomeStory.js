@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import styles from './HomeStory.module.css'
 import Top from './components/Top'
 import Bottom from './components/Bottom'
+import BottomFixed from './components/BottomFixed'
+import BackgroundTitle from './components/BackgroundTitle'
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -31,10 +33,12 @@ function HomeStory() {
       className={
         styles.homeStoryWrapper + ' homeStoryWrapper container-fluid p-0'
       }
-      style={{ height: 'calc(100vh)' }}
+      style={{ height: 'calc(100vh)', position: 'relative' }}
     >
+      <BackgroundTitle></BackgroundTitle>
       <Top></Top>
       <Bottom></Bottom>
+      {/* <BottomFixed></BottomFixed> */}
     </div>
   )
 }

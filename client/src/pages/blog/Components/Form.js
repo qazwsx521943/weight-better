@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 function Form() {
     const navigate = useNavigate();
     const classes = useStyles();
+    
 
     const [successMessage, setSuccessMessage] = useState("");
     const [title, setTitle] = useState("");
@@ -67,6 +68,8 @@ function Form() {
     const [imageLabel, setImageLabel] = useState("");
     const [newPost, setNewPost] = useState(null);
     const [category, setCategory] = useState("");
+
+    const htmlContent = content;
 
     function handleCategoryChange(event) {
         setCategory(event.target.value);
@@ -102,7 +105,7 @@ function Form() {
                 //提交表單中的各項
                 title,
                 description,
-                content,
+                content: htmlContent,
                 image,
                 imageLabel,
                 category,

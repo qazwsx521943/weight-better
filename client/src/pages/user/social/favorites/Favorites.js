@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import Product from "@/pages/shop/components/Product";
+import Product from "./Product";
 import styled from "styled-components";
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -74,9 +74,10 @@ const Favorites = () => {
             {/* <Container sx={{ py: 4 }} maxWidth="md"> */}
                 {/* End hero unit */}
                 {/* <Grid container spacing={4}> */}
-                <Container1>
+                <Container1 className="Wrapper">
                     {products.map((item) => (
-                        <Grid item key={item.product_id} xs={12} sm={6} md={4}>
+                        
+                        <Grid item key={item.product_id} sx={{width: '33.33%'}}>
                             <Product uid={uid} item={item} key={item.product_id} favProductList={favProductList}  getFavProducts={getFavProducts} />
                         </Grid>
                     ))}
@@ -86,5 +87,7 @@ const Favorites = () => {
         </Container2>
     );
 };
+
+// {/* <Grid item key={item.product_id} xs={12} sm={6} md={4}> */}
 
 export default Favorites;

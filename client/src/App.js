@@ -25,6 +25,7 @@ import HistoryOrders from "./pages/user/Settings/historyOrders/HistoryOrders";
 //**? 商品 */
 import Shop from "./pages/shop/product";
 import ProductDetails from "./pages/shop/ProductDetails";
+import MyCheckOut from "./pages/shop/MyCheckOut";
 
 //**? 商品 */
 // import MainContent from "./pages/shop/product/mainConent";
@@ -102,6 +103,7 @@ function App() {
                                 <Route path="productdetails/:pid" element={<ProductDetails />} />
                                 {/* <Route path=":id" element={<ProductDetails />} /> */}
                                 <Route path="cart" element={<Cart />} />
+                                <Route path="mycheckout" element={<MyCheckOut />} />
                             </Route>
                             {/* <Route path="/shop" element={<Shop />}></Route> */}
                             <Route path="shop" element={<Products />}></Route>

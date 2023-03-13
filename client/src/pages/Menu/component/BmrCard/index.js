@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import AuthService from '../../../../services/auth.service'
-import Typewriter from 'typewriter-effect'
+// import Typewriter from 'typewriter-effect'
 import { display } from '@mui/system'
 
 // console.log(__dirname)
@@ -215,7 +215,7 @@ function BmrCard({ userData, setUserData }) {
               left: '0',
             }}
           >
-            <Typewriter
+            {/* <Typewriter
               onInit={(typewriter) => {
                 typewriter
                   .typeString(
@@ -231,7 +231,7 @@ function BmrCard({ userData, setUserData }) {
                   })
                   .start()
               }}
-            />
+            /> */}
           </div>
         </div>
       </Box>

@@ -42,7 +42,8 @@ const Home = () => {
     return (
     <div className="HomeWrapper">
         <FirstPage/>
-        <HomeStory></HomeStory>
+        <HomeStory/>
+        <MenuPage/>
         <HomeShop></HomeShop>
     </div>
     )

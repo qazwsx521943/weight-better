@@ -13,7 +13,7 @@
   
   .listItem-wrap header span {
     font-size: 0.7rem;
-    background-color: #97ffff;
+    background-color: #1BB6B2;
     padding: 0.5rem;
     border-radius: 10px;
   }
@@ -36,4 +36,10 @@
     align-items: center;
     justify-content: space-between;
     
+  }
+  .btn{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    background-color: #1BB6B2;
   }

@@ -31,6 +31,17 @@ const AuthorImage = styled.img`
     background-color: #90caf9;
 `;
 
+const AuthorFullName = styled(Typography)`
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 26px !important;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-align: center;
+    min-height: 90px;
+`;
+
 const AuthorContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -40,7 +51,6 @@ const AuthorContainer = styled.div`
 `;
 
 const ArticleContainer = styled.div`
-    ${"" /* margin-top: 48px; */}
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -93,7 +103,7 @@ const ArticleText = styled(Typography)`
 `;
 
 const ReadMoreButton = styled(Button)`
-    background-color: #ffa500;
+    background-color: #90caf9 !important;
     color: #ffffff;
     transition: transform 0.3s ease-out;
 
@@ -139,13 +149,18 @@ const HomeDesign = () => {
         },
     ];
 
-    // 假資料 - 作者圖片
+    // 假資料 - 作者圖片;作者姓名
     const authorImages = [
         "https://source.unsplash.com/random/100x101/?person",
         "https://source.unsplash.com/random/100x102/?person",
         "https://source.unsplash.com/random/100x103/?person",
         "https://source.unsplash.com/random/100x104/?person",
     ];
+
+    const authorFullName=[
+      "馬一龍","趙長膨","ＳAＦ","孫雨塵",
+    ];
+
     // 設定卡片動畫效果
     const articleAnimation = useSpring({
         to: { opacity: 1, transform: "translateY(0)" },
@@ -168,6 +183,7 @@ const HomeDesign = () => {
         return (
             <AnimatedAuthorContainer style={styles}>
                 {children}
+                
             </AnimatedAuthorContainer>
         );
     };
@@ -188,14 +204,15 @@ const HomeDesign = () => {
                                     src={authorImages[index]}
                                     onLoad={handleImageLoad}
                                 />
+                                <AuthorFullName>{authorFullName[index]}</AuthorFullName>
                             </AuthorContainerWithAnimation>
                             <ArticleCard
                                 style={{
                                     ...articleAnimation,
                                     delay: index * 100,
                                 }}
-                                onMouseEnter={() => setAnimate(true)}
-                                onMouseLeave={() => setAnimate(false)}
+                                // onMouseEnter={() => setAnimate(true)}
+                                // onMouseLeave={() => setAnimate(false)}
                             >
                                 <ArticleImage src={article.image} />
                                 <div>

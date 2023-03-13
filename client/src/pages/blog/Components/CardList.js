@@ -83,7 +83,7 @@ function CardList(props) {
                                 </Typography>
 
                                 <Typography>
-                                    By {}
+                                    By {post.author_fullname}
                                 </Typography>
                                 <Typography>
                                     {post.date.substring(0, 10)}

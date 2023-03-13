@@ -9,8 +9,8 @@ import RandomPost from "../../Components/RandomPost";
 import CardList from "../../Components/CardList";
 
 const CATEGORY_MAP = {
-    latest: "最新文章",
-    fitness: "健身鍛鍊",
+    "latest": "最新文章",
+    "fitness": "健身鍛鍊",
     "home-workouts": "居家運動",
     "healthy-eating": "健康飲食",
     "health-wellness": "養生保健",
@@ -26,7 +26,13 @@ function CategoryPage(props) {
             axios
                 .get(`http://localhost:8080/blogs/post/latest`)
                 .then((response) => {
-                    setPosts(response.data);
+                    const posts = response.data.map(post => {
+                        return {
+                          ...post,
+                          author_fullname: post.author_fullname || 'Unknown'
+                        };
+                      });
+                    setPosts(posts);
                     const randomIndex = Math.floor(
                         Math.random() * response.data.length
                     );
@@ -36,7 +42,15 @@ function CategoryPage(props) {
         } else {
             axios
                 .get(`http://localhost:8080/blogs/post/category/${category}`)
-                .then((response) => setPosts(response.data))
+                .then((response) => {
+                    const posts = response.data.map(post => {
+                      return {
+                        ...post,
+                        author_fullname: post.author_fullname || 'Unknown'
+                      };
+                    });
+                    setPosts(posts);
+                  })
                 .catch((error) => console.error(error));
             axios
                 .get(

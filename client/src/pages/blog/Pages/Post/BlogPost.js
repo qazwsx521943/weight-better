@@ -46,7 +46,16 @@ function BlogPost() {
     useEffect(() => {
         axios
             .get(`http://localhost:8080/blogs/post/${id}`)
-            .then((response) => setBlog(response.data))
+            .then((response) => {
+                const post = response.data;
+                const author = {
+                    fullname: post.author_fullname || "Unknown",
+                    profileImage:
+                        post.profile_image || "https://www.pngitem.com/pimgs/m/22-223968_default-profile-picture-circle-hd-png-download.png",
+                    email: post.email || "Unknown",
+                };
+                setBlog({ ...post, author });
+            })
             .catch((error) => console.error(error));
     }, [id]);
 
@@ -83,18 +92,14 @@ function BlogPost() {
                     width: "100%",
                     height: "400px",
                     objectFit: "cover",
-                    marginBottom: "30px", 
+                    marginBottom: "30px",
                 }}
             />
             <Grid container spacing={2}>
-            <Grid item xs={12} md={3}></Grid>
+                <Grid item xs={12} md={3}></Grid>
                 <Grid item xs={12} md={6}>
                     <Paper>
-                        <Typography
-                            variant="h4"
-                            align="center"
-                            gutterBottom
-                        >
+                        <Typography variant="h4" align="center" gutterBottom>
                             {title}
                         </Typography>
                         <Typography
@@ -110,13 +115,13 @@ function BlogPost() {
                         />
                     </Paper>
 
-            <CommentForm />
+                    <CommentForm />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Paper>
                         <img
-                            src="https://picsum.photos/id/1005/500/500"
-                            alt="作者照片"
+                            src={blog.author.profileImage}
+                            alt={blog.author.fullname}
                             style={{
                                 width: "80%",
                                 display: "block",
@@ -131,14 +136,14 @@ function BlogPost() {
                             align="center"
                             gutterBottom
                         >
-                            姓名：John Doe
+                            姓名：{blog.author.fullname}
                         </Typography>
                         <Typography
                             variant="subtitle1"
                             align="center"
                             gutterBottom
                         >
-                            郵件：johndoe@example.com
+                            郵件：{blog.author.email}
                         </Typography>
                     </Paper>
                     <Paper>

@@ -11,7 +11,7 @@ import MenuPage from "./component/MenuPage/MenuPage";
 // --[分區]
 import FirstPage from "./component/FirstPage/FirstPage";
 import HomeStory from "./component/story/HomeStory";
-import HomeShop from "./component/shop/HomeShop";
+import HomeShop from "./component/Shop/HomeShop";
 import HomeDesign from "../blog/Pages/HomeDesign/HomeDesign";
 
 const Home = () => {

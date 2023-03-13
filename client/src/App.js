@@ -1,4 +1,4 @@
-import { Route, Routes ,BrowserRouter} from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import theme from "./Styles/themeMui";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "./hooks/AuthContext";
@@ -65,75 +65,68 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <AuthProvider>
-            <CartProvider>
-
-                <div className="app">
-                    {/* ⬇︎ same as css reset */}
-                    <CssBaseline />
-                    <Routes>
-                        <Route path="/" element={<Layout />}>
-                            <Route index element={<Home />} />
-                            <Route path="login" element={<Login />} />
-                            <Route path="login/success" element={<LoginSuccess />} />
-                            <Route path="register" element={<Register />} />
-                            <Route path="settings" element={<Settings />}>
-                                <Route index element={<Account />} />
-                                <Route path="billing" element={<Billing />} />
-                                <Route path="updatepassword" element={<UpdatePassword />} />
-                                <Route path="address" element={<Address />} />
-                                <Route path="historyorders" element={<HistoryOrders />} />
+                <CartProvider>
+                    <div className="app">
+                        {/* ⬇︎ same as css reset */}
+                        <CssBaseline />
+                        <Routes>
+                            <Route path="/" element={<Layout />}>
+                                <Route index element={<Home />} />
+                                <Route path="login" element={<Login />} />
+                                <Route path="login/success" element={<LoginSuccess />} />
+                                <Route path="register" element={<Register />} />
+                                <Route path="settings" element={<Settings />}>
+                                    <Route index element={<Account />} />
+                                    <Route path="billing" element={<Billing />} />
+                                    <Route path="updatepassword" element={<UpdatePassword />} />
+                                    <Route path="address" element={<Address />} />
+                                    <Route path="historyorders" element={<HistoryOrders />} />
+                                </Route>
+                                <Route
+                                    path="/:username"
+                                    element={
+                                        <AuthRequired>
+                                            <ProfileLayout />
+                                        </AuthRequired>
+                                    }>
+                                    <Route index element={<Profile />} />
+                                    <Route path="reels/:playingStoryIdInUrl?" element={<Reels />} />
+                                    <Route path="favorites" element={<Favorites />} />
+                                    <Route path="blogs" element={<MyBlogs />} />
+                                    {/* <Route path="cart" element={<Cart />} /> */}
+                                </Route>
+                                {/*SECTION 商城 */}
+                                <Route path="/shop">
+                                    <Route path="" element={<Shop />} />
+                                    <Route path=":cateId" element={<Shop />} />
+                                    <Route path="productdetails/:pid" element={<ProductDetails />} />
+                                    {/* <Route path=":id" element={<ProductDetails />} /> */}
+                                    <Route path="cart" element={<Cart />} />
+                                    <Route path="mycheckout" element={<MyCheckOut />} />
+                                </Route>
+                                {/* <Route path="/shop" element={<Shop />}></Route> */}
+                                <Route path="shop" element={<Products />}></Route>
+                                {/*SECTION 部落格 */}
+                                <Route path="/blog">
+                                    <Route path="" element={<HomePage />}></Route>
+                                    <Route path="WriteBlog" element={<WriteBlog />}></Route>
+                                    <Route path="BlogPost/:id" element={<BlogPost />}></Route>
+                                    <Route path="CategoryPage/:category" element={<CategoryPage />}></Route>
+                                    <Route path="HomeDesign" element={<HomeDesign />}></Route>
+                                </Route>
+                                <Route path="/menu" element={<Menu />}></Route>
+                                <Route path="/reels">
+                                    <Route path="home" element={<HomeStory></HomeStory>}></Route>
+                                    <Route path="home/:searchInUrl/:searchHashTagId?" element={<HomeStory></HomeStory>}></Route>
+                                    <Route path="player/:sid" element={<Player></Player>}></Route>
+                                    <Route path="test-button" element={<TestButton></TestButton>}></Route>
+                                    <Route path="test/*" element={<Test></Test>}></Route>
+                                </Route>
+                                <Route path="*" element={<ErrorPage />} />
                             </Route>
-                            <Route
-                                path="/:username"
-                                element={
-                                    <AuthRequired>
-                                        <ProfileLayout />
-                                    </AuthRequired>
-                                }>
-                                <Route index element={<Profile />} />
-                                <Route path="reels/:playingStoryIdInUrl?" element={<Reels />} />
-                                <Route path="favorites" element={<Favorites />} />
-                                <Route path="blogs" element={<MyBlogs />} />
-                                {/* <Route path="cart" element={<Cart />} /> */}
-                            </Route>
-                            {/*SECTION 商城 */}
-                            <Route path="/shop">
-                                <Route path="" element={<Shop />} />
-                                <Route path=":cateId" element={<Shop />} />
-                                <Route path="productdetails/:pid" element={<ProductDetails />} />
-                                {/* <Route path=":id" element={<ProductDetails />} /> */}
-                                <Route path="cart" element={<Cart />} />
-                                <Route path="mycheckout" element={<MyCheckOut />} />
-                            </Route>
-                            {/* <Route path="/shop" element={<Shop />}></Route> */}
-                            <Route path="shop" element={<Products />}></Route>
-                            {/*SECTION 部落格 */}
-                            <Route path="/blog">
-                            <Route path="" element={<HomePage />}></Route>
-                            <Route path="WriteBlog" element={<WriteBlog />}></Route>
-                            <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="CategoryPage/:category" element={<CategoryPage />} ></Route>
-                            <Route path="HomeDesign" element={<HomeDesign />}></Route>
-                            </Route>
-
-                            {/* <Route path="/menu" element={<Menu />}></Route> */}
-
-                            <Route path="/menu" element={<Menu />}></Route>
-
-                            {/* <Route path="/reels" element={<Reels />}></Route> */}
-                            <Route path="/reels">
-                                <Route path="home" element={<HomeStory></HomeStory>}></Route>
-                                <Route path="home/:searchInUrl/:searchHashTagId?" element={<HomeStory></HomeStory>}></Route>
-                                <Route path="player/:sid" element={<Player></Player>}></Route>
-                                <Route path="test-button" element={<TestButton></TestButton>}></Route>
-                                <Route path="test/*" element={<Test></Test>}></Route>
-                            </Route>
-
-                            <Route path="*" element={<ErrorPage />} />
-                        </Route>
-                    </Routes>
-                </div>
-            </CartProvider>
+                        </Routes>
+                    </div>
+                </CartProvider>
             </AuthProvider>
         </ThemeProvider>
     );

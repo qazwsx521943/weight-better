@@ -20,7 +20,7 @@ function HomeStory() {
     //   trigger: '.homeStoryWrapper',
     //   start: 'top top',
     //   end: 'bottom top',
-    //   // markers: true,
+    //   markers: true,
     //   onEnter: () => {
     //     console.log('enter')
     //     document.querySelector('video').play()
@@ -33,7 +33,12 @@ function HomeStory() {
       className={
         styles.homeStoryWrapper + ' homeStoryWrapper container-fluid p-0'
       }
-      style={{ height: 'calc(100vh)', position: 'relative' }}
+      style={{
+        height: 'calc(100vh)',
+        position: 'relative',
+        zIndex: '3000',
+        backgroundColor: '#fff',
+      }}
     >
       <BackgroundTitle></BackgroundTitle>
       <Top></Top>

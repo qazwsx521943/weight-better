@@ -39,7 +39,7 @@ import BlogPost from "./pages/blog/Pages/Post/BlogPost";
 import HomeDesign from "./pages/blog/Pages/HomeDesign/HomeDesign";
 
 //**? 客製化菜單 */
-import Menu from "./pages/Menu";
+import Menu from "./pages/menu";
 
 //**? 短影音 */
 import HomeStory from "./pages/story/Home";

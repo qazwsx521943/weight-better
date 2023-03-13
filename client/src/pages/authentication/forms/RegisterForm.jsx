@@ -96,12 +96,16 @@ function RegisterForm() {
     switch (step) {
       case 1:
         setStep((step) => step + 1)
+        break
       case 2:
         state.validEmail && setStep((step) => step + 1)
+        break
       case 3:
         state.validUsername && setStep((step) => step + 1)
+        break
       case 4:
         state.validMatch && setStep((step) => step + 1)
+        break
       default:
         return ''
     }

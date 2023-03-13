@@ -347,7 +347,7 @@ function ModalPlayer(props) {
                       className="infoDetail d-flex flex-column border-solid border-black border-opacity-25"
                       style={{ borderBottomWidth: '1px' }}
                     >
-                      <div className="userInfo container-fluid d-flex px-0 py-4">
+                      <div className="userInfo container-fluid d-flex px-0 py-2 py-md-4">
                         <div
                           className={styles.imgBox + ' col-md-2 col-1 mr-4'}
                           onClick={() => {

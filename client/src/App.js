@@ -36,6 +36,7 @@ import HomePage from "./pages/blog/Pages/Home/HomePage";
 import CategoryPage from "./pages/blog/Pages/CategoryPage/CategoryPage";
 import WriteBlog from "./pages/blog/Pages/WriteBlog/WriteBlog";
 import BlogPost from "./pages/blog/Pages/Post/BlogPost";
+import HomeDesign from "./pages/blog/Pages/HomeDesign/HomeDesign";
 
 //**? 客製化菜單 */
 import Menu from "./pages/Menu";
@@ -111,8 +112,10 @@ function App() {
                             <Route path="" element={<HomePage />}></Route>
                             <Route path="WriteBlog" element={<WriteBlog />}></Route>
                             <Route path="BlogPost/:id" element={<BlogPost />} ></Route>
-                            <Route path="CategoryPage/:category" element={<CategoryPage />} />
+                            <Route path="CategoryPage/:category" element={<CategoryPage />} ></Route>
+                            <Route path="HomeDesign" element={<HomeDesign />}></Route>
                             </Route>
+
                             {/* <Route path="/menu" element={<Menu />}></Route> */}
 
                             <Route path="/menu" element={<Menu />}></Route>

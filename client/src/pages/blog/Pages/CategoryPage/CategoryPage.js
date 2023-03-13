@@ -6,6 +6,7 @@ import axios from "axios";
 import Header from "../../Components/Header";
 import { useParams } from "react-router-dom";
 import RandomPost from "../../Components/RandomPost";
+import CardList from "../../Components/CardList";
 
 const CATEGORY_MAP = {
     "latest": "最新文章",
@@ -25,7 +26,13 @@ function CategoryPage(props) {
             axios
                 .get(`http://localhost:8080/blogs/post/latest`)
                 .then((response) => {
-                    setPosts(response.data.slice(0,9));
+                    const posts = response.data.map(post => {
+                        return {
+                          ...post,
+                          author_fullname: post.author_fullname || 'Unknown'
+                        };
+                      });
+                    setPosts(posts);
                     const randomIndex = Math.floor(
                         Math.random() * response.data.length
                     );
@@ -35,7 +42,15 @@ function CategoryPage(props) {
         } else {
             axios
                 .get(`http://localhost:8080/blogs/post/category/${category}`)
-                .then((response) => setPosts(response.data))
+                .then((response) => {
+                    const posts = response.data.map(post => {
+                      return {
+                        ...post,
+                        author_fullname: post.author_fullname || 'Unknown'
+                      };
+                    });
+                    setPosts(posts);
+                  })
                 .catch((error) => console.error(error));
             axios
                 .get(
@@ -52,7 +67,7 @@ function CategoryPage(props) {
         <>
             <Header />
             <Typography
-                variant="h4"
+                variant="h2"
                 gutterBottom
                 component="h1"
                 align="center"
@@ -65,20 +80,41 @@ function CategoryPage(props) {
                     <RandomPost post={randomPost} />
                 </div>
             )}
-            <Grid container spacing={2} sx={{ padding: '0 230px' }}>
+            <Typography
+                variant="h4"
+                gutterBottom
+                component="h1"
+                align="center"
+                style={{ padding: "20px", color: "red" }}
+            >
+                熱門話題
+            </Typography>
+            <Grid container spacing={2} sx={{ padding: "0 230px" }}>
                 {posts.map((post) => (
-                    <Grid item xs={12} sm={6} md={4}>
+                    <Grid item key={post.id} xs={12} sm={6} md={4}>
                         <FeaturedPost
                             cardStyle="normalCard"
                             actionAreaStyle="normalActionArea"
                             mediaStyle="normalMedia"
                             contentStyle="normalContent"
-                            currentIndex={0}
                             key={post.id}
                             post={post}
                         />
                     </Grid>
                 ))}
+                <Grid item xs={12}>
+                    <Typography
+                        variant="h4"
+                        gutterBottom
+                        component="h1"
+                        style={{ padding: "20px", color: "red" }}
+                    >
+                        所有文章
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <CardList posts={posts} />
+                </Grid>
             </Grid>
         </>
     );

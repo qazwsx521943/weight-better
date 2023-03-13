@@ -2,11 +2,38 @@
     
 }
 
+/* .mySwiper{
+    width: 90%;
+    height: 100%;
+    --swiper-pagination-bottom: 40px;
+    padding-top: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}
+
+style={{
+    width: '90%',
+    height: '100%',
+    '--swiper-pagination-bottom': '40px',
+    paddingTop: '50px',
+    paddingRight: '10px',
+    paddingLeft: '10px',
+  }} */
+
 .top{
     height: 40%;
-    background-color: lightgoldenrodyellow;
+    /* background-color: lightgoldenrodyellow; */
     overflow: hidden;
     position: relative;
+    /* background-color: rgb(207, 240, 239); */
+}
+
+.bottom{
+    height: 60%;
+    /* background-color: pink; */
+    display: flex;
+    align-items: center;
 }
 
 .imgset{

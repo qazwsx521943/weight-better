@@ -1,22 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import styles from '../HomeStory.module.css'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
-import { useAuth } from '@/hooks/AuthContext'
 
-function Bottom() {
+function BottomFixed() {
   console.log('render')
 
-  const [videos, setVideos] = useState([])
+  const videos = [281, 294, 224, 276, 265, 126, 231]
+  // const [videos, setVideos] = useState([])
   const [swiperInstance, setSwiperInstance] = useState({})
   const [currentSlideIndex, setCurrentSlideIndex] = useState(3)
-  const navigate = useNavigate()
-  const { currentUser } = useAuth()
-  console.log('currentUser', currentUser)
 
   const handleSlideChange = () => {
     console.log(swiperInstance.activeIndex)
@@ -25,27 +21,7 @@ function Bottom() {
     }
   }
 
-  const getRandomVideos = () => {
-    const url = 'http://localhost:8080/story/videos-random'
-    fetch(url)
-      .then((r) => r.json())
-      .then((rData) => {
-        console.log(url, rData)
-        setVideos(rData)
-      })
-  }
-
-  const seeMore = () => {
-    if (currentUser === null) {
-      navigate('/login')
-    } else {
-      navigate('/reels/home')
-    }
-  }
-
-  useEffect(() => {
-    getRandomVideos()
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <>
@@ -81,7 +57,7 @@ function Bottom() {
           {videos.map((video, idx) => {
             return (
               <SwiperSlide
-                key={video.story_id}
+                key={video}
                 style={{
                   backgroundColor: 'rgb(0, 0, 0, .2)',
                   display: 'flex',
@@ -99,7 +75,7 @@ function Bottom() {
                     controls={false}
                     autoPlay={true}
                     muted
-                    src={`http://localhost:8080/story/video/${video.story_id}/get`}
+                    src={`/ImagesStory/videos/${video}.mp4`}
                     type="video/mp4"
                     // style={{ width: '100%', marginTop: '20%' }}
                     style={{
@@ -111,8 +87,8 @@ function Bottom() {
                 ) : (
                   <div style={{ width: '100%', height: '100%' }}>
                     <img
-                      src={`http://localhost:8080/story/video/${video.story_path}/poster`}
-                      alt={video.story_path}
+                      src={`http://localhost:8080/story/video/${video}/poster`}
+                      alt={video}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -132,7 +108,7 @@ function Bottom() {
                     position: 'absolute',
                     bottom: '0px',
                     backgroundImage:
-                      'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .7))',
+                      'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .3))',
                     // backgroundColor: 'rgba(0, 0, 0, .2)',
                   }}
                 >
@@ -145,7 +121,7 @@ function Bottom() {
                     }}
                   >
                     <img
-                      src={`${video.profile_image}`}
+                      src="/ImagesStory/users/joe.jpg"
                       alt={'user'}
                       style={{
                         width: '100%',
@@ -154,8 +130,8 @@ function Bottom() {
                       }}
                     />
                   </div>
-                  <div className="text-h5 text-white ml-3 text-center font-bold">
-                    {video.story_title}
+                  <div className="text-h5 text-white ml-2 text-center">
+                    {'video.story_title'}
                   </div>
                 </div>
               </SwiperSlide>
@@ -184,7 +160,6 @@ function Bottom() {
                   borderRadius: '1000px',
                   fontWeight: 'bold',
                 }}
-                onClick={seeMore}
               >
                 More
               </button>
@@ -196,4 +171,4 @@ function Bottom() {
   )
 }
 
-export default Bottom
+export default BottomFixed

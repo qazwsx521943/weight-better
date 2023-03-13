@@ -40,7 +40,7 @@ const Home = () => {
     <div className="HomeWrapper">
         <FirstPage/>
         <HomeStory></HomeStory>
-        <MenuPage/>
+        {/* <MenuPage/> */}
     </div>
     )
 };

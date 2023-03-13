@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { useState } from "react"
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { hover } from "@testing-library/user-event/dist/hover"
 
 const Container = styled.div`
     display:flex;
@@ -26,10 +27,13 @@ const Category =styled.p`
 }
 `
 const StarIcon =styled.div`
-display:flex;
+display:none;
+width:30px;
+height:30px;
+
 
 &:hover{
-  display:none;
+  display:block;
 }
 `
 
@@ -39,7 +43,6 @@ const Categories = () => {
   // const [cate,setCate]= useState([])
   // const {pcategory} = useParams()
   // const {cateId} = useParams()
-
 
   // useEffect (()=>{
   //   getProduct()
@@ -83,16 +86,22 @@ const Categories = () => {
           </Link>
         </Category> */}
         <Category >
-          <Link to={`/shop/1`}>
-          /乳清蛋白營養品
-            <AutoAwesomeIcon style={{color:"orange",fontSize:"30px",}} />
+        <Link to={`/shop`}>
+          / 全部商品
+            <AutoAwesomeIcon style={{color:"orange",fontSize:"30px"} }  />
           </Link>
         </Category>
         <Category >
-          <Link to={`/shop/2`}>/瑜珈器材<AutoAwesomeIcon style={{color:"orange",fontSize:"30px"}}/></Link>
+          <Link to={`/shop/1`}>
+          / 乳清蛋白營養品 
+            <AutoAwesomeIcon style={{color:"orange",fontSize:"30px"} }  />
+          </Link>
         </Category>
         <Category >
-          <Link to={`/shop/3`}>/重訓器材<AutoAwesomeIcon style={{color:"orange",fontSize:"30px"}}/></Link>
+          <Link to={`/shop/2`}>/ 瑜珈器材<AutoAwesomeIcon style={{color:"orange",fontSize:"30px"}}/></Link>
+        </Category>
+        <Category >
+          <Link to={`/shop/3`}>/ 重訓器材<AutoAwesomeIcon style={{color:"orange",fontSize:"30px"}}/></Link>
         </Category>
     </Container>
    

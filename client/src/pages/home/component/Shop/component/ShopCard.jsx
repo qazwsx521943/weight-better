@@ -5,11 +5,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom'
-import { useCart } from '@/context/useCart';
+import Card_data from './Card_data';
 
-import { useState } from 'react';
-
-    
 const Container = styled.div `
     ${'' /* flex:1; */}
     display:flex;
@@ -27,12 +24,13 @@ const Container = styled.div `
     box-shadow: 5px 5px 10px grey;
     overflow:hidden;
     
-    
 
     &:hover {
         ${'' /* transform:scale(1.1); */}
     transform: translate3d(5px,0px,2px);
     transition:all .3s ease-in-out ;
+    transform: rotateY(180deg);
+
     }
     
 `
@@ -43,13 +41,6 @@ const Circle = styled.div `
     border-radius:50%;
     background-color:white; */}
 `
-// const ImageSession = styled.div `
-//     ${'' /* height:100%; */}
-//     display:flex;
-//     justify-align:center;
-//     align-items:center;
-//     ${'' /* cursor:pointer; */}
-// `
 const Image = styled.img `
     height:65%;
     object-fit:contain;
@@ -57,6 +48,9 @@ const Image = styled.img `
     justify-align:center;
     align-items:center;
     cursor:pointer;
+    
+    
+
 `
 const Info = styled.div `
     padding:5px 0px;
@@ -111,75 +105,32 @@ const ProductInfo = styled.h2`
 `
 
 
-
-
-
-const Product = ({uid, item, favProductList, setFavProductList, getFavProducts}) => {
-
-
-    const navigate = useNavigate();
-    const gotoDetail = (pid) => {
-        console.log('click')
-        navigate(`/shop/productdetails/${pid}`)
-    }
-    // const gotoCategory =() => {
-    //     navigate(`/shop/${category}`)
-    // }
-
-    const {
-        cart,
-        items,
-        addItem,
-        removeItem,
-        updateItem,
-        clearCart,
-        isInCart,
-        plusOne,
-        minusOne,
-    } = useCart()
-
-    const addOrCancelFav = () => {
-
-        if (uid){
-            const url = `http://localhost:8080/product/product-fav-add/${uid}/${item.product_id}`
-            fetch(url)
-            .then(r=>r.json())
-            .then(rData => {
-                console.log(url, rData)
-                getFavProducts()
-            })
-        } else {
-            alert('先登入才能收藏')
-        }
-    }
-
-    return (
-        <Container >
+const ShopCard = () => {
+    const CardData = Card_data
+ 
+  return (
+  <>
+    {CardData.map((item)=>(
+    <Container key={item.id}>
             <Circle />
-            {/* <ImageSession> */}
-            <Image src={item.img_src} onClick={() => {gotoDetail(item.product_id)}}/>
-            {/* </ImageSession> */}
-            <ProductInfo onClick={() => {gotoDetail(item.product_id)}}>{item.name}</ProductInfo>
-            <ProductInfo>${item.unit_price}</ProductInfo>
+            <Image src={item.img} />
+            <ProductInfo>{item.product_name}</ProductInfo>
+            <ProductInfo>${item.price}</ProductInfo>
             <Info>
                 <Icon>
-                    <ShoppingCartIcon style={{color:"#2F2D3F"} } onClick={()=>addItem({
-                        id: item.product_id, 
-                        quantity: 1, 
-                        name: item.name, 
-                        price: item.unit_price
-                        ,...item
-                    })} />
+                    <ShoppingCartIcon />
                 </Icon>
-                <Icon2 onClick={addOrCancelFav}>
-                    {favProductList.includes(item.product_id)? <FavoriteIcon style={{color:"#2F2D3F"} }/> : <FavoriteBorderIcon style={{color:"#2F2D3F"} }/>}
+                <Icon2 >
+                    <FavoriteIcon/>
                 </Icon2>
                 <Icon>
-                    <SearchIcon style={{color:"#2F2D3F"} } onClick={() => {gotoDetail(item.product_id)}}/>
+                    <SearchIcon/>
                 </Icon>
             </Info>
         </Container>
-    )
+        ))}
+  </>)
+  
 }
 
-export default Product
+export default ShopCard

@@ -4,11 +4,11 @@ import styled from "styled-components";
 // import RemoveIcon from '@mui/icons-material/Remove';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import {useNavigate, } from "react-router-dom"
-import ShoppingCart from "./ShoppingCart";
+import ShoppingCart from "./component/ShoppingCart";
 import { useState } from "react";
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import Total from "./Total";
 import { useCart } from '@/context/useCart';
+import OrderSummary from "./component/OrderSummary";
 
 
 const Container = styled.div`
@@ -21,22 +21,7 @@ display:flex;
 flex-direction:column;
 flex:2;
 `
-const CheckOut = styled.div`
-padding:20px;
-border:dashed 3px #ccc;
-width:600px;
-height:300px;
-border-radius:12px;
-display:flex;
-flex-direction:column;
-flex:1;
 
-`
-// const ShoppingCart = styled.div`
-// display:flex;
-// padding:10px;
-
-// `
 const ButtonBox=styled.div`
 display:flex;
 padding:20px;
@@ -49,17 +34,8 @@ font-size:36px;
 margin-bottom:20px;
 color:#2F2D3F;
 `
-const ProductInfo = styled.div`
-width:500px;
-${'' /* padding:10px; */}
-`
-// const Icon = styled.div`
-// display:flex;
 
-// `
-// const MyNumber = styled.div`
-// padding:0px 20px;
-// `
+
 const Button = styled.button`
 padding:0px 20px;
 width:300px;
@@ -94,6 +70,7 @@ margin:20px;
 display:flex;
 align-item:center;
 justify-content:center;
+${'' /* text-align:center; */}
 box-shadow: 10px 5px 20px #A9A9A9;
 
 
@@ -114,9 +91,7 @@ color:#FFA5AE;
 font-size:26px;
 margin:20px;
 display:flex;
-${'' /* align-item:center; */}
-${'' /* justify-content:center; */}
-${'' /* box-shadow: 10px 5px 20px #A9A9A9; */}
+
 
 
 &:hover{
@@ -127,19 +102,14 @@ border:none;
 // const Image =styled.img`
 // width:300px;
 // `
-const OrderSummary =styled.h1`
-font-size:24px;
-text-align:center;
-margin:0px 0px 15px 0px;
-color: #2F2D3F;
-`
+
 
 
 
 const Cart = ( ) => {
 
 const navigate = useNavigate();
-const [quantity,setQuantity] =useState(1)
+const [quantity,setQuantity] = useState(1)
 
 const {
     cart,
@@ -157,6 +127,9 @@ console.log('items', items)
 
 const continueShop =()=>{
     navigate(`/shop`)
+}
+const checkOut =()=>{
+    navigate(`/shop/mycheckout`)
 }
 
 
@@ -190,14 +163,14 @@ const handleQuantity = (type)=>{
     //   })
   
     // }
-// const products = useSelector(state=>state.cart.products)
+
     return (
 
     <Container >
         <Wrapper>
                 <Title>My Cart  <AutoAwesomeIcon style={{color:"orange",fontSize:"30px"}}/></Title>
                 <hr style={{}}/>
-                {items?.map((item) => (
+                {items?.map((item, idx) => (
             <ShoppingCart
               key={item.id}
               id={item.id}
@@ -211,19 +184,14 @@ const handleQuantity = (type)=>{
           ))}
             <ButtonBox>
                 <Button2 onClick={()=>continueShop()}>Continue Shopping</Button2>
-                <Button>Check out</Button>
-            </ButtonBox>    
-            <ButtonBox>
-                <Button3>Reset</Button3>
+                <Button onClick={()=>checkOut()}>Check out</Button>
             </ButtonBox>
 
+            <ButtonBox>
+                <Button3 onClick={()=>{clearCart()}}>Reset</Button3>
+            </ButtonBox>
         </Wrapper>
-        <CheckOut>
-            <OrderSummary>Order Summary</OrderSummary>
-            <p>Subtotal:</p>
-            <p>Shipping Discount</p>
-            <Total/>
-        </CheckOut>
+        <OrderSummary/>
     </Container>
       
 

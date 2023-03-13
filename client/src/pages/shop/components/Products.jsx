@@ -1,63 +1,89 @@
 
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {product_card} from './product_data'
 import Product from './Product'
 import { useNavigate, useParams } from 'react-router-dom'
 
 
 const Container = styled.div`
-  
   padding: 20px;
-  margin:0px 0px 0px 20px;
+  margin:auto;
   display: flex;
-  flex-wrap: wrap;
-  ${'' /* justify-content:center; */}
+  ${'' /* flex-wrap: wrap; */}
+  justify-content:center;
   align-items:center;
   ${'' /* justify-content: left; */}
+  animation: fadeIn 2s ;
+
 `
+const Wrapper = styled.div`
+  ${'' /* padding: 20px; */}
+  margin:auto;
+  width:1650px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center;
+  align-items:center;
+  justify-content: left;
+  animation: fadeIn 2s ;
 
-
-const Products = ({cateId,sort,filters}) => {
-  const [products, setProducts] = useState([])
+`
+const Products = ({uid, cateId, sort, filters, productList, setProductList, favProductList, setFavProductList, getFavProducts}) => {
   // const [categoryId, setCategoryId] = useState('')
   // const [categoryId, setCategoryId] = useState('')
+
+  let newProductList
+  if (filters.order==='asc'){
+    newProductList = productList.sort((a, b) => {
+      return b.unit_price - a.unit_price
+    })
+    
+  } 
+  else if (filters.order==='desc'){
+    newProductList = productList.sort((a, b) => {
+      return a.unit_price - b.unit_price
+    })
+    
+  } else{
+    newProductList=productList
+  }
+
+  let newProductList2
+  if (filters.range==='500'){
+    newProductList2 = newProductList.filter((p) => {
+      return p.unit_price <= 500
+    })
+    
+  } 
+  else if (filters.range==='500,1000'){
+    newProductList2 = newProductList.filter((p) => {
+      return p.unit_price > 500 && p.unit_price < 1000
+    })
+    
+  } else if (filters.range==='1000,1500'){
+    newProductList2 = newProductList.filter((p) => {
+      return p.unit_price > 1000
+    })
+    
+  } 
+  else{
+    newProductList2 = newProductList
+  }
 
   console.log('cateId2', cateId)
 
-
-  console.log(sort,filters)
-  useEffect(() => {
-    console.log('effect')
-    getProducts()
-  }, [])
-
-  const getProducts = () => {
-    const url = cateId? `http://localhost:8080/product/getProductbycate/${cateId}` : `http://localhost:8080/product/getProduct`
-    fetch(url, {
-      method: 'get'
-    })
-    .then(r => r.json())
-    .then(rData => {
-      console.log(url, rData)
-      setProducts(rData)
-    })
-  }
-
-  
-
-
   return (
-  <>
+  <div>
   
     <Container>
-    
-      {/* {[1, 2, 3].map((ele) => {return ele +2 })} */}
-        {products.map((item)=>(
-            <Product item={item} key={item.product_id} />)) }
-    
+      <Wrapper>
+        {/* {[1, 2, 3].map((ele) => {return ele +2 })} */}
+          {newProductList2
+          .map((item)=>(
+              <Product uid={uid} item={item} key={item.product_id} favProductList={favProductList} setFavProductList={setFavProductList} getFavProducts={getFavProducts} />))}
+      </Wrapper>
     </Container>
-  </>
+  </div>
   )
 }
 
